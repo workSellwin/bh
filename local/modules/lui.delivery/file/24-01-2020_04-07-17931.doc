@@ -1,0 +1,390 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html xmlns:v="urn:schemas-microsoft-com:vml"
+      xmlns:o="urn:schemas-microsoft-com:office:office"
+      xmlns:w="urn:schemas-microsoft-com:office:word"
+      xmlns="http://www.w3.org/TR/REC-html40">
+<head>
+    <meta http-equiv=Content-Type content="text/html; charset=UTF-8">
+    <title langs="ru">Товарный чек</title>
+    <style>
+        html {
+            background-color: #fff;
+        }
+
+        .header {
+            font-size: 17px;
+            font-family: Tahoma;
+            padding-left: 8px;
+        }
+
+        .sub_header {
+            font-size: 13px;
+            font-family: Tahoma;
+            padding-left: 8px;
+        }
+
+        .date {
+            font-style: italic;
+            font-family: Tahoma;
+            padding-left: 8px;
+        }
+
+        .number {
+            font-size: 24px;
+            font-family: Tahoma;
+            font-style: italic;
+            padding-left: 8px;
+        }
+
+        .user {
+            font-size: 12px;
+            font-family: Tahoma;
+            font-weight: bold;
+            padding-left: 8px;
+        }
+
+        .summa {
+            font-size: 12px;
+            font-family: Tahoma;
+            font-weight: bold;
+            padding-left: 15px;
+        }
+
+        .container {
+            width: 840px;
+            margin: 0 auto;
+        }
+
+        .logo img {
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+
+        table.t1 td.bb {
+            border-bottom: 1px solid;
+        }
+
+        table.t1 td.bb span {
+            height: 25px;
+            display: inline-block;
+            margin-bottom: -5px;
+            background-color: #fff;
+            margin-left: -5px;
+            padding-left: 5px;
+        }
+
+        table.t1 td {
+            min-width: 10px;
+        }
+
+        table.blank {
+            border-collapse: collapse;
+            width: 585px;
+        }
+
+        table.blank td {
+            border: 0.5pt solid windowtext;
+        }
+    </style>
+</head>
+
+<body bgcolor=white lang=RU style='tab-interval:35.4pt;'>
+<div class="container">
+    <br><br>
+    
+    <table>
+        <tbody>
+        <tr>
+            <td>
+            
+    <div class="logo">
+        <img src="https://bh.by/local/templates/main/images/logo_print_new.jpg" width="300" height="45" alt="">
+    </div>
+    <br>
+    <p style="text-align: left;">Товарный чек*</p>
+    <p style="text-align: left;"><b>Интернет-магазин BH.by</b></p>
+
+                <table>
+            <tbody>
+            <tr>
+                <td width="100">Номер заказа:</td>
+                <td>17931</td>
+            </tr>
+
+                            <tr>
+                    <td>Дата доставки:</td>
+                    <td>24.01.2020</td>
+                </tr>
+                                        <tr>
+                    <td>Время доставки:</td>
+                    <td>
+                        18.00-22.00                    </td>
+                </tr>
+                                                    <tr>
+                    <td>Служба доставки:</td>
+                    <td>
+                        Физ бесплатно - Доставка курьером (г. Минск)                    </td>
+                </tr>
+                                        <tr>
+                    <td>Адрес доставки:</td>
+                    <td>
+                                                Чюрлениса, дом 24, кв.401                    </td>
+                </tr>
+                                        <tr>
+                    <td>Способ оплаты:</td>
+                    <td>Оплата банковской картой при получении</td>
+                </tr>
+                                        <tr>
+                    <td>Имя получателя:</td>
+                    <td>Ботвин Вячеслав</td>
+                </tr>
+                                        <tr>
+                    <td>Телефон:</td>
+                    <td>375291297821</td>
+                </tr>
+                                        <tr>
+                    <td>Дата доставки:</td>
+                    <td>24.01.2020</td>
+                </tr>
+                                                            </tbody>
+        </table>
+        
+        
+        </td>
+            <td width="" height="390" style="vertical-align: top;"><img src="https://bh.by/upload/doc_coupon.png" alt=""></td>
+        </tr>
+        </tbody>
+    </table>
+    
+    <br>
+                    <table class="blank" style="width: 100%">
+                <tr>
+                    <td align="center">№</td>
+                    <td align="center">Наименование</td>
+                    <td align="center">Штрих-код</td>
+                    <td align="center">Количество</td>
+                    <td align="center">Цена,</td>
+                    <td align="center">Скидка</td>
+                    <td align="center">Cумма,</td>
+                </tr>
+                                    <tr>
+                        <td>1</td>
+                        <td>
+                            Туалетная бумага Zewa Deluxe Орхидея, 3 слоя, 8 рулонов                                                    </td>
+                                                <td align="center">7322540569513</td>
+                        <td align="center">1</td>
+                        <td align="right" nowrap>6,24</td>
+                        <td align="right" nowrap>0,47</td>
+                        <td align="right" nowrap>6,24</td>
+                    </tr>
+                                        <tr>
+                        <td>2</td>
+                        <td>
+                            Кондиционер для белья Frosch &quot;Цветы хлопка&quot;, 1 л.                                                    </td>
+                                                <td align="center">4001499116803</td>
+                        <td align="center">1</td>
+                        <td align="right" nowrap>4,34</td>
+                        <td align="right" nowrap>0,33</td>
+                        <td align="right" nowrap>4,34</td>
+                    </tr>
+                                        <tr>
+                        <td>3</td>
+                        <td>
+                            Кондиционер для белья Frosch &quot;Миндальное молочко&quot;, 1 л.                                                    </td>
+                                                <td align="center">4001499193255</td>
+                        <td align="center">1</td>
+                        <td align="right" nowrap>4,34</td>
+                        <td align="right" nowrap>0,33</td>
+                        <td align="right" nowrap>4,34</td>
+                    </tr>
+                                        <tr>
+                        <td>4</td>
+                        <td>
+                            Порошок стиральный для цветных тканей Frosch Колор &quot;Алое Вера&quot;, 1,35 кг.                                                    </td>
+                                                <td align="center">4001499145698</td>
+                        <td align="center">1</td>
+                        <td align="right" nowrap>12,45</td>
+                        <td align="right" nowrap>0,94</td>
+                        <td align="right" nowrap>12,45</td>
+                    </tr>
+                                        <tr>
+                        <td>5</td>
+                        <td>
+                            Порошок стиральный с отбеливанием Frosch &quot;Цитрус&quot;, 1,35 кг.                                                    </td>
+                                                <td align="center">4001499144974</td>
+                        <td align="center">1</td>
+                        <td align="right" nowrap>14,96</td>
+                        <td align="right" nowrap>1,13</td>
+                        <td align="right" nowrap>14,96</td>
+                    </tr>
+                                        <tr>
+                        <td>6</td>
+                        <td>
+                            Концентрированный ополаскиватель Frosch Baby детский, 750 мл.                                                    </td>
+                                                <td align="center">4009175924094</td>
+                        <td align="center">1</td>
+                        <td align="right" nowrap>3,36</td>
+                        <td align="right" nowrap>0,25</td>
+                        <td align="right" nowrap>3,36</td>
+                    </tr>
+                                        <tr>
+                        <td>7</td>
+                        <td>
+                            Средство жидкое для стирки детского белья Frosch Baby, 1,5 л.                                                    </td>
+                                                <td align="center">4009175924087</td>
+                        <td align="center">1</td>
+                        <td align="right" nowrap>15,08</td>
+                        <td align="right" nowrap>1,13</td>
+                        <td align="right" nowrap>15,08</td>
+                    </tr>
+                                        <tr>
+                        <td>8</td>
+                        <td>
+                            ДРАКОША ПОДАРОЧНЫЙ НАБОР 2019 (240+240) МЛ                                                    </td>
+                                                <td align="center">8714100799710</td>
+                        <td align="center">1</td>
+                        <td align="right" nowrap>7,77</td>
+                        <td align="right" nowrap>0,59</td>
+                        <td align="right" nowrap>7,77</td>
+                    </tr>
+                                        <tr>
+                        <td>9</td>
+                        <td>
+                            МАЛЕНЬКАЯ ФЕЯ Шампунь для силы и блеска Happy moments Волшебная серия 240 мл                                                    </td>
+                                                <td align="center">8714100723203</td>
+                        <td align="center">1</td>
+                        <td align="right" nowrap>2,86</td>
+                        <td align="right" nowrap>0,22</td>
+                        <td align="right" nowrap>2,86</td>
+                    </tr>
+                                        <tr>
+                        <td>10</td>
+                        <td>
+                            МАЛЕНЬКАЯ ФЕЯ Нежный гель для душа Фруктовая сказка 240 мл                                                    </td>
+                                                <td align="center">4600702083361</td>
+                        <td align="center">1</td>
+                        <td align="right" nowrap>3,79</td>
+                        <td align="right" nowrap>0,28</td>
+                        <td align="right" nowrap>3,79</td>
+                    </tr>
+                                        <tr>
+                        <td>11</td>
+                        <td>
+                            LUKSJA Essence Жидкое мыло цветок вишни и пион (наполнитель) 400 мл                                                    </td>
+                                                <td align="center">5900998007294</td>
+                        <td align="center">1</td>
+                        <td align="right" nowrap>2,80</td>
+                        <td align="right" nowrap>0,21</td>
+                        <td align="right" nowrap>2,80</td>
+                    </tr>
+                                        <tr>
+                        <td>12</td>
+                        <td>
+                            Redken Extreme Кондиционер 500 мл                                                    </td>
+                                                <td align="center">3474636574674</td>
+                        <td align="center">1</td>
+                        <td align="right" nowrap>41,45</td>
+                        <td align="right" nowrap>3,12</td>
+                        <td align="right" nowrap>41,45</td>
+                    </tr>
+                                        <tr>
+                        <td>13</td>
+                        <td>
+                            Redken Extreme Шампунь 500 мл                                                    </td>
+                                                <td align="center">3474636574605</td>
+                        <td align="center">1</td>
+                        <td align="right" nowrap>27,35</td>
+                        <td align="right" nowrap>2,06</td>
+                        <td align="right" nowrap>27,35</td>
+                    </tr>
+                                        <tr>
+                        <td>14</td>
+                        <td>
+                            Пакеты для мусора York Lux с затяжками 60 литров                                                    </td>
+                                                <td align="center">5903355007289</td>
+                        <td align="center">1</td>
+                        <td align="right" nowrap>2,47</td>
+                        <td align="right" nowrap>0,19</td>
+                        <td align="right" nowrap>2,47</td>
+                    </tr>
+                                        <tr>
+                        <td>15</td>
+                        <td>
+                            FROSCH Таблетки для мытья посуды в ПММ Лимон 50 шт                                                    </td>
+                                                <td align="center">4001499947315</td>
+                        <td align="center">1</td>
+                        <td align="right" nowrap>24,78</td>
+                        <td align="right" nowrap>1,87</td>
+                        <td align="right" nowrap>24,78</td>
+                    </tr>
+                                        <tr>
+                        <td>16</td>
+                        <td>
+                            Специальная соль для посудомоечной машины Finish, 1,5 кг.                                                    </td>
+                                                <td align="center">8594002682736</td>
+                        <td align="center">1</td>
+                        <td align="right" nowrap>5,86</td>
+                        <td align="right" nowrap>0,44</td>
+                        <td align="right" nowrap>5,86</td>
+                    </tr>
+                                        <tr>
+                        <td>17</td>
+                        <td>
+                            Средство чистящее для пола Glorix &quot;Свежесть атлантики&quot;, 1 л                                                    </td>
+                                                <td align="center">8711600362079</td>
+                        <td align="center">1</td>
+                        <td align="right" nowrap>4,46</td>
+                        <td align="right" nowrap>0,34</td>
+                        <td align="right" nowrap>4,46</td>
+                    </tr>
+                                    <tr>
+                    <td colspan="3">Итого позиций:</td>
+                    <td align="center">17</td>
+                    <td colspan="3"></td>
+                </tr>
+            </table>
+                            <p style="text-align: right;">Итого по чеку: 184,36 руб.</p>
+                        <table style="width: 100%;" class="t1">
+                <tbody>
+                <tr>
+                    <td class="bb"><span>Дата продажи:</span></td>
+                    <td></td>
+                    <td class="bb"><span>Сумма коррекции:</span></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td class="bb"><span>Итого с коррекцией:</span></td>
+                </tr>
+                <tr>
+                    <td><br></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="bb"><span>Подпись покупателя**:</span></td>
+                    <td></td>
+                    <td class="bb"><span>Подпись продавца:</span></td>
+                </tr>
+                </tbody>
+            </table>
+            
+           
+    </p> 
+        <table style="width: 100%;">
+        <thead>
+        <tr>
+            <td>Комментарий к заказу</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td style="border: 1px solid #000;padding: 10px;min-height: 60px;display: block;">
+                             
+             </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

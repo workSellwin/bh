@@ -1,0 +1,8 @@
+LOCATION: 
+http://ws.dpd.ru:80/services/calculator2
+REQUEST : 
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://dpd.ru/ws/calculator/2012-03-20"><SOAP-ENV:Body><ns1:getServiceCost2><request><auth><clientNumber>1104009153</clientNumber><clientKey>9CCE8C68288349CBFE56E5D420CFA807268B6845</clientKey></auth><pickup><cityId>3427842768</cityId><cityName>Щомыслица</cityName><regionCode>0</regionCode><countryCode>BY</countryCode></pickup><delivery><cityId>543838903</cityId><cityName>Пинск</cityName><regionCode>0</regionCode><countryCode>BY</countryCode></delivery><selfPickup>false</selfPickup><selfDelivery>false</selfDelivery><weight>1</weight><volume>0.004</volume><declaredValue>39.34</declaredValue></request></ns1:getServiceCost2></SOAP-ENV:Body></SOAP-ENV:Envelope>
+
+ANSWER  : 
+<?xml version='1.0' encoding='UTF-8'?><S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/"><S:Body><ns2:getServiceCost2Response xmlns:ns2="http://dpd.ru/ws/calculator/2012-03-20"><return><serviceCode>NDY</serviceCode><serviceName>DPD EXPRESS</serviceName><cost>10.42</cost><days>2</days></return><return><serviceCode>CSM</serviceCode><serviceName>DPD Online Express</serviceName><cost>10.6</cost><days>2</days></return></ns2:getServiceCost2Response></S:Body></S:Envelope>

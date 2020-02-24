@@ -1,0 +1,1 @@
+<img alt="oplata.png" src="/upload/medialibrary/f73/f7387d94b8f06d9059e05ff0d7b0a143.png" title="oplata.png" width="400" height="32"><br>

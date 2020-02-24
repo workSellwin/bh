@@ -1,0 +1,57 @@
+/* скрываем оригинальный виджет - чтобы не было два ярлыка на экране*/
+#jivo_chat_widget{
+	display: none;
+}
+
+/* стиль по умолчанию - для оффлайн сообщений, если никого нет в онлайне */
+#jivo_custom_widget{
+	position: fixed;
+	z-index: 300000;
+	cursor: pointer;
+	height: 39px;
+	background-image: url(images/jivo.png);
+	bottom: -1px;
+	background-repeat: no-repeat;
+	width: 328px;
+	border-radius: 10px 10px 0 0;
+	right: 30px;
+}
+
+/* при наведении ярлык должен сдвигаться вправо на 3px */
+/*#jivo_custom_widget:hover{
+	left:0;
+}*/
+
+/* если есть операторы в онлайне - показываем другой ярлык*/
+#jivo_custom_widget.jivo_online{
+	width: 343px;
+	background-image: url('images/jivo-on.png');
+}
+
+
+@media only screen and (max-width: 1199px){
+	#jivo_custom_widget{
+		width: 40px;
+		background-image: url(images/mail.png);
+		height: 40px;
+		border-radius: 50%;
+		background-position: -6px -8px;
+		left: 25px;
+		bottom: 110px;
+		z-index: 10;
+		background-size: 53px;
+	}
+
+	#jivo_custom_widget.jivo_online{
+		width: 40px;
+		background-image: url(images/mail-no.png);
+		height: 40px;
+		border-radius: 50%;
+		background-position: -6px -8px;
+		left: 25px;
+		bottom: 110px;
+		z-index: 10;
+		background-size: 53px;
+	}
+
+}

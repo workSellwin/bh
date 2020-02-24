@@ -1,0 +1,1 @@
+<?require($_SERVER["DOCUMENT_ROOT"]."/local/modules/yauheni.dpd/admin/dpd_start.php");?>

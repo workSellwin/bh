@@ -1,0 +1,520 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html xmlns:v="urn:schemas-microsoft-com:vml"
+      xmlns:o="urn:schemas-microsoft-com:office:office"
+      xmlns:w="urn:schemas-microsoft-com:office:word"
+      xmlns="http://www.w3.org/TR/REC-html40">
+<head>
+    <meta http-equiv=Content-Type content="text/html; charset=UTF-8">
+    <title langs="ru">Товарный чек</title>
+    <style>
+        html {
+            background-color: #fff;
+        }
+
+        .header {
+            font-size: 17px;
+            font-family: Tahoma;
+            padding-left: 8px;
+        }
+
+        .sub_header {
+            font-size: 13px;
+            font-family: Tahoma;
+            padding-left: 8px;
+        }
+
+        .date {
+            font-style: italic;
+            font-family: Tahoma;
+            padding-left: 8px;
+        }
+
+        .number {
+            font-size: 24px;
+            font-family: Tahoma;
+            font-style: italic;
+            padding-left: 8px;
+        }
+
+        .user {
+            font-size: 12px;
+            font-family: Tahoma;
+            font-weight: bold;
+            padding-left: 8px;
+        }
+
+        .summa {
+            font-size: 12px;
+            font-family: Tahoma;
+            font-weight: bold;
+            padding-left: 15px;
+        }
+
+        .container {
+            width: 840px;
+            margin: 0 auto;
+        }
+
+        .logo img {
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+
+        table.t1 td.bb {
+            border-bottom: 1px solid;
+        }
+
+        table.t1 td.bb span {
+            height: 25px;
+            display: inline-block;
+            margin-bottom: -5px;
+            background-color: #fff;
+            margin-left: -5px;
+            padding-left: 5px;
+        }
+
+        table.t1 td {
+            min-width: 10px;
+        }
+
+        table.blank {
+            border-collapse: collapse;
+            width: 585px;
+        }
+
+        table.blank td {
+            border: 0.5pt solid windowtext;
+        }
+    </style>
+</head>
+
+<body bgcolor=white lang=RU style='tab-interval:35.4pt;'>
+<div class="container">
+    <br><br>
+    
+    <table>
+        <tbody>
+        <tr>
+            <td>
+            
+    <div class="logo">
+        <img src="https://bh.by/local/templates/main/images/logo_print_new.jpg" width="300" height="45" alt="">
+    </div>
+    <br>
+    <p style="text-align: left;">Товарный чек*</p>
+    <p style="text-align: left;"><b>Интернет-магазин BH.by</b></p>
+
+                <table>
+            <tbody>
+            <tr>
+                <td width="100">Номер заказа:</td>
+                <td>17930</td>
+            </tr>
+
+                            <tr>
+                    <td>Дата доставки:</td>
+                    <td>24.01.2020</td>
+                </tr>
+                                        <tr>
+                    <td>Время доставки:</td>
+                    <td>
+                        18.00-22.00                    </td>
+                </tr>
+                                                    <tr>
+                    <td>Служба доставки:</td>
+                    <td>
+                        Физ бесплатно - Доставка курьером (г. Минск)                    </td>
+                </tr>
+                                        <tr>
+                    <td>Адрес доставки:</td>
+                    <td>
+                                                Чюрлениса, дом 24, кв.401                    </td>
+                </tr>
+                                        <tr>
+                    <td>Способ оплаты:</td>
+                    <td>Оплата банковской картой при получении</td>
+                </tr>
+                                        <tr>
+                    <td>Имя получателя:</td>
+                    <td>Ботвин Вячеслав</td>
+                </tr>
+                                        <tr>
+                    <td>Телефон:</td>
+                    <td>375291297821</td>
+                </tr>
+                                        <tr>
+                    <td>Дата доставки:</td>
+                    <td>24.01.2020</td>
+                </tr>
+                                                            </tbody>
+        </table>
+        
+        
+        </td>
+            <td width="" height="390" style="vertical-align: top;"><img src="https://bh.by/upload/doc_coupon.png" alt=""></td>
+        </tr>
+        </tbody>
+    </table>
+    
+    <br>
+                    <table class="blank" style="width: 100%">
+                <tr>
+                    <td align="center">№</td>
+                    <td align="center">Наименование</td>
+                    <td align="center">Штрих-код</td>
+                    <td align="center">Количество</td>
+                    <td align="center">Цена,</td>
+                    <td align="center">Скидка</td>
+                    <td align="center">Cумма,</td>
+                </tr>
+                                    <tr>
+                        <td>1</td>
+                        <td>
+                            ELSEVE Бальзам Полное Восстановление 5 400 мл                                                    </td>
+                                                <td align="center">3600523782796</td>
+                        <td align="center">1</td>
+                        <td align="right" nowrap>4,94</td>
+                        <td align="right" nowrap>1,31</td>
+                        <td align="right" nowrap>4,94</td>
+                    </tr>
+                                        <tr>
+                        <td>2</td>
+                        <td>
+                            ELSEVE Шампунь Полное Восстановление 5 250 мл                                                    </td>
+                                                <td align="center">3600523782789</td>
+                        <td align="center">1</td>
+                        <td align="right" nowrap>3,56</td>
+                        <td align="right" nowrap>0,95</td>
+                        <td align="right" nowrap>3,56</td>
+                    </tr>
+                                        <tr>
+                        <td>3</td>
+                        <td>
+                            Soft Silk Средство для стирки жидкоеColor 1,5 кг                                                    </td>
+                                                <td align="center">4812941001307</td>
+                        <td align="center">1</td>
+                        <td align="right" nowrap>5,42</td>
+                        <td align="right" nowrap>0,41</td>
+                        <td align="right" nowrap>5,42</td>
+                    </tr>
+                                        <tr>
+                        <td>4</td>
+                        <td>
+                            WASHING TONE средство для стирки &quot;Ослепительный белый&quot;, 1500 мл                                                    </td>
+                                                <td align="center">4812194004063</td>
+                        <td align="center">1</td>
+                        <td align="right" nowrap>5,95</td>
+                        <td align="right" nowrap>0,45</td>
+                        <td align="right" nowrap>5,95</td>
+                    </tr>
+                                        <tr>
+                        <td>5</td>
+                        <td>
+                            Диски Чистоты Туалетный Утенок &quot;Цитрусовый бриз&quot;, 38 г.                                                    </td>
+                                                <td align="center">4823002004281</td>
+                        <td align="center">1</td>
+                        <td align="right" nowrap>4,00</td>
+                        <td align="right" nowrap>0,30</td>
+                        <td align="right" nowrap>4,00</td>
+                    </tr>
+                                        <tr>
+                        <td>6</td>
+                        <td>
+                            AIRWICK Освежитель воздуха  Мадагаскарский рассвет (Иланг-иланг и Свежая зелень), 290мл                                                    </td>
+                                                <td align="center">4640018992995</td>
+                        <td align="center">1</td>
+                        <td align="right" nowrap>3,36</td>
+                        <td align="right" nowrap>0,25</td>
+                        <td align="right" nowrap>3,36</td>
+                    </tr>
+                                        <tr>
+                        <td>7</td>
+                        <td>
+                            Glade Освежитель воздуха &quot;Пион и сочные ягоды&quot;, 300 мл                                                    </td>
+                                                <td align="center">5000204954876</td>
+                        <td align="center">1</td>
+                        <td align="right" nowrap>3,18</td>
+                        <td align="right" nowrap>0,24</td>
+                        <td align="right" nowrap>3,18</td>
+                    </tr>
+                                        <tr>
+                        <td>8</td>
+                        <td>
+                            MORNING FRESH средство для посуды Алое Вера 450 мл                                                    </td>
+                                                <td align="center"></td>
+                        <td align="center">1</td>
+                        <td align="right" nowrap>2,60</td>
+                        <td align="right" nowrap>0,20</td>
+                        <td align="right" nowrap>2,60</td>
+                    </tr>
+                                        <tr>
+                        <td>9</td>
+                        <td>
+                            Крот №1 Средство для очистки канализационных труб 1000 мл                                                    </td>
+                                                <td align="center">4812941000386</td>
+                        <td align="center">2</td>
+                        <td align="right" nowrap>2,34</td>
+                        <td align="right" nowrap>0,36</td>
+                        <td align="right" nowrap>4,68</td>
+                    </tr>
+                                        <tr>
+                        <td>10</td>
+                        <td>
+                            Туалетный Утенок Супер Сила Видимый эффект, 900 мл                                                    </td>
+                                                <td align="center">5000204070750</td>
+                        <td align="center">1</td>
+                        <td align="right" nowrap>4,20</td>
+                        <td align="right" nowrap>1,45</td>
+                        <td align="right" nowrap>4,20</td>
+                    </tr>
+                                        <tr>
+                        <td>11</td>
+                        <td>
+                            ХОЗЯЮШКА  порошок чистящий универсальный Горная лаванда 450 гр                                                    </td>
+                                                <td align="center">4812194006838</td>
+                        <td align="center">1</td>
+                        <td align="right" nowrap>1,24</td>
+                        <td align="right" nowrap>0,09</td>
+                        <td align="right" nowrap>1,24</td>
+                    </tr>
+                                        <tr>
+                        <td>12</td>
+                        <td>
+                            CIF чистящий крем Сила природы 450 мл                                                    </td>
+                                                <td align="center">8714100794623</td>
+                        <td align="center">1</td>
+                        <td align="right" nowrap>4,78</td>
+                        <td align="right" nowrap>0,36</td>
+                        <td align="right" nowrap>4,78</td>
+                    </tr>
+                                        <tr>
+                        <td>13</td>
+                        <td>
+                            GARNIER OLIA Крем-краска 8.0 Светло-русый                                                    </td>
+                                                <td align="center">3600542245968</td>
+                        <td align="center">1</td>
+                        <td align="right" nowrap>6,35</td>
+                        <td align="right" nowrap>0,48</td>
+                        <td align="right" nowrap>6,35</td>
+                    </tr>
+                                        <tr>
+                        <td>14</td>
+                        <td>
+                            Универсальное чистящее средство (ph-нейтральное) Frosch , 1000 мл                                                    </td>
+                                                <td align="center">4009175171009</td>
+                        <td align="center">1</td>
+                        <td align="right" nowrap>3,50</td>
+                        <td align="right" nowrap>0,26</td>
+                        <td align="right" nowrap>3,50</td>
+                    </tr>
+                                        <tr>
+                        <td>15</td>
+                        <td>
+                            FROSCH ZERO%  Универсальный очиститель Сенситив, 750 мл                                                    </td>
+                                                <td align="center">4009175947710</td>
+                        <td align="center">1</td>
+                        <td align="right" nowrap>4,43</td>
+                        <td align="right" nowrap>0,33</td>
+                        <td align="right" nowrap>4,43</td>
+                    </tr>
+                                        <tr>
+                        <td>16</td>
+                        <td>
+                            Ополаскиватель для посудомоечной машины Frosch, 750 мл.                                                    </td>
+                                                <td align="center">4009175936509</td>
+                        <td align="center">1</td>
+                        <td align="right" nowrap>5,82</td>
+                        <td align="right" nowrap>0,44</td>
+                        <td align="right" nowrap>5,82</td>
+                    </tr>
+                                        <tr>
+                        <td>17</td>
+                        <td>
+                            FINISH специальная соль для посудомоечных машин 3000г                                                    </td>
+                                                <td align="center">4640018991554</td>
+                        <td align="center">1</td>
+                        <td align="right" nowrap>10,93</td>
+                        <td align="right" nowrap>0,82</td>
+                        <td align="right" nowrap>10,93</td>
+                    </tr>
+                                        <tr>
+                        <td>18</td>
+                        <td>
+                            Ополаскиватель-концентрат Frosch &quot;Шиповник&quot;, 750 мл.                                                    </td>
+                                                <td align="center">4001499118937</td>
+                        <td align="center">1</td>
+                        <td align="right" nowrap>3,36</td>
+                        <td align="right" nowrap>0,25</td>
+                        <td align="right" nowrap>3,36</td>
+                    </tr>
+                                        <tr>
+                        <td>19</td>
+                        <td>
+                            Ополаскиватель-концентрат Frosch &quot;Свежесть&quot;, 750 мл.                                                    </td>
+                                                <td align="center">4001499118913</td>
+                        <td align="center">1</td>
+                        <td align="right" nowrap>3,36</td>
+                        <td align="right" nowrap>0,25</td>
+                        <td align="right" nowrap>3,36</td>
+                    </tr>
+                                        <tr>
+                        <td>20</td>
+                        <td>
+                            FROSCH Очиститель унитазов Малина 750 мл                                                    </td>
+                                                <td align="center">4001499943430</td>
+                        <td align="center">1</td>
+                        <td align="right" nowrap>3,64</td>
+                        <td align="right" nowrap>0,27</td>
+                        <td align="right" nowrap>3,64</td>
+                    </tr>
+                                        <tr>
+                        <td>21</td>
+                        <td>
+                            CIF чистящее средство для стекол Легкость чистоты 500 мл                                                    </td>
+                                                <td align="center"></td>
+                        <td align="center">1</td>
+                        <td align="right" nowrap>7,22</td>
+                        <td align="right" nowrap>0,54</td>
+                        <td align="right" nowrap>7,22</td>
+                    </tr>
+                                        <tr>
+                        <td>22</td>
+                        <td>
+                            Средство чистящее для сливных труб в гранулах Rorax, 60 г.                                                    </td>
+                                                <td align="center">4001499168314</td>
+                        <td align="center">3</td>
+                        <td align="right" nowrap>1,54</td>
+                        <td align="right" nowrap>0,36</td>
+                        <td align="right" nowrap>4,62</td>
+                    </tr>
+                                        <tr>
+                        <td>23</td>
+                        <td>
+                            FROSCH Жидкое мыло Ухаживающее &quot;Малина&quot;, 500 мл                                                    </td>
+                                                <td align="center">4001499948534</td>
+                        <td align="center">1</td>
+                        <td align="right" nowrap>3,58</td>
+                        <td align="right" nowrap>0,27</td>
+                        <td align="right" nowrap>3,58</td>
+                    </tr>
+                                        <tr>
+                        <td>24</td>
+                        <td>
+                            LUKSJA Essence Жидкое мыло лайм и витамины (наполнитель) 900 мл                                                    </td>
+                                                <td align="center">5900998007300</td>
+                        <td align="center">1</td>
+                        <td align="right" nowrap>5,19</td>
+                        <td align="right" nowrap>0,39</td>
+                        <td align="right" nowrap>5,19</td>
+                    </tr>
+                                        <tr>
+                        <td>25</td>
+                        <td>
+                            Простыни впитывающие TENA Bed Normal 60x90, 5 шт.                                                    </td>
+                                                <td align="center">7322540576382</td>
+                        <td align="center">1</td>
+                        <td align="right" nowrap>3,78</td>
+                        <td align="right" nowrap>0,28</td>
+                        <td align="right" nowrap>3,78</td>
+                    </tr>
+                                        <tr>
+                        <td>26</td>
+                        <td>
+                            AXE Део-аэрозоль Голд 150 мл                                                    </td>
+                                                <td align="center">8714100919408</td>
+                        <td align="center">1</td>
+                        <td align="right" nowrap>6,04</td>
+                        <td align="right" nowrap>0,46</td>
+                        <td align="right" nowrap>6,04</td>
+                    </tr>
+                                        <tr>
+                        <td>27</td>
+                        <td>
+                            AXE карандаш Дарк Эдисон Темптэйшн 50 мл                                                    </td>
+                                                <td align="center">75025939</td>
+                        <td align="center">1</td>
+                        <td align="right" nowrap>5,38</td>
+                        <td align="right" nowrap>0,40</td>
+                        <td align="right" nowrap>5,38</td>
+                    </tr>
+                                        <tr>
+                        <td>28</td>
+                        <td>
+                            ЧЕРНЫЙ ЖЕМЧУГ Пенка-мусс для умывания, 150 мл                                                    </td>
+                                                <td align="center">4600702096354</td>
+                        <td align="center">1</td>
+                        <td align="right" nowrap>7,24</td>
+                        <td align="right" nowrap>0,54</td>
+                        <td align="right" nowrap>7,24</td>
+                    </tr>
+                                        <tr>
+                        <td>29</td>
+                        <td>
+                            ZHONG HUA Зубная паста с бамбуком для ухода за деснами и свежим дыханием 130 г                                                    </td>
+                                                <td align="center">6902088606546</td>
+                        <td align="center">1</td>
+                        <td align="right" nowrap>6,82</td>
+                        <td align="right" nowrap>0,51</td>
+                        <td align="right" nowrap>6,82</td>
+                    </tr>
+                                        <tr>
+                        <td>30</td>
+                        <td>
+                            AXE Део-аэрозоль Эксайт 150мл                                                    </td>
+                                                <td align="center">8718114650708</td>
+                        <td align="center">1</td>
+                        <td align="right" nowrap>6,04</td>
+                        <td align="right" nowrap>0,46</td>
+                        <td align="right" nowrap>6,04</td>
+                    </tr>
+                                    <tr>
+                    <td colspan="3">Итого позиций:</td>
+                    <td align="center">33</td>
+                    <td colspan="3"></td>
+                </tr>
+            </table>
+                            <p style="text-align: right;">Итого по чеку: 145,21 руб.</p>
+                        <table style="width: 100%;" class="t1">
+                <tbody>
+                <tr>
+                    <td class="bb"><span>Дата продажи:</span></td>
+                    <td></td>
+                    <td class="bb"><span>Сумма коррекции:</span></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td class="bb"><span>Итого с коррекцией:</span></td>
+                </tr>
+                <tr>
+                    <td><br></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="bb"><span>Подпись покупателя**:</span></td>
+                    <td></td>
+                    <td class="bb"><span>Подпись продавца:</span></td>
+                </tr>
+                </tbody>
+            </table>
+            
+           
+    </p> 
+        <table style="width: 100%;">
+        <thead>
+        <tr>
+            <td>Комментарий к заказу</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td style="border: 1px solid #000;padding: 10px;min-height: 60px;display: block;">
+                             
+             </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
