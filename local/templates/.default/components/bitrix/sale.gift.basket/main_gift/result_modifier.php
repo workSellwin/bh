@@ -378,16 +378,7 @@ if (!empty($arResult['ITEMS']))
 	$arResult['SKU_PROPS'] = $skuPropList;
 	$arResult['DEFAULT_PICTURE'] = $arEmptyPreview;
 }
-
-
-
-
 //--------------------------------------------------------------------------------------
-
-
-
-
-
 Cmodule::IncludeModule('catalog');
 Cmodule::IncludeModule('iblock');
 Cmodule::IncludeModule('sale');
@@ -395,22 +386,47 @@ Cmodule::IncludeModule('sale');
 global $PROD_BASKET_ID;
 global $PRICE_GIFTS_ALL;
 
-$Gift = new BasketGiftNew($PROD_BASKET_ID, $PRICE_GIFTS_ALL);
+$Gift = new BasketGiftNew($PROD_BASKET_ID, $PRICE_GIFTS_ALL, array_keys($arParams['FULL_DISCOUNT_LIST']) );
+$arDiscounts = $Gift->getListDiscountGifts();
+$discountKeys = [];
 
-$arDiscounts = $Gift -> getListDiscountGifts();
+if(count($arDiscounts)){
+    $discountKeys = array_keys($arDiscounts);
+}
+//PR(array_keys($arParams['FULL_DISCOUNT_LIST']) );
+if($_GET['show_disc'] == 'Y') {
+    PR(array_keys($arParams['APPLIED_DISCOUNT_LIST']));
+}
+//PR($arResult['ITEMS'] );
 // Групировка
     $ELEMENT = [];
     foreach ($arResult['ITEMS'] as $val){
-        if($Gift->DiscountElemId[$val['ID']]){
-            $ELEMENT[$Gift->DiscountElemId[$val['ID']]][$val['ID']] = $val;
+
+        if($_GET['print'] == 'yes' || true){
+            if( !empty($Gift->DiscountElemId[$val['ID']]) ){
+
+                if(is_array($Gift->DiscountElemId[$val['ID']])){
+
+                    foreach( $Gift->DiscountElemId[$val['ID']] as $discountId){
+                        if(in_array($discountId, $discountKeys)){
+                            $ELEMENT[ $discountId ][ $val['ID'] ] = $val;
+                        }
+                    }
+                }
+                else{
+                    $ELEMENT[ $Gift->DiscountElemId[$val['ID']] ][ $val['ID'] ] = $val;
+                }
+            }
+        }
+        else{
+            if($Gift->DiscountElemId[$val['ID']]){
+                $ELEMENT[ $Gift->DiscountElemId[$val['ID']] ][$val['ID']] = $val;
+            }
         }
     }
     unset($arResult['ITEMS']);
     $arResult['ITEMS'] = $ELEMENT;
     $arResult['arDiscounts'] = $arDiscounts;
     unset($ELEMENT);
-
-
-
-
+    //PR($arResult['ITEMS']);
 ?>

@@ -35,6 +35,7 @@ class point extends stdClass
 
     public function SetPoint($arOrder)
     {
+
         $YANDEX=$arOrder['YANDEX'];
         $row = $arOrder['ROW'];
         $order = $arOrder['ORDER'];
@@ -65,6 +66,7 @@ class point extends stdClass
         $this->text2 = $row['PAID'];                 //13 текстовое поле № 2, строка, необязательное*
         $this->text3 = $row['APARTMENT'];                 //14 текстовое поле № 3, строка, необязательное*
         $this->text4 = $row['1CID'];                 //14 текстовое поле № 3, строка, необязательное*
+        $this->text5 =$row['PAY_NAME'];                 //24 текстовое платёжная система поле № 5, строка, необязательное*
         $this->orderNumber = $row['ID'];           //15 номер заказа, строка, необязательное*
 
         $this->phoneNumbers = $row['PHONE'];          //16 номера телефонов, строка, необязательное*
@@ -108,6 +110,7 @@ class point extends stdClass
                 <ns1:text2>{$this->text2}</ns1:text2>
                 <ns1:text3>{$this->text3}</ns1:text3>
                 <ns1:text4>{$this->text4}</ns1:text4>
+                <ns1:text5>{$this->text5}</ns1:text5>
                 <ns1:orderNumber>{$this->orderNumber}</ns1:orderNumber>
                 <ns1:phoneNumbers>{$this->phoneNumbers}</ns1:phoneNumbers>
                 <ns1:costs>

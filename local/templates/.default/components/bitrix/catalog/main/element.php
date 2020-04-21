@@ -30,6 +30,11 @@ if (isset($arParams['USE_COMMON_SETTINGS_BASKET_POPUP']) && $arParams['USE_COMMO
 
 $isSidebar = ($arParams['SIDEBAR_DETAIL_SHOW'] == 'Y' && !empty($arParams['SIDEBAR_PATH']));
 global $USER;
+
+if (in_array($arResult['VARIABLES']['ELEMENT_CODE'], $arParams['HIDE_ELEMENTS_CODE'])) {//hide present
+    $arResult['VARIABLES']['ELEMENT_ID'] = 0;
+    $arResult['VARIABLES']['ELEMENT_CODE'] = "";
+}
 ?>
 
 <div class="prod-info cl">
@@ -39,7 +44,7 @@ global $USER;
         'bitrix:catalog.element',
         'main',
         array(
-                'SESI' => $_SESSION,
+            'SESI' => $_SESSION,
             'USER_GROUP' => $USER->GetUserGroupArray(),
             'IBLOCK_TYPE' => $arParams['IBLOCK_TYPE'],
             'IBLOCK_ID' => $arParams['IBLOCK_ID'],
@@ -189,7 +194,6 @@ global $USER;
         $component
     );
     ?>
-
     <?
     $arSort = array(
         $arParams["ELEMENT_SORT_FIELD"] => $arParams["ELEMENT_SORT_ORDER"],
@@ -237,14 +241,163 @@ global $USER;
                 ?>
                 <div <?= (!empty($flSections["UF_ID_SECTION_OLD"]) ? 'class="prod-other-wrp cl"' : '') ?>>
 
+                    <div class="<?= (!empty($flSections["UF_ID_SECTION_OLD"]) ? "prod-other__item" : "viewed-prods-wrp") ?>">
+                        <div class="h2">похожие товары</div>
+                        <?
+                        global $arrFilter5;
+                        $arrFilter5 = array("!ID" => $elementId, "SECTION_ID" => \Kosmos\Multisite::getCatalogSections());
+                        ?>
+                        <? $APPLICATION->IncludeComponent(
+                            "bitrix:catalog.section",
+                            "like",
+                            array(
+                                "GMI_FLAG" => (!empty($flSections["UF_ID_SECTION_OLD"])) ? "N" : "Y",
+                                "ACTION_VARIABLE" => "action",
+                                "ADD_PICT_PROP" => "-",
+                                "ADD_PROPERTIES_TO_BASKET" => "Y",
+                                "ADD_SECTIONS_CHAIN" => "N",
+                                "ADD_TO_BASKET_ACTION" => $basketAction,
+                                "AJAX_MODE" => "N",
+                                "AJAX_OPTION_ADDITIONAL" => "",
+                                "AJAX_OPTION_HISTORY" => "N",
+                                "AJAX_OPTION_JUMP" => "N",
+                                "AJAX_OPTION_STYLE" => "Y",
+                                "BACKGROUND_IMAGE" => "-",
+                                "BASKET_URL" => "/personal/basket.php",
+                                "BROWSER_TITLE" => "-",
+                                "CACHE_FILTER" => "N",
+                                "CACHE_GROUPS" => "Y",
+                                "CACHE_TIME" => "36000000",
+                                "CACHE_TYPE" => "A",
+                                "COMPATIBLE_MODE" => "Y",
+                                "COMPONENT_TEMPLATE" => "like",
+                                "CONVERT_CURRENCY" => "N",
+                                "CUSTOM_FILTER" => "",
+                                "DETAIL_URL" => "",
+                                "DISABLE_INIT_JS_IN_COMPONENT" => "N",
+                                "DISCOUNT_PERCENT_POSITION" => "bottom-right",
+                                "DISPLAY_BOTTOM_PAGER" => "Y",
+                                "DISPLAY_COMPARE" => "N",
+                                "DISPLAY_TOP_PAGER" => "N",
+                                "ELEMENT_SORT_FIELD" => "sort",
+                                "ELEMENT_SORT_FIELD2" => "id",
+                                "ELEMENT_SORT_ORDER" => "asc",
+                                "ELEMENT_SORT_ORDER2" => "desc",
+                                "ENLARGE_PRODUCT" => "STRICT",
+                                "FILTER_NAME" => "arrFilter5",
+                                "HIDE_NOT_AVAILABLE" => "Y",
+                                "HIDE_NOT_AVAILABLE_OFFERS" => "Y",
+                                "IBLOCK_TYPE" => "catalog",
+                                "IBLOCK_ID" => $arParams["IBLOCK_ID"],
+                                "INCLUDE_SUBSECTIONS" => "Y",
+                                "LABEL_PROP" => array(
+                                    0 => "NEWPRODUCT",
+                                    1 => "SALELEADER",
+                                    2 => "SALE",
+                                ),
+                                "LABEL_PROP_MOBILE" => array(
+                                    0 => "NEWPRODUCT",
+                                    1 => "SALELEADER",
+                                    2 => "SALE",
+                                ),
+                                "LABEL_PROP_POSITION" => "top-left",
+                                "LAZY_LOAD" => "N",
+                                "LINE_ELEMENT_COUNT" => "3",
+                                "LOAD_ON_SCROLL" => "N",
+                                "MESSAGE_404" => "",
+                                "MESS_BTN_ADD_TO_BASKET" => "В корзину",
+                                "MESS_BTN_BUY" => "Купить",
+                                "MESS_BTN_DETAIL" => "Подробнее",
+                                "MESS_BTN_SUBSCRIBE" => "Подписаться",
+                                "MESS_NOT_AVAILABLE" => "Нет в наличии",
+                                "META_DESCRIPTION" => "-",
+                                "META_KEYWORDS" => "-",
+                                "OFFERS_CART_PROPERTIES" => "",
+                                "OFFERS_FIELD_CODE" => array(
+                                    0 => "",
+                                    1 => "",
+                                ),
+                                "OFFERS_LIMIT" => "5",
+                                "OFFERS_PROPERTY_CODE" => array(
+                                    0 => "",
+                                    1 => "",
+                                ),
+                                "OFFERS_SORT_FIELD" => "sort",
+                                "OFFERS_SORT_FIELD2" => "id",
+                                "OFFERS_SORT_ORDER" => "asc",
+                                "OFFERS_SORT_ORDER2" => "desc",
+                                "PAGER_BASE_LINK_ENABLE" => "N",
+                                "PAGER_DESC_NUMBERING" => "N",
+                                "PAGER_DESC_NUMBERING_CACHE_TIME" => "36000",
+                                "PAGER_SHOW_ALL" => "N",
+                                "PAGER_SHOW_ALWAYS" => "N",
+                                "PAGER_TEMPLATE" => ".default",
+                                "PAGER_TITLE" => "Товары",
+                                "PAGE_ELEMENT_COUNT" => "9",
+                                "PARTIAL_PRODUCT_PROPERTIES" => "N",
+                                "PRICE_CODE" => $arParams['PRICE_CODE'],
+                                "PRICE_VAT_INCLUDE" => "Y",
+                                "PRODUCT_BLOCKS_ORDER" => "price,props,sku,quantityLimit,quantity,buttons,compare",
+                                "PRODUCT_DISPLAY_MODE" => "N",
+                                "PRODUCT_ID_VARIABLE" => "id",
+                                "PRODUCT_PROPERTIES" => array(),
+                                "PRODUCT_PROPS_VARIABLE" => "prop",
+                                "PRODUCT_QUANTITY_VARIABLE" => "quantity",
+                                "PRODUCT_ROW_VARIANTS" => "[{'VARIANT':'0','BIG_DATA':false},{'VARIANT':'0','BIG_DATA':false},{'VARIANT':'0','BIG_DATA':false},{'VARIANT':'0','BIG_DATA':false},{'VARIANT':'0','BIG_DATA':false},{'VARIANT':'0','BIG_DATA':false}]",
+                                "PRODUCT_SUBSCRIPTION" => "N",
+                                "PROPERTY_CODE" => array(
+                                    0 => "",
+                                    1 => $arParams["LIST_PROPERTY_CODE"],
+                                    2 => "",
+                                ),
+                                "PROPERTY_CODE_MOBILE" => $arParams["LIST_PROPERTY_CODE_MOBILE"],
+                                "RCM_PROD_ID" => $_REQUEST["PRODUCT_ID"],
+                                "RCM_TYPE" => "personal",
+                                "SECTION_CODE" => "",
+                                "SECTION_ID" => $section_id,
+                                "SECTION_ID_VARIABLE" => "SECTION_ID",
+                                "SECTION_URL" => "",
+                                "SECTION_USER_FIELDS" => array(
+                                    0 => "",
+                                    1 => "",
+                                ),
+                                "SEF_MODE" => "N",
+                                "SET_BROWSER_TITLE" => "N",
+                                "SET_LAST_MODIFIED" => "N",
+                                "SET_META_DESCRIPTION" => "N",
+                                "SET_META_KEYWORDS" => "N",
+                                "SET_STATUS_404" => "N",
+                                "SET_TITLE" => "N",
+                                "SHOW_404" => "N",
+                                "SHOW_ALL_WO_SECTION" => "N",
+                                "SHOW_CLOSE_POPUP" => "N",
+                                "SHOW_DISCOUNT_PERCENT" => "Y",
+                                "SHOW_FROM_SECTION" => "N",
+                                "SHOW_MAX_QUANTITY" => "N",
+                                "SHOW_OLD_PRICE" => "Y",
+                                "SHOW_PRICE_COUNT" => "1",
+                                "SHOW_SLIDER" => "Y",
+                                "SLIDER_INTERVAL" => "3000",
+                                "SLIDER_PROGRESS" => "N",
+                                "TEMPLATE_THEME" => "blue",
+                                "USE_ENHANCED_ECOMMERCE" => "N",
+                                "USE_MAIN_ELEMENT_SECTION" => "N",
+                                "USE_PRICE_COUNT" => "N",
+                                "USE_PRODUCT_QUANTITY" => "N",
+                                "COMPOSITE_FRAME_MODE" => "A",
+                                "COMPOSITE_FRAME_TYPE" => "AUTO"
+                            ),
+                            false
+                        ); ?>
+                    </div>
+
                     <? if (!empty($flSections["UF_ID_SECTION_OLD"])): ?>
                         <div class="prod-other__item">
-                            <h2>сопутствующие товары</h2>
+                            <h2>Актуальные товары</h2>
                             <?
                             global $arrFilter4;
-                            $arrFilter4 = array(/*"SECTION_ID" => $flSections["UF_ID_SECTION_OLD"],*/
-                                "!ID" => $elementId);
-                            //GmiPrint($arrFilter4);
+                            $arrFilter4 = array("!ID" => $elementId);
+
                             $APPLICATION->IncludeComponent(
                                 "bitrix:catalog.section",
                                 "like",
@@ -333,9 +486,7 @@ global $USER;
                                     "PAGER_TITLE" => "Товары",
                                     "PAGE_ELEMENT_COUNT" => "6",
                                     "PARTIAL_PRODUCT_PROPERTIES" => "N",
-                                    "PRICE_CODE" => array(
-                                        0 => "BASE",
-                                    ),
+                                    "PRICE_CODE" => $arParams['PRICE_CODE'],
                                     "PRICE_VAT_INCLUDE" => "Y",
                                     "PRODUCT_BLOCKS_ORDER" => "price,props,sku,quantityLimit,quantity,buttons,compare",
                                     "PRODUCT_DISPLAY_MODE" => "N",
@@ -386,156 +537,6 @@ global $USER;
                         </div>
                     <? endif; ?>
 
-                    <div class="<?= (!empty($flSections["UF_ID_SECTION_OLD"]) ? "prod-other__item" : "viewed-prods-wrp") ?>">
-                        <div class="h2">похожие товары</div>
-                        <? global $arrFilter5;
-                        $arrFilter5 = array("!ID" => $elementId, "SECTION_ID" => \Kosmos\Multisite::getCatalogSections()); ?>
-                        <? $APPLICATION->IncludeComponent(
-                            "bitrix:catalog.section",
-                            "like",
-                            array(
-                                "GMI_FLAG" => (!empty($flSections["UF_ID_SECTION_OLD"])) ? "N" : "Y",
-                                "ACTION_VARIABLE" => "action",
-                                "ADD_PICT_PROP" => "-",
-                                "ADD_PROPERTIES_TO_BASKET" => "Y",
-                                "ADD_SECTIONS_CHAIN" => "N",
-                                "ADD_TO_BASKET_ACTION" => "ADD",
-                                "AJAX_MODE" => "N",
-                                "AJAX_OPTION_ADDITIONAL" => "",
-                                "AJAX_OPTION_HISTORY" => "N",
-                                "AJAX_OPTION_JUMP" => "N",
-                                "AJAX_OPTION_STYLE" => "Y",
-                                "BACKGROUND_IMAGE" => "-",
-                                "BASKET_URL" => "/personal/basket.php",
-                                "BROWSER_TITLE" => "-",
-                                "CACHE_FILTER" => "N",
-                                "CACHE_GROUPS" => "Y",
-                                "CACHE_TIME" => "36000000",
-                                "CACHE_TYPE" => "A",
-                                "COMPATIBLE_MODE" => "Y",
-                                "COMPONENT_TEMPLATE" => "like",
-                                "CONVERT_CURRENCY" => "N",
-                                "CUSTOM_FILTER" => "",
-                                "DETAIL_URL" => "",
-                                "DISABLE_INIT_JS_IN_COMPONENT" => "N",
-                                "DISCOUNT_PERCENT_POSITION" => "bottom-right",
-                                "DISPLAY_BOTTOM_PAGER" => "Y",
-                                "DISPLAY_COMPARE" => "N",
-                                "DISPLAY_TOP_PAGER" => "N",
-                                "ELEMENT_SORT_FIELD" => "sort",
-                                "ELEMENT_SORT_FIELD2" => "id",
-                                "ELEMENT_SORT_ORDER" => "asc",
-                                "ELEMENT_SORT_ORDER2" => "desc",
-                                "ENLARGE_PRODUCT" => "STRICT",
-                                "FILTER_NAME" => "arrFilter5",
-                                "HIDE_NOT_AVAILABLE" => "Y",
-                                "HIDE_NOT_AVAILABLE_OFFERS" => "Y",
-                                "IBLOCK_TYPE" => "catalog",
-                                "IBLOCK_ID" => $arParams["IBLOCK_ID"],
-                                "INCLUDE_SUBSECTIONS" => "Y",
-                                "LABEL_PROP" => array(
-                                    0 => "NEWPRODUCT",
-                                    1 => "SALELEADER",
-                                    2 => "SALE",
-                                ),
-                                "LABEL_PROP_MOBILE" => array(
-                                    0 => "NEWPRODUCT",
-                                    1 => "SALELEADER",
-                                    2 => "SALE",
-                                ),
-                                "LABEL_PROP_POSITION" => "top-left",
-                                "LAZY_LOAD" => "N",
-                                "LINE_ELEMENT_COUNT" => "3",
-                                "LOAD_ON_SCROLL" => "N",
-                                "MESSAGE_404" => "",
-                                "MESS_BTN_ADD_TO_BASKET" => "В корзину",
-                                "MESS_BTN_BUY" => "Купить",
-                                "MESS_BTN_DETAIL" => "Подробнее",
-                                "MESS_BTN_SUBSCRIBE" => "Подписаться",
-                                "MESS_NOT_AVAILABLE" => "Нет в наличии",
-                                "META_DESCRIPTION" => "-",
-                                "META_KEYWORDS" => "-",
-                                "OFFERS_CART_PROPERTIES" => "",
-                                "OFFERS_FIELD_CODE" => array(
-                                    0 => "",
-                                    1 => "",
-                                ),
-                                "OFFERS_LIMIT" => "5",
-                                "OFFERS_PROPERTY_CODE" => array(
-                                    0 => "",
-                                    1 => "",
-                                ),
-                                "OFFERS_SORT_FIELD" => "sort",
-                                "OFFERS_SORT_FIELD2" => "id",
-                                "OFFERS_SORT_ORDER" => "asc",
-                                "OFFERS_SORT_ORDER2" => "desc",
-                                "PAGER_BASE_LINK_ENABLE" => "N",
-                                "PAGER_DESC_NUMBERING" => "N",
-                                "PAGER_DESC_NUMBERING_CACHE_TIME" => "36000",
-                                "PAGER_SHOW_ALL" => "N",
-                                "PAGER_SHOW_ALWAYS" => "N",
-                                "PAGER_TEMPLATE" => ".default",
-                                "PAGER_TITLE" => "Товары",
-                                "PAGE_ELEMENT_COUNT" => "9",
-                                "PARTIAL_PRODUCT_PROPERTIES" => "N",
-                                "PRICE_CODE" => array(
-                                    0 => "BASE",
-                                    1 => "OPT",
-                                ),
-                                "PRICE_VAT_INCLUDE" => "Y",
-                                "PRODUCT_BLOCKS_ORDER" => "price,props,sku,quantityLimit,quantity,buttons,compare",
-                                "PRODUCT_DISPLAY_MODE" => "N",
-                                "PRODUCT_ID_VARIABLE" => "id",
-                                "PRODUCT_PROPERTIES" => array(),
-                                "PRODUCT_PROPS_VARIABLE" => "prop",
-                                "PRODUCT_QUANTITY_VARIABLE" => "quantity",
-                                "PRODUCT_ROW_VARIANTS" => "[{'VARIANT':'0','BIG_DATA':false},{'VARIANT':'0','BIG_DATA':false},{'VARIANT':'0','BIG_DATA':false},{'VARIANT':'0','BIG_DATA':false},{'VARIANT':'0','BIG_DATA':false},{'VARIANT':'0','BIG_DATA':false}]",
-                                "PRODUCT_SUBSCRIPTION" => "N",
-                                "PROPERTY_CODE" => array(
-                                    0 => "",
-                                    1 => $arParams["LIST_PROPERTY_CODE"],
-                                    2 => "",
-                                ),
-                                "PROPERTY_CODE_MOBILE" => $arParams["LIST_PROPERTY_CODE_MOBILE"],
-                                "RCM_PROD_ID" => $_REQUEST["PRODUCT_ID"],
-                                "RCM_TYPE" => "personal",
-                                "SECTION_CODE" => "",
-                                "SECTION_ID" => $section_id,
-                                "SECTION_ID_VARIABLE" => "SECTION_ID",
-                                "SECTION_URL" => "",
-                                "SECTION_USER_FIELDS" => array(
-                                    0 => "",
-                                    1 => "",
-                                ),
-                                "SEF_MODE" => "N",
-                                "SET_BROWSER_TITLE" => "N",
-                                "SET_LAST_MODIFIED" => "N",
-                                "SET_META_DESCRIPTION" => "N",
-                                "SET_META_KEYWORDS" => "N",
-                                "SET_STATUS_404" => "N",
-                                "SET_TITLE" => "N",
-                                "SHOW_404" => "N",
-                                "SHOW_ALL_WO_SECTION" => "N",
-                                "SHOW_CLOSE_POPUP" => "N",
-                                "SHOW_DISCOUNT_PERCENT" => "Y",
-                                "SHOW_FROM_SECTION" => "N",
-                                "SHOW_MAX_QUANTITY" => "N",
-                                "SHOW_OLD_PRICE" => "Y",
-                                "SHOW_PRICE_COUNT" => "1",
-                                "SHOW_SLIDER" => "Y",
-                                "SLIDER_INTERVAL" => "3000",
-                                "SLIDER_PROGRESS" => "N",
-                                "TEMPLATE_THEME" => "blue",
-                                "USE_ENHANCED_ECOMMERCE" => "N",
-                                "USE_MAIN_ELEMENT_SECTION" => "N",
-                                "USE_PRICE_COUNT" => "N",
-                                "USE_PRODUCT_QUANTITY" => "N",
-                                "COMPOSITE_FRAME_MODE" => "A",
-                                "COMPOSITE_FRAME_TYPE" => "AUTO"
-                            ),
-                            false
-                        ); ?>
-                    </div>
                 </div>
             <? endif; ?>
             <?
@@ -901,10 +902,7 @@ global $USER;
                                 "OFFER_TREE_PROPS_3" => array(),
                                 "PAGE_ELEMENT_COUNT" => "12",
                                 "PARTIAL_PRODUCT_PROPERTIES" => "N",
-                                "PRICE_CODE" => array(
-                                    0 => "BASE",
-                                    1 => "OPT",
-                                ),
+                                "PRICE_CODE" => $arParams['PRICE_CODE'],
                                 "PRICE_VAT_INCLUDE" => "Y",
                                 "PRODUCT_BLOCKS_ORDER" => "price,props,sku,quantityLimit,quantity,buttons,compare",
                                 "PRODUCT_ID_VARIABLE" => "id",

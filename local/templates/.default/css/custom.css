@@ -212,15 +212,13 @@
     justify-content: space-between;
 }
 
-.prod__right .product-item-scu-item-color-container[data-onevalue="4750"],
-.product__list .product-item-scu-item-color-container[data-onevalue="4750"] {
-    display: none;
-}
-
 a.brandImg {
     display: table-cell;
     height: 120px;
     text-align: center;
     vertical-align: middle;
     width: 250px;
+}
+.h__phone{
+    z-index:1;
 }

@@ -6753,9 +6753,20 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
                         errors.push(BX.message('SOA_INVALID_EMAIL'));
                 }
                 if (arProperty.ID == 1) {
+
                     re = /^[а-яА-ЯёЁ\s-]+$/i;
-                    if (!re.test(value))
+
+                    if (!re.test(value)) {
                         errors.push(BX.message('SOA_INVALID_PATTERN_2'));
+                    }
+
+                    if (
+                        document.querySelector('#bx-soa-delivery .bx-soa-pp-company.bx-selected input').value == 19
+                        && !(/[а-яА-ЯёЁ\s-]{2} [а-яА-ЯёЁ\s-]{2}/.test(value))
+                         ) {
+
+                        errors.push(BX.message('SOA_INVALID_PATTERN_22'));
+                    }
                 }
 
                 if (value.length > 0 && arProperty.PATTERN && arProperty.PATTERN.length) {
@@ -7040,7 +7051,17 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
                 if (total.DISCOUNT_PERCENT_FORMATED && parseFloat(total.DISCOUNT_PERCENT_FORMATED) > 0)
                     discText += total.DISCOUNT_PERCENT_FORMATED;
 
-                this.totalInfoBlockNode.appendChild(this.createTotalUnit(discText + ':', total.DISCOUNT_PRICE_FORMATED, {highlighted: true}));
+                //new 31.03
+                let fullPrice = parseFloat(document.getElementById('PRICE_WITHOUT_DISCOUNT').textContent);
+                let discountPrice = parseFloat(document.getElementById('allSum_wVAT_FORMATED').textContent);
+                if(fullPrice && discountPrice){
+                    let diff = fullPrice - discountPrice;
+                    diff = diff.toFixed(2) + ' руб.';
+                    //console.log(diff);
+                    this.totalInfoBlockNode.appendChild(this.createTotalUnit(discText + ':', diff, {highlighted: true}));
+                }
+                //end new
+                //this.totalInfoBlockNode.appendChild(this.createTotalUnit(discText + ':', total.DISCOUNT_PRICE_FORMATED, {highlighted: true}));
             }
 
             if (this.options.showPayedFromInnerBudget) {
@@ -7200,7 +7221,7 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
                 ghostTop = BX.pos(this.totalGhostBlockNode).top,
                 ghostBottom = BX.pos(this.orderBlockNode).bottom,
                 width;
-            //console.log(this.orderBlockNode);
+
             if (ghostBottom - this.totalBlockNode.offsetHeight < scrollTop + 20)
                 BX.addClass(this.totalInfoBlockNode, 'bx-soa-cart-total-bottom');
             else

@@ -45,7 +45,7 @@ class creatGoogleFile
                     'item_subtitle' => strlen($arFields['PROPERTY_TEXT_GOOGLE_VALUE']) <= 25 ? $arFields['PROPERTY_TEXT_GOOGLE_VALUE'] : ''   ,
                     'price' => $arFields['PRICE_15'],
                     'final_url' => 'https://bh.by' . $arFields['DETAIL_PAGE_URL'],
-                    'img' => $src ? 'https://bh.by' . $src : '',
+                    'img' => $src ? $src : '',
                     'sale_price' => $arPrice['DISCOUNT_PRICE'] ? $arPrice['DISCOUNT_PRICE'] : '',
                 ];
             }

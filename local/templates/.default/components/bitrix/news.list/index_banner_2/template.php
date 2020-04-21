@@ -13,8 +13,8 @@
 $this->setFrameMode(true);
 
 array_walk($arResult["ITEMS"], function (&$item) {
-    if($img=$item['PROPERTIES']['IMG']['~VALUE']){
-        $item['PREVIEW_PICTURE']['SRC']=$img;
+    if ($img = $item['PROPERTIES']['IMG']['~VALUE']) {
+        $item['PREVIEW_PICTURE']['SRC'] = $img;
     }
 });
 
@@ -26,17 +26,41 @@ ksort($arResult['ELEM']);
 unset($arResult["ITEMS"]);
 
 ?>
-<div style="clear: both"></div>
+    <div style="clear: both"></div>
 
 
     <section class="banner-section-index">
         <? $img = CFile::ResizeImageGet($arResult['ELEM'][1]['PREVIEW_PICTURE']['ID'], array('width' => 1840, 'height' => 150), BX_RESIZE_IMAGE_PROPORTIONAL, true); ?>
-        <div class="prod-item rad-img-1"
-             style=" margin-left: 0; padding: unset; <?= $arResult['ELEM'][1]['PROPERTIES']['LINK']['VALUE'] ? 'cursor: pointer;' : '' ?>" <?= $arResult['ELEM'][1]['PROPERTIES']['LINK']['VALUE'] ? 'onclick="location=\'' . $arResult['ELEM'][1]['PROPERTIES']['LINK']['VALUE'] . '\'"' : '' ?>>
-            <a class="btn-more btn-more-2" href="<?=$arResult['ELEM'][1]['PROPERTIES']['LINK']['VALUE']?>"></a>
-            <span><img class="" src="<?= $img['src'] ?>"></span>
-            <span class="plashka"></span>
-        </div>
+
+
+        <?
+        $target = false;
+        if ($arResult['ELEM'][1]['PROPERTIES']['TARGET']['VALUE'] == 'Да') {
+            $target = true;
+        }?>
+
+        <?if ($target):?>
+
+            <a href="<?= $arResult['ELEM'][1]['PROPERTIES']['LINK']['VALUE'] ?>" target="_blank">
+                <div class="prod-item rad-img-1"
+                     style=" margin-left: 0; padding: unset; <?= $arResult['ELEM'][1]['PROPERTIES']['LINK']['VALUE'] ? 'cursor: pointer;' : '' ?>" >
+                    <span class="btn-more btn-more-2"></span>
+                    <span><img class="" src="<?= $img['src'] ?>"></span>
+                    <span class="plashka"></span>
+                </div>
+            </a>
+
+        <? else:?>
+
+            <div class="prod-item rad-img-1"
+                 style=" margin-left: 0; padding: unset; <?= $arResult['ELEM'][1]['PROPERTIES']['LINK']['VALUE'] ? 'cursor: pointer;' : '' ?>" <?= $arResult['ELEM'][1]['PROPERTIES']['LINK']['VALUE'] ? 'onclick="location=\'' . $arResult['ELEM'][1]['PROPERTIES']['LINK']['VALUE'] . '\'"' : '' ?>>
+                <a class="btn-more btn-more-2" href="<?= $arResult['ELEM'][1]['PROPERTIES']['LINK']['VALUE'] ?>"></a>
+                <span><img class="" src="<?= $img['src'] ?>"></span>
+                <span class="plashka"></span>
+            </div>
+
+        <?endif; ?>
+
         <div class="">
             <? $i = 1;
             $j = 1;
@@ -49,20 +73,37 @@ unset($arResult["ITEMS"]);
                 if ($i > 1 && $i <= 3):
 
                     //PR($value['PROPERTIES']['LINK']['VALUE']);
-                    $img = CFile::ResizeImageGet($value['PREVIEW_PICTURE']['ID'], array('width' => 898, 'height' => 250), BX_RESIZE_IMAGE_PROPORTIONAL, true); ?>
+                    $img = CFile::ResizeImageGet($value['PREVIEW_PICTURE']['ID'], array('width' => 898, 'height' => 250), BX_RESIZE_IMAGE_PROPORTIONAL, true);
+                    $target = false;
+
+                    if ($value['PROPERTIES']['TARGET']['VALUE'] == 'Да') {
+                        $target = true;
+                    }
+                    ?>
 
                     <?
                     if ($j == 1):?>
                         <div class="baner-img rad-img-3" style="display: flex; justify-content: space-between!important; height: 100%;">
                     <? endif; ?>
+                    <?
+                    if ($target):?>
+                        <a href="<?= $value['PROPERTIES']['LINK']['VALUE'] ?>" target="_blank">
+                            <div class="prod-item"
+                                 style="padding: unset; <?= $value['PROPERTIES']['LINK']['VALUE'] ? 'cursor: pointer;' : '' ?>" <?= $value['PROPERTIES']['LINK']['VALUE'] ? 'onclick="location=\'' . $value['PROPERTIES']['LINK']['VALUE'] . '\'"' : '' ?>>
+                                <span><img class="" src="<?= $img['src'] ?>"></span>
+                                <span class="plashka"></span>
+                            </div>
+                        </a>
+                    <? else:?>
 
+                        <div class="prod-item"
+                             style="padding: unset; <?= $value['PROPERTIES']['LINK']['VALUE'] ? 'cursor: pointer;' : '' ?>" <?= $value['PROPERTIES']['LINK']['VALUE'] ? 'onclick="location=\'' . $value['PROPERTIES']['LINK']['VALUE'] . '\'"' : '' ?>>
+                            <a class="btn-more btn-more-2" href="<?= $value['PROPERTIES']['LINK']['VALUE'] ?>"></a>
+                            <span><img class="" src="<?= $img['src'] ?>"></span>
+                            <span class="plashka"></span>
+                        </div>
 
-                    <div class="prod-item"
-                         style="padding: unset; <?= $value['PROPERTIES']['LINK']['VALUE'] ? 'cursor: pointer;' : '' ?>" <?= $value['PROPERTIES']['LINK']['VALUE'] ? 'onclick="location=\'' . $value['PROPERTIES']['LINK']['VALUE'] . '\'"' : '' ?>>
-                        <a class="btn-more btn-more-2" href="<?=$value['PROPERTIES']['LINK']['VALUE']?>"></a>
-                        <span><img class="" src="<?= $img['src'] ?>"></span>
-                        <span class="plashka"></span>
-                    </div>
+                    <?endif; ?>
 
                     <?
                     if ($j == 2):?>
@@ -79,31 +120,48 @@ unset($arResult["ITEMS"]);
                     <? endif; ?>
 
 
-                    <? $img = CFile::ResizeImageGet($value['PREVIEW_PICTURE']['ID'], array('width' => 574, 'height' => 200), BX_RESIZE_IMAGE_PROPORTIONAL, true); ?>
-                    <div class="prod-item"
-                         style="padding: unset;  <?= $value['PROPERTIES']['LINK']['VALUE'] ? 'cursor: pointer;' : '' ?>" <?= $value['PROPERTIES']['LINK']['VALUE'] ? 'onclick="location=\'' . $value['PROPERTIES']['LINK']['VALUE'] . '\'"' : '' ?>>
-                        <a class="btn-more btn-more-2" href="<?=$value['PROPERTIES']['LINK']['VALUE']?>"></a>
-                        <span><img class="" src="<?= $img['src'] ?>"></span>
-                        <span class="plashka"></span>
-                    </div>
-
                     <?
-                    if ($j == 2):?>
+                    $img = CFile::ResizeImageGet($value['PREVIEW_PICTURE']['ID'], array('width' => 574, 'height' => 200), BX_RESIZE_IMAGE_PROPORTIONAL, true);
+                    $target = false;
+
+                    if ($value['PROPERTIES']['TARGET']['VALUE'] == 'Да') {
+                        $target = true;
+                    }
+                    ?>
+                    <? if ($target):?>
+
+                        <a href="<?= $value['PROPERTIES']['LINK']['VALUE'] ?>" target="_blank" class="prod-item"
+                           style="padding: unset;  <?= $value['PROPERTIES']['LINK']['VALUE'] ? 'cursor: pointer;' : '' ?>">
+                            <span class="btn-more btn-more-2"></span>
+                            <span><img class="" src="<?= $img['src'] ?>"></span>
+                            <span class="plashka"></span>
+                        </a>
+
+                    <? else:?>
+
+                        <div class="prod-item"
+                             style="padding: unset;  <?= $value['PROPERTIES']['LINK']['VALUE'] ? 'cursor: pointer;' : '' ?>" <?= $value['PROPERTIES']['LINK']['VALUE'] ? 'onclick="location=\'' . $value['PROPERTIES']['LINK']['VALUE'] . '\'"' : '' ?>>
+                            <a class="btn-more btn-more-2" href="<?= $value['PROPERTIES']['LINK']['VALUE'] ?>"></a>
+                            <span><img class="" src="<?= $img['src'] ?>"></span>
+                            <span class="plashka"></span>
+                        </div>
+
+                    <? endif; ?>
+
+                    <?if ($j == 2):?>
                         </div>
                     <? endif; ?>
 
                     <? $b++; ?>
                 <? endif; ?>
 
-                <?
-                $i++;
+                <? $i++;
             endforeach; ?>
         </div>
     </section>
 
 
-
-<?/*
+<? /*
 
 
 <section class="home-banners">
@@ -385,4 +443,4 @@ unset($arResult["ITEMS"]);
 
 <div style="clear: both"></div>
 
-*/?>
+*/ ?>

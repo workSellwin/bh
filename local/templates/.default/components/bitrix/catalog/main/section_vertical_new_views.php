@@ -11,7 +11,7 @@ use Bitrix\Main\ModuleManager;
  * @var array $arCurSection
  */
 ?>
-<div class="catalog-left dfgg">
+<div class="catalog-left">
     <div class="total-prod">
         <?
         $activeElements = CIBlockSection::GetSectionElementsCount($arResult["VARIABLES"]["SECTION_ID"], Array("CNT_ACTIVE" => "Y"));
@@ -70,26 +70,20 @@ use Bitrix\Main\ModuleManager;
         $component,
         array('HIDE_ICONS' => 'Y')
     );
-
-    ?>
+?>
 </div>
 <?
 // $arParams["ELEMENT_SORT_FIELD"] = "HAS_PREVIEW_PICTURE";//"catalog_PRICE_1";
 // $arParams["ELEMENT_SORT_ORDER"] = "desc";
 // $arParams["ELEMENT_SORT_FIELD2"] = "HAS_DETAIL_PICTURE";
 // $arParams["ELEMENT_SORT_ORDER2"] = "desc";
-
-
 ?>
-
-
 <div id="MY_AJAX_FILTER">
+
     <? if (isset($_REQUEST['my_ajax']) && $_REQUEST['my_ajax'] == 'Y'):
+
         $GLOBALS['APPLICATION']->RestartBuffer();
-
-
         if ($arParams['DATA_LIST'] == 'S') { ?>
-
             <style>
                 .prod-text {
                     display: none;
@@ -103,8 +97,6 @@ use Bitrix\Main\ModuleManager;
                     .new_views_item .product-item-image-alternative {
                         display: none !important;
                     }
-
-
 
                     .new_views_item .product-item-scu-item-color {
                         background-size: contain;
@@ -198,14 +190,10 @@ use Bitrix\Main\ModuleManager;
                         height: auto!important;
                     }
                 }
-
             </style>
             <?
         }
-
-
     endif; ?>
-
 
     <? if ($arParams['DATA_LIST'] == 'S') { ?>
 
@@ -320,28 +308,57 @@ use Bitrix\Main\ModuleManager;
 
             <? $APPLICATION->ShowViewContent('popular-link'); ?>
 
-
             <div class="schema-tags">
                 <? $APPLICATION->ShowViewContent('prop_filter'); ?>
             </div>
 
             <div class="product__sort">
                 <div>
+                    <? if (!empty($_GET["sort"]) ): ?>
+                        <style>
+                            <?if($_GET["sort"] == 'shows'):?>
+                            .product__sort [data-sort-type="popularity"]{
+                                font-weight: bold;
+                            }
+                            <?endif;?>
+                            <?if($_GET["sort"] == 'property_newproduct'):?>
+                            .product__sort [data-sort-type="new"]{
+                                font-weight: bold;
+                            }
+                            <?endif;?>
+                            <?if($_GET["sort"] == 'PROPERTY_PRICE_SORT_2'):?>
+                            .product__sort [data-sort-type="price"]{
+                                font-weight: bold;
+                            }
+                            <?endif;?>
+                            <?if($_GET["sort"] == 'PROPERTY_PRICE_SORT_2_DISCOUNT'):?>
+                            .product__sort [data-sort-type="discount"]{
+                                font-weight: bold;
+                            }
+                            <?endif;?>
+                        </style>
+                    <? endif; ?>
                     <? if ($_GET["sort"] == "shows" && $_GET["method"] == "desc"): ?>
                         <a class="product__sort-lnk product__sort-lnk_active"
-                           href="<?= $arResult["SECTION_PAGE_URL"] ?>?sort=shows&method=asc">По популярности</a>
+                           href="<?= $arResult["SECTION_PAGE_URL"] ?>?sort=shows&method=asc" data-sort-type="popularity">
+                            По популярности
+                        </a>
                     <? else: ?>
-                        <a class="product__sort-lnk" href="<?= $arResult["SECTION_PAGE_URL"] ?>?sort=shows&method=desc">По
-                            популярности</a>
+                        <a class="product__sort-lnk" href="<?= $arResult["SECTION_PAGE_URL"] ?>?sort=shows&method=desc"
+                           data-sort-type="popularity">
+                            По популярности
+                        </a>
                     <? endif; ?>
                     <? if ($_GET["sort"] == "property_newproduct" && $_GET["method"] == "desc"): ?>
                         <a class="product__sort-lnk product__sort-lnk_active"
-                           href="<?= $arResult["SECTION_PAGE_URL"] ?>?sort=property_newproduct&method=asc">По
-                            новинкам</a>
+                           href="<?= $arResult["SECTION_PAGE_URL"] ?>?sort=property_newproduct&method=asc"
+                           data-sort-type="new">
+                            По новинкам</a>
                     <? else: ?>
                         <a class="product__sort-lnk"
-                           href="<?= $arResult["SECTION_PAGE_URL"] ?>?sort=property_newproduct&method=desc">По
-                            новинкам</a>
+                           href="<?= $arResult["SECTION_PAGE_URL"] ?>?sort=property_newproduct&method=desc"
+                           data-sort-type="new">
+                            По новинкам</a>
                     <? endif; ?>
                     <? /*if($_GET["sort"] == "catalog_PRICE_1" && $_GET["method"] == "desc"):?>
 			<a class="product__sort-lnk product__sort-lnk_active" href="<?=$arResult["SECTION_PAGE_URL"]?>?sort=catalog_PRICE_1&method=asc">По цене</a>
@@ -362,22 +379,30 @@ use Bitrix\Main\ModuleManager;
                     ?>
                     <? if ($_GET["sort"] == $SORT_PRICE_CODE && $_GET["method"] == "desc"): ?>
                         <a class="product__sort-lnk product__sort-lnk_active"
-                           href="<?= $arResult["SECTION_PAGE_URL"] ?>?sort=<?= $SORT_PRICE_CODE ?>&method=asc">По
-                            цене</a>
+                           href="<?= $arResult["SECTION_PAGE_URL"] ?>?sort=<?= $SORT_PRICE_CODE ?>&method=asc"
+                           data-sort-type="price">
+                            По цене
+                        </a>
                     <? else: ?>
                         <a class="product__sort-lnk"
-                           href="<?= $arResult["SECTION_PAGE_URL"] ?>?sort=<?= $SORT_PRICE_CODE ?>&method=desc">По
-                            цене</a>
+                           href="<?= $arResult["SECTION_PAGE_URL"] ?>?sort=<?= $SORT_PRICE_CODE ?>&method=desc"
+                           data-sort-type="price">
+                            По цене
+                        </a>
                     <? endif; ?>
 
                     <? if ($_GET["sort"] == $SORT_DISCOUNT_CODE && $_GET["method"] == "desc"): ?>
                         <a class="product__sort-lnk product__sort-lnk_active"
-                           href="<?= $arResult["SECTION_PAGE_URL"] ?>?sort=<?= $SORT_DISCOUNT_CODE ?>&method=asc">По
-                            скидке</a>
+                           href="<?= $arResult["SECTION_PAGE_URL"] ?>?sort=<?= $SORT_DISCOUNT_CODE ?>&method=asc"
+                           data-sort-type="discount">
+                            По скидке
+                        </a>
                     <? else: ?>
                         <a class="product__sort-lnk"
-                           href="<?= $arResult["SECTION_PAGE_URL"] ?>?sort=<?= $SORT_DISCOUNT_CODE ?>&method=desc">По
-                            скидке</a>
+                           href="<?= $arResult["SECTION_PAGE_URL"] ?>?sort=<?= $SORT_DISCOUNT_CODE ?>&method=desc"
+                           data-sort-type="discount">
+                            По скидке
+                        </a>
                     <? endif; ?>
                 </div>
             </div>
@@ -396,6 +421,7 @@ use Bitrix\Main\ModuleManager;
             //GmiPrint($arResult);
             ?>
 
+            <?if(false):?>
             <div class="b-tools  g-box_lseparator">
 
                 <ul class="tools-view">
@@ -410,20 +436,15 @@ use Bitrix\Main\ModuleManager;
                 </ul>
                 <div style="clear: both"></div>
                 <div class="amountPerPage">
-                    <? $arNumPage = array(50, 100, 200); ?>
+                    <? $arNumPage = array(24, 48, 72); ?>
                     <span class="title">Показывать по:</span>
                     <? foreach ($arNumPage as $val): ?>
                         <a class="unit <?= $arParams['NUM_PAGE'] == $val ? 'active' : '' ?>" data-num-page="<?= $val ?>"
                            href="#"><?= $val ?></a>
                     <? endforeach; ?>
                 </div>
-
             </div>
-
-
-
-
-
+            <?endif;?>
             <? $intSectionID = $APPLICATION->IncludeComponent(
                 "bitrix:catalog.section",
                 "cat_new_views",//"scrol_load",//"main",
@@ -455,13 +476,14 @@ use Bitrix\Main\ModuleManager;
                     "CACHE_FILTER" => $arParams["CACHE_FILTER"],
                     "CACHE_GROUPS" => $arParams["CACHE_GROUPS"],
                     "SET_TITLE" => $arParams["SET_TITLE"],
+                    //"SET_BROWSER_TITLE" => $arParams["SET_BROWSER_TITLE"],
                     "MESSAGE_404" => $arParams["~MESSAGE_404"],
                     "SET_STATUS_404" => $arParams["SET_STATUS_404"],
                     "SHOW_404" => $arParams["SHOW_404"],
                     "FILE_404" => $arParams["FILE_404"],
                     "DISPLAY_COMPARE" => $arParams["USE_COMPARE"],
                    // "PAGE_ELEMENT_COUNT" => $arParams['NUM_PAGE'], //$arParams["PAGE_ELEMENT_COUNT"],
-                    "PAGE_ELEMENT_COUNT" => $arParams["PAGE_ELEMENT_COUNT"],
+                    "PAGE_ELEMENT_COUNT" => $arParams['NUM_PAGE'], //$arParams["PAGE_ELEMENT_COUNT"],
                     "LINE_ELEMENT_COUNT" => $arParams["LINE_ELEMENT_COUNT"],
                     "PRICE_CODE" => $arParams["PRICE_CODE"],
                     "USE_PRICE_COUNT" => $arParams["USE_PRICE_COUNT"],
@@ -565,7 +587,6 @@ use Bitrix\Main\ModuleManager;
     ?>
 </div>
 
-
 <script>
     var i = 1;
     $('body').on('click', '.schema-tags__item', function () {
@@ -593,14 +614,15 @@ use Bitrix\Main\ModuleManager;
             function onAjaxSuccess(data) {
                 $('#MY_AJAX_FILTER').html(data);
                 $('.product__list').css('opacity', '1');
+                ImageDefer.reset();//new 17,04
             }
         }
-
     });
 
     $('body').on('click', '.amountPerPage a', function () {
         $('.product__list').css('opacity', '0.5');
         var data_num_page = $(this).attr('data-num-page');
+
         $.post(
             window.location.href,
             {
@@ -613,6 +635,8 @@ use Bitrix\Main\ModuleManager;
         function onAjaxSuccess(data) {
             $('#MY_AJAX_FILTER').html(data);
             $('.product__list').css('opacity', '1');
+            ImageDefer.reset();//new 17,04
+            document.querySelector('.unit[data-num-page="' + data_num_page + '"]').classList.add('active');//new 17,04
         }
 
         return false;

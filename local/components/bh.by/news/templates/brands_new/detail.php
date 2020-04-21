@@ -13,14 +13,11 @@
 $this->setFrameMode(true);
 ?>
 <style>
-
     .slick-track{
         max-height: 565px;
         margin-top: 6px;
     }
-
 </style>
-
 <?
 $arBrendElem = array();
 $arSelect = Array('ID', 'NAME', 'PROPERTY_BRAND', 'PROPERTY_BRAND', 'PROPERTY_SERIES.NAME', 'PROPERTY_SERIES.ID', 'PROPERTY_SERIES.CODE', 'PROPERTY_SITE', 'DETAIL_PAGE_URL', 'DETAIL_TEXT');
@@ -39,7 +36,6 @@ while ($ob = $res->GetNext()) {
     }
 }
 
-
 if(SITE_ID == 's1'){
     if(in_array('s2', $arBrendElem['SITE_ID']) && !in_array('s1', $arBrendElem['SITE_ID'])){
         LocalRedirect("https://all.bh.by".$arBrendElem['BREND']['DETAIL_PAGE_URL'], false, '301 Moved Permanently');
@@ -55,12 +51,8 @@ if(SITE_ID == 's2'){
 /*if(in_array('s2', $arBrendElem['SITE_ID']) && !in_array('s1', $arBrendElem['SIT_ID'])){
     LocalRedirect("https://all.bh.by".$arBrendElem['BREND']['DETAIL_PAGE_URL']);
 }*/
-
 global $arrFilter;
 $arrFilter["PROPERTY"] = array("BRANDS" => $arBrendElem['BREND']['PROPERTY_BRAND_VALUE']);
-
-
-
 
 if (!empty($arBrendElem)):?>
     <div class="catalog stock cl">
@@ -105,11 +97,9 @@ if (!empty($arBrendElem)):?>
                 ),
                 false
             ); ?>
-
         </div>
 
         <div class="product">
-
             <?$ElementID = $APPLICATION->IncludeComponent(
                 "bitrix:news.detail",
                 "",
@@ -184,9 +174,12 @@ if (!empty($arBrendElem)):?>
                     <? $APPLICATION->ShowViewContent('prop_filter'); ?>
                 </div>
 
+                <?if($USER->IsAdmin() || $_GET['filter'] == 'yes'):?>
+                    <?include 'filter.php'?>
+                <?endif;?>
 
-                <?if (!isset($_REQUEST['no_serii']) && $_REQUEST['no_serii'] != 'Y'):?>
-                    <? //----------------------------------------------------------------------------------------------------------
+                <?//if (!isset($_REQUEST['no_serii']) && $_REQUEST['no_serii'] != 'Y'):?>
+                    <?/* //----------------------------------------------------------------------------------------------------------
                     global $brend_novinki_slider;
                     $brend_novinki_slider["PROPERTY"] = array("LINK_BRANDS" => $arBrendElem['BREND']['ID'], 'NEWPRODUCT_VALUE' => 'да');
 
@@ -571,7 +564,9 @@ if (!empty($arBrendElem)):?>
                         </div>
                     <?}?>
 
-                <?else://------------------------------------------------------------------------------------------------?>
+                */?>
+
+                <?//else://------------------------------------------------------------------------------------------------?>
 
                     <?$arrFilter["PROPERTY"] = array("LINK_BRANDS" => $arBrendElem['BREND']['ID']);
 
@@ -607,10 +602,10 @@ if (!empty($arBrendElem)):?>
                             "DISPLAY_BOTTOM_PAGER" => "Y",
                             "DISPLAY_COMPARE" => "N",
                             "DISPLAY_TOP_PAGER" => "N",
-                            "ELEMENT_SORT_FIELD" => "sort",
-                            "ELEMENT_SORT_FIELD2" => "sort",
-                            "ELEMENT_SORT_ORDER" => "asc",
-                            "ELEMENT_SORT_ORDER2" => "desc",
+                            "ELEMENT_SORT_FIELD" => $arParams["ELEMENT_SORT_FIELD"],
+                            "ELEMENT_SORT_FIELD2" => $arParams["ELEMENT_SORT_FIELD2"],
+                            "ELEMENT_SORT_ORDER" => $arParams["ELEMENT_SORT_ORDER"],
+                            "ELEMENT_SORT_ORDER2" => $arParams["ELEMENT_SORT_ORDER2"],
                             "ENLARGE_PRODUCT" => "PROP",
                             "ENLARGE_PROP" => "-",
                             "FILTER_NAME" => "arrFilter",
@@ -751,21 +746,27 @@ if (!empty($arBrendElem)):?>
                         )
                     ); ?>
 
-                    <?if(empty($arBrendElem['SER_ID'])){
+                    <?/*if(empty($arBrendElem['SER_ID'])){
                         if($arBrendElem['BREND']['DETAIL_TEXT']){?>
                             <div class="brend-text" style="margin-top: 30px;">
                                 <?=$arBrendElem['BREND']['DETAIL_TEXT']?>
                             </div>
                         <?}
-                    }?>
+                    }*/?>
 
-                <? endif;//----------------------------------------------------------------------------------------------- ?>
+                    <?if($arBrendElem['BREND']['DETAIL_TEXT']){?>
+                        <div class="brend-text" style="margin-top: 30px;">
+                            <?=$arBrendElem['BREND']['DETAIL_TEXT']?>
+                        </div>
+                    <?}?>
 
-                <?if(isset($_REQUEST['set_filter']) && !empty($_REQUEST['set_filter']) && $_REQUEST['set_filter'] == 'Показать'){
+                <?// endif;//----------------------------------------------------------------------------------------------- ?>
+
+                <?/*if(isset($_REQUEST['set_filter']) && !empty($_REQUEST['set_filter']) && $_REQUEST['set_filter'] == 'Показать'){
                     if(!isset($_REQUEST['no_serii']) && empty($_REQUEST['no_serii'])){
                         LocalRedirect($APPLICATION->GetCurPageParam('no_serii=Y'), false, '301 Moved Permanently');
                     }
-                }?>
+                }*/?>
 
                 <script>
                     var i = 1;
@@ -798,7 +799,7 @@ if (!empty($arBrendElem)):?>
 
 
 
-                    $('.bx-pagination ul li a').each(function(){
+                    /*$('.bx-pagination ul li a').each(function(){
                         var url = $(this).attr('href');
 
                         if(/no_serii=Y/i.test(url)){
@@ -808,7 +809,7 @@ if (!empty($arBrendElem)):?>
                             $(this).attr('href', url);
                         }
 
-                    });
+                    });*/
                 </script>
 
                 <?

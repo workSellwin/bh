@@ -4,14 +4,14 @@
  * @var CBitrixComponentTemplate $this
  * @var CatalogElementComponent $component
  */
-if(!$USER->IsAdmin()){//temp
+/*if(!$USER->IsAdmin()){//temp
     foreach ($arResult['OFFERS'] as $k => $o){
         if($o['ID'] == 31720){
             unset($arResult['OFFERS'][$k]);
             break;
         }
     }
-}
+}*/
 $component = $this->getComponent();
 $arParams = $component->applyTemplateModifications();
 

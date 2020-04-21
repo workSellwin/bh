@@ -34,7 +34,7 @@ $dt = new DateTime();
 
 if($_GET['print'] == 'yes'){
     //pr($arResult['JS_DATA']['ORDER_PROP']['properties'][4]['OPTIONS']);
-    $dt = DateTime::createFromFormat('Y-m-d', '2020-01-04');
+    //$dt = DateTime::createFromFormat('Y-m-d', '2020-01-04');
 }
 
 $formatData = $dt->format('Y-m-d');

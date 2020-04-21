@@ -16,6 +16,8 @@ $GetBasketUserID = CSaleBasket::GetBasketUserID();
 <![endif]-->
 <html lang="ru">
 <head>
+    <?
+    ?>
     <? if (isset($_GET['action']) || isset($_GET['sort']) || strpos($_SERVER['REQUEST_URI'], 'backurl') !== false): ?>
         <meta name="robots" content="noindex, follow"/>
     <? endif; ?>
@@ -391,7 +393,7 @@ if (!$USER->IsAuthorized()): ?>
         </div>
 
         <?//красная полоса
-        //$APPLICATION->IncludeFile("/include/banner-head.php", array(), array("MODE" => "html", "SHOW_BORDER" => true, "NAME" => "banner-head")); ?>
+        $APPLICATION->IncludeFile("/include/banner-head.php", array(), array("MODE" => "html", "SHOW_BORDER" => true, "NAME" => "banner-head")); ?>
 
         <div class="header_mobile_ico">
             <div class="cont_mobile_ico">

@@ -431,3 +431,47 @@ if (!function_exists('resizeText')) {
         return $string."… ";
     }
 }
+
+if (!function_exists("getPreparePhone")) {
+    //единый формат телефона на сайте
+    function getPreparePhone($rawPhone)
+    {
+        $phone = preg_replace('/[^0-9]/', '', $rawPhone);
+
+        if (strlen($phone) === 12) {
+            return $phone;
+        } else {
+            return false;
+        }
+    }
+}
+
+if (!function_exists("getPreparePhone2")) {
+    //единый формат телефона на сайте
+    function getPreparePhone2($rawPhone)
+    {
+
+        $phone = getPreparePhone($rawPhone);
+        $phone = substr($phone, 3, 2) . "-" . substr($phone, 5, 3) . "-" . substr($phone, 8, 2) . "-" . substr($phone, 10, 2);
+        return $phone;
+    }
+}
+
+if (!function_exists("checkYoutubeVideo")){
+
+    function checkYoutubeVideo($youtubeId){
+
+        $returnVal = false;
+
+        if(empty($youtubeId) || !is_string($youtubeId)){
+            return $returnVal;
+        }
+
+        $headers = get_headers('https://www.youtube.com/oembed?format=json&url=http://www.youtube.com/watch?v=' . $youtubeId);
+
+        if (is_array($headers)){
+            $returnVal = (strpos($headers[0], '200') ? true : false);
+        }
+        return $returnVal;
+    }
+}

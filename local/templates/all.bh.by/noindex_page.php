@@ -1,6 +1,4 @@
 <?
-
-
 $arLink = [
     'https://all.bh.by/catalog/ukhod-za-telom/sredstva-dlya-zagara/solntsezashchitnye-sredstva/librederm-bronzeada-krem-solntsezashchitnyy-spf50-s-omega-3-6-9-i-termalnoy-vodoy-150-ml/' => 'https://all.bh.by/catalog/ukhod-za-telom/sredstva-dlya-zagara/solntsezashchitnye-sredstva/librederm-bronzeada-krem-solntsezashchitnyy-spf50-s-omega-3-6-9-i-termalnoy-vodoy-150-ml-rb/',
     'https://all.bh.by/catalog/ukhod-za-telom/sredstva-dlya-zagara/solntsezashchitnye-sredstva/librederm-bronzeada-krem-solntsezashchitnyy-d-detey-spf50-s-omega-3-6-9-i-term-vodoy-150-ml-rb/' => 'https://all.bh.by/catalog/ukhod-za-telom/sredstva-dlya-zagara/solntsezashchitnye-sredstva/librederm-bronzeada-krem-solntsezashchitnyy-d-detey-spf50-s-omega-3-6-9-i-termalnoy-vodoy-150-ml/',

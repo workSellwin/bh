@@ -23,11 +23,9 @@ class ArrayToXML{
 	}
 	
 	private function addStruct( $elem ){
-		
-		//var_dump($elem['child'][0]);
-		
+
 		if(!$this->checkParam($elem)){
-			var_dump( $elem );
+			//var_dump( $elem );
 		}
 
 		$this->xml->startElement($elem['name']);
@@ -71,7 +69,7 @@ class ArrayToXML{
 		
 		if( !empty($this->log) ){
 			$writeRes = file_put_contents($this->path, $this->log);
-			
+
 			if($writeRes === false){
 				return false;
 			}

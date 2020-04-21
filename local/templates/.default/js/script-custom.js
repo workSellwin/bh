@@ -269,6 +269,69 @@ $(function () {
         }
     });*/
 
+    addTarget('.product-item-detail-buy-button[id*=add_basket_link], .js-btn-basket[id*=buy_link]', addToBasketTarget);
+    addTarget('[href="#characteristics"]', characteristicTarget);
+    addTarget('.viewed-prods-wrp .prod-item', bindProductTarget);
+    addTarget('[href*="tel:7577"]', phoneTarget);
+
+    function addTarget(selector, callback, event) {
+        //19830 статус 19834 отмена
+        let elements = document.querySelectorAll(selector);
+
+        if(elements.length){
+
+            if(!event){
+                event = 'click';
+            }
+
+            for(let i = 0; i < elements.length; i++){
+                elements[i].addEventListener(event, callback);
+            }
+        }
+    }
+
+    function addToBasketTarget(event) {
+
+        if (window.location.host === 'all.bh.by' && yaCounter52969687) {
+            yaCounter52969687.reachGoal('v-korzinu');
+        }
+        console.log('v-korzinu');
+    }
+
+    function characteristicTarget(event) {
+
+        if(window.location.host === 'bh.by' && yaCounter45947409){
+            yaCounter45947409.reachGoal('harakteristiki-tovara');
+        }
+        else if(window.location.host === 'all.bh.by' && yaCounter52969687){
+            yaCounter52969687.reachGoal('harakteristiki-tovara');
+        }
+        console.log('harakteristiki-tovara');
+    }
+
+    function bindProductTarget(event) {
+
+        if(window.location.host === 'bh.by' && yaCounter45947409){
+            yaCounter45947409.reachGoal('rekomendovannym-tovarov-kartochka');
+
+        }
+        else if(window.location.host === 'all.bh.by' && yaCounter52969687){
+            yaCounter52969687.reachGoal('rekomendovannym-tovarov-kartochka');
+        }
+        console.log('rekomendovannym-tovarov-kartochka');
+    }
+
+    function phoneTarget(event) {
+
+        if(window.location.host === 'bh.by' && yaCounter45947409){
+            yaCounter45947409.reachGoal('nomer-telefona');
+
+        }
+        else if(window.location.host === 'all.bh.by' && yaCounter52969687){
+            yaCounter52969687.reachGoal('nomer-telefona');
+        }
+        console.log('nomer-telefona');
+    }
 });
 
 

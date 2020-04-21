@@ -95,7 +95,6 @@ if (isset($arResult['ITEM']))
 		? 'product-item-label-big'
 		: 'product-item-label-small';
 	$labelPositionClass .= $arParams['LABEL_POSITION_CLASS'];
-
 	$buttonSizeClass = isset($arResult['BIG_BUTTONS']) && $arResult['BIG_BUTTONS'] === 'Y' ? 'btn-md' : 'btn-sm';
 	?>
 
@@ -109,6 +108,7 @@ if (isset($arResult['ITEM']))
 		{
 			include($file->getPath());
 		}
+
 		if (!$haveOffers)
 		{
 			$jsParams = array(
@@ -157,7 +157,7 @@ if (isset($arResult['ITEM']))
 				),
 				'VISUAL' => array(
 					'ID' => $itemIds['ID'],
-					'PICT_ID' => $item['SECOND_PICT'] ? $itemIds['SECOND_PICT'] : $itemIds['PICT'],
+					'PICT_ID' => $itemIds['PICT'],//$item['SECOND_PICT'] ? $itemIds['SECOND_PICT'] : $itemIds['PICT'],
 					'PICT_SLIDER_ID' => $itemIds['PICT_SLIDER'],
 					'QUANTITY_ID' => $itemIds['QUANTITY'],
 					'QUANTITY_UP_ID' => $itemIds['QUANTITY_UP'],
@@ -173,6 +173,8 @@ if (isset($arResult['ITEM']))
 					'SUBSCRIBE_ID' => $itemIds['SUBSCRIBE_LINK']
 				)
 			);
+
+			//PR($jsParams['VISUAL']);
 		}
 		else
 		{
@@ -283,9 +285,16 @@ if (isset($arResult['ITEM']))
 				'JS_OFFERS' => $item['JS_OFFERS']
 			)
 		);
+
+        if($item['PROPERTIES']['NDS']['VALUE']){
+            $jsParams['NDS'] = $item['PROPERTIES']['NDS']['VALUE'];
+        }else{
+            $jsParams['NDS'] = 20;
+        }
 		?>
 		<script>
-		  //var <?=$obName?> = new JCCatalogItem(<?=CUtil::PhpToJSObject($jsParams, false, true)?>);
+		  var <?=$obName?> = new JCCatalogItem(<?=CUtil::PhpToJSObject($jsParams, false, true)?>);
+		  //console.log(<?=$obName?>);
 		</script>
 	</div>
 	<?

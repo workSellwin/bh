@@ -276,39 +276,6 @@ function updateBasketTable(basketItemId, res)
 						else
 							cellItemHTML += '<h2 class="bx_ordercart_itemtitle">' + arItem['NAME'] + '</h2>';
 
-						/*cellItemHTML += '<div class="bx_ordercart_itemart">';
-
-						if (bShowPropsColumn)
-						{
-							for (j = 0; j < arItem['PROPS'].length; j++)
-							{
-								val = arItem['PROPS'][j];
-
-								if (arItem.SKU_DATA)
-								{
-									bSkip = false;
-									for (propId in arItem.SKU_DATA)
-									{
-										if (arItem.SKU_DATA.hasOwnProperty(propId))
-										{
-											arProp = arItem.SKU_DATA[propId];
-
-											if (arProp['CODE'] === val['CODE'])
-											{
-												bSkip = true;
-												break;
-											}
-										}
-									}
-									if (bSkip)
-										continue;
-								}
-
-								cellItemHTML += BX.util.htmlspecialchars(val['NAME']) + ':&nbsp;<span>' + val['VALUE'] + '</span><br/>';
-							}
-						}
-						cellItemHTML += '</div>';*/
-
 						if (arItem.SKU_DATA)
 						{
 							propsMap = {};
@@ -596,28 +563,26 @@ function updateBasketTable(basketItemId, res)
 
 			var url_basket = $('#BASKET_GIFT_BOX').attr('date-url');
 
-			$.post(
-				url_basket,
+				$.post(
+					'/personal/cart/',
+					{
+						BASKET_GIFT_AJAX: "Y",
+					},
+					onAjaxSuccess
+				);
+
+				function onAjaxSuccess(data)
 				{
-					BASKET_GIFT_AJAX: "Y",
-				},
-				onAjaxSuccess
-			);
+					setTimeout(function() {
+                        $('#BASKET_GIFT_BOX').html(data);
+                        $('.prod-other__slider_new').css('height', 'inherit!important');
+                        /*var  FRAUD = $('body .FRAUD').attr('data-fraud');
+                        if(FRAUD == 'Y'){
+                            location='/personal/cart/';
+                        }*/
 
-			function onAjaxSuccess(data)
-			{
-				setTimeout(function() {
-					$('#BASKET_GIFT_BOX').html(data);
-					$('.prod-other__slider_new').css('height', 'inherit!important');
-					/*var  FRAUD = $('body .FRAUD').attr('data-fraud');
-					if(FRAUD == 'Y'){
-						location='/personal/cart/';
-					}*/
-
-				}, 1500);
-
-			}
-
+                    }, 1500);
+				}
 			BX('allSum_wVAT_FORMATED').innerHTML = res['BASKET_DATA']['allSum_wVAT_FORMATED'].replace(/\s/g, '&nbsp;');
 
 		if (BX('allVATSum_FORMATED'))
@@ -989,6 +954,11 @@ function enterCoupon()
 // and update values of both controls (text input field for PC and mobile quantity select) simultaneously
 function updateQuantity(controlId, basketId, ratio, bUseFloatQuantity)
 {
+	if(checkGifts(basketId)){
+		BX(controlId).value = 1;
+		return false;
+	}
+
 	var oldVal = BX(controlId).defaultValue,
 		newVal = parseFloat(BX(controlId).value) || 0,
 		bIsCorrectQuantityForRatio = false,
@@ -1060,6 +1030,10 @@ function updateQuantity(controlId, basketId, ratio, bUseFloatQuantity)
 // used when quantity is changed by clicking on arrows
 function setQuantity(basketId, ratio, sign, bUseFloatQuantity)
 {
+	if(checkGifts(basketId)){
+		return false;
+	}
+
 	var curVal = parseFloat(BX("QUANTITY_INPUT_" + basketId).value),
 		newVal;
 
@@ -1194,7 +1168,8 @@ function recalcBasketAjax(params)
 	basketPoolQuantity.clearPool();
 
 	BX.ajax({
-		url: '/bitrix/components/bitrix/sale.basket.basket/ajax.php',
+		//url: '/bitrix/components/bitrix/sale.basket.basket/ajax.php',
+		url: '/bitrix/components/bitrix/sale.basket.basket/ajax.php?template=main_new',
 		method: 'POST',
 		data: postData,
 		dataType: 'json',
@@ -1466,11 +1441,31 @@ BX.ready(function() {
 	if (BX.type.isNotEmptyString(basketJSParams['EVENT_ONCHANGE_ON_START']) && basketJSParams['EVENT_ONCHANGE_ON_START'] == "Y")
 		BX.onCustomEvent('OnBasketChange');
 
-	// $("body").on("click","#basket_form .quantity a, .bx_ordercart_order_pay a,#basket_form .bx_ordercart_coupon span",function(){
-	// 	BX.Sale.OrderAjaxComponent.sendRequest();
-	// });
-	//BX.Sale.OrderAjaxComponent.sendRequest();
-	// $(document).on("click","#spike-nail",function(){
-	// 	BX.Sale.OrderAjaxComponent.sendRequest();
-	// });
+	BX.addCustomEvent('OnBasketChange', function(){
+
+		BX.ajax({
+			url: '/personal/cart/?add_to_free_delivery=y&ajax_basket=Y',
+			method: 'post',
+			dataType: 'html',
+			//scriptsRunFirst: false,
+			//processData: false,
+			onsuccess: function(data){
+				let add_to_free_delivery = document.getElementById('add_to_free_delivery');
+				add_to_free_delivery.outerHTML = data;
+			},
+			onfailure: function(){
+			}
+		});
+	});
 });
+
+function checkGifts(basketId) {
+
+	let gifts = ['43463', '43461', '43462'];
+	let trId = document.getElementById(basketId);
+	if( trId.dataset.productId && ~(gifts.indexOf(trId.dataset.productId)) ){
+		alert('Количество подарков строго фиксированно');
+		return true;
+	}
+	return false;
+}

@@ -175,16 +175,13 @@ if ($showTopPager) {
         ?>
         <!-- items-container -->
         <?
-
         foreach ($arResult['ITEM_ROWS'] as $index => $rowData):?>
             <? $rowItems = array_splice($arResult['ITEMS'], 0, $rowData['COUNT']); ?>
             <div class="product__col<? //=$rowData['CLASS']
             ?>" data-entity="items-row">
                 <?
                 $item = reset($rowItems);
-                //if($_GET['print'] == 'yes'){
-                    //pr($item);
-                //}
+
                 $APPLICATION->IncludeComponent(
                     'bitrix:catalog.item',
                     'cat_new_views',
@@ -228,30 +225,62 @@ if ($showTopPager) {
 <? if ($showLazyLoad): ?>
     <div class="btn btn_border" data-use="show-more-<?= $navParams['NavNum'] ?>">Больше товаров</div>
 <? endif; ?>
-<?
+<? if ($showBottomPager) {?>
 
-if ($showBottomPager) {
-    ?>
-    <div data-pagination-num="<?= $navParams['NavNum'] ?>" style="display: block;">
-        <!-- pagination-container -->
-        <?= $arResult['NAV_STRING'] ?>
-        <!-- pagination-container -->
-    </div>
-    <?
-}
-?>
-<?if(!$_REQUEST['PAGEN_1']){?>
-<div class="bx-section-desc bx-<?= $arParams['TEMPLATE_THEME'] ?>">
-    <?= $arResult['DESCRIPTION'] ?>
-    <? if (!empty($arResult['UF_YOUTUBE'])): ?>
-        <div class="video-block-section">
-            <div class="video-block">
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/<?= $arResult['UF_YOUTUBE'] ?>"
-                        frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    <?if(true):?>
+        <style>
+            .bx-pagination{
+                float:left;
+            }
+        </style>
+        <div data-pagination-num="<?= $navParams['NavNum'] ?>" style="display: block;">
+            <!-- pagination-container -->
+            <?= $arResult['NAV_STRING'] ?>
+            <!-- pagination-container -->
+        </div>
+        <div class="b-tools  g-box_lseparator">
+
+            <ul class="tools-view">
+                <li class="tools-view__item cr-tools-view__first <?= $arParams['DATA_LIST'] == 'S' ? 'cr-tools-view__active' : '' ?>"
+                    data-list="S">
+                    <a class="tools-view__link j-tools_output icon-view-list">Список</a>
+                </li>
+                <li class="tools-view__item cr-tools-view__last <?= $arParams['DATA_LIST'] == 'P' ? 'cr-tools-view__active' : '' ?>"
+                    data-list="P">
+                    <a class="tools-view__link j-tools_output icon-view-grid">Сетка</a>
+                </li>
+            </ul>
+            <div style="clear: both"></div>
+            <div class="amountPerPage">
+                <? $arNumPage = array(24, 48, 72); ?>
+                <span class="title">Показывать по:</span>
+                <? foreach ($arNumPage as $val): ?>
+                    <a class="unit <?= $arParams['NUM_PAGE'] == $val ? 'active' : '' ?>" data-num-page="<?= $val ?>"
+                       href="#"><?= $val ?></a>
+                <? endforeach; ?>
             </div>
         </div>
-    <? endif; ?>
-</div>
+    <?else:?>
+        <div data-pagination-num="<?= $navParams['NavNum'] ?>" style="display: block;">
+            <!-- pagination-container -->
+            <?= $arResult['NAV_STRING'] ?>
+            <!-- pagination-container -->
+        </div>
+    <?endif;?>
+<?}?>
+<?if(!$_REQUEST['PAGEN_1']){?>
+
+        <div class="bx-section-desc bx-<?= $arParams['TEMPLATE_THEME'] ?>">
+            <?= $arResult['DESCRIPTION'] ?>
+            <? if (!empty($arResult['UF_YOUTUBE'])): ?>
+                <div class="video-block-section">
+                    <div class="video-block">
+                        <iframe width="560" height="315" src="https://www.youtube.com/embed/<?= $arResult['UF_YOUTUBE'] ?>"
+                                frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                    </div>
+                </div>
+            <? endif; ?>
+        </div>
 <?}?>
 <?
 $signer = new \Bitrix\Main\Security\Sign\Signer;

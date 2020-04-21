@@ -2406,3 +2406,7 @@ ul.bx-soa-pp-list li {
     /*.bx-calendar-range .bx-calendar-cell:nth-of-type(6){*/
     /*    pointer-events: none;*/
     /*}*/
+    .btn-red{
+        background: red;
+        color: #fff;
+    }

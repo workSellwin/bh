@@ -40,6 +40,7 @@ class Table extends AbstractTable
 			'LOCATION_ID'               => null,
 			'CODE'                      => null,
 			'NAME'                      => null,
+			'CITY'                      => '',
 			'ADDRESS_FULL'              => null,
 			'ADDRESS_SHORT'             => null,
 			'ADDRESS_DESCR'             => null,

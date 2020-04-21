@@ -1000,3 +1000,23 @@ progress {
 .min-sum-order {
 	margin-bottom: 30px;
 }
+.one-click-wrap{
+	text-align: right;
+	margin-bottom: 10px;
+}
+.one-click-wrap .one-click-btn{
+	font-size: 0.8rem;
+	width:156px;
+	text-align: center;
+}
+
+@media only screen and (max-width: 768px){
+	.one-click-wrap .one-click-btn{
+		/*font-size: 12px;*/
+		width:100%;
+	}
+}
+
+#basket_items [data-product-id="43462"] .old_price{
+	 display:none;
+ }

@@ -98,6 +98,7 @@ if ($normalCount > 0):
                             data-item-brand="<?= $arItem[$arParams['BRAND_PROPERTY'] . "_VALUE"] ?>"
                             data-item-price="<?= $arItem["PRICE"] ?>"
                             data-item-currency="<?= $arItem["CURRENCY"] ?>"
+                            data-product-id="<?= $arItem["PRODUCT_ID"] ?>"
                         >
                             <?
                             foreach ($arResult["GRID"]["HEADERS"] as $id => $arHeader):
@@ -404,9 +405,16 @@ if ($normalCount > 0):
                                         </div>
                                         <div class="old_price" id="old_price_<?= $arItem["ID"] ?>">
                                             <?
-                                            if (floatval($arItem["DISCOUNT_PRICE_PERCENT"]) > 0):?>
-                                                <?= $arItem["FULL_PRICE_FORMATED"] ?>
-                                            <? endif; ?>
+                                            if( in_array($arItem['PRODUCT_ID'], ['43463', '43461', '43462']) && !empty($arResult["PRICE_WITHOUT_DISCOUNT"] ) ){
+                                                //PR($arItem );
+                                                //$priceWithoutDiscount = floatVal(preg_replace('/[^0-9.,]/', '', $arResult["PRICE_WITHOUT_DISCOUNT"]));
+                                                //$arResult["PRICE_WITHOUT_DISCOUNT"] = ($priceWithoutDiscount - $arItem['BASE_PRICE']) . ' руб.';
+                                            }
+                                            else{
+                                                if (floatval($arItem["DISCOUNT_PRICE_PERCENT"]) > 0):?>
+                                                    <?= $arItem["FULL_PRICE_FORMATED"] ?>
+                                                <? endif; ?>
+                                            <?}?>
                                         </div>
 
                                         <?
@@ -511,21 +519,13 @@ if ($normalCount > 0):
         <input type="hidden" id="hide_coupon" value="<?= ($arParams["HIDE_COUPON"] == "Y") ? "Y" : "N" ?>"/>
         <input type="hidden" id="use_prepayment" value="<?= ($arParams["USE_PREPAYMENT"] == "Y") ? "Y" : "N" ?>"/>
         <input type="hidden" id="auto_calculation" value="<?= ($arParams["AUTO_CALCULATION"] == "N") ? "N" : "Y" ?>"/>
-
-
-
         <?
         global $PRICE_GIFTS_ALL;
         $PRICE_GIFTS_ALL = $arResult["allSum"];
         global $PROD_BASKET_ID;
         $PROD_BASKET_ID = $prod_basket_id;
-
         ?>
-
-
         <div class="bx_ordercart_order_pay">
-
-
             <div class="bx_ordercart_order_pay_left" id="coupons_block">
                 <?
                 if ($arParams["HIDE_COUPON"] != "Y") {
@@ -572,7 +572,6 @@ if ($normalCount > 0):
                 }
                 ?>
             </div>
-
 
             <div class="bx_ordercart_order_pay_right">
 
@@ -640,37 +639,13 @@ if ($normalCount > 0):
                             <?$sum = str_replace('.', 'руб. ',  30-$arResult["allSum"])?>
                             <td class="fwb" style="font-size: 27px">До бесплатной доставки осталось: <span class="sum"><?=30-$arResult["allSum"]?> руб.</span> (Минск) <br>
                                 Cтоимость доставки: 5 руб.</td>
-
                             <?/*<td class="fwb">При сумме заказа от <?= $deliveryPrice ?> руб. доставка БЕСПЛАТНАЯ<br>При сумме
                                 заказа менее <?= $deliveryPrice ?> руб. cтоимость доставки 5 руб.
                             </td>*/?>
-                        
-
                     </tr><!-- Минимальная сумма заказа 30 руб. -->
                 </table>
                 <div style="clear:both;"></div>
             </div>
-
-            <?/*if($USER->IsAdmin()):*/?><!--
-                <?/*if(SITE_ID == 's1'):*/?>
-                    <div id="gifts_s1">
-                        <?/*$APPLICATION->IncludeComponent(
-                "bh:sale.gifts.list",
-                ".default",
-                        array(
-                            "COMPONENT_TEMPLATE" => ".default",
-                            "PRICE" => $arResult["allSum"],
-                            "IBLOCK_GIFTS_ID" => "30",
-                            "THIS_ID" => $arResult['ID'],
-                            'PROD_BASKET_ID' => $prod_basket_id,
-                        ),
-                        false
-                        ); */?>
-                    <div>
-                <?/*endif;*/?>
-            --><?/*endif;*/?>
-
-
 
             <div style="clear:both;"></div>
 

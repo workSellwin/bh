@@ -38,13 +38,13 @@
                 <span>Укажите сумму сертификата</span>
                 <input type="text" id="cert_summ">
             </label>
-            <a class="btn_ico btn_ok" onclick="jQuery.fancybox.close();"> Принять!</a>
+            <a class="btn_ico btn_ok"> Принять!</a>
         </form>
     </div>
 </div>
 <script>
     let customCert = document.querySelector('[data-onevalue="<?=CATALOG_CUSTOM_CERT_ENUM?>"]');
-    //console.log(customCert);
+
     if (customCert) {
         customCert.addEventListener('click', function (event) {
 
@@ -83,28 +83,13 @@
                     return false;
                 }
             });
-            // document.getElementById('cert_summ').addEventListener('keyup', function (event) {
-            //
-            //     if(event.key == 'Backspace'){
-            //         return false;
-            //     }
-            //     if( !(+event.key) && event.key !== 0 && event.key !== '0' ){
-            //         this.value = this.value.slice(0, -1);
-            //     }
-            //     if( this.value !== '' ){
-            //         this.value = +this.value;
-            //     }
-            // });
-            //
-            // document.getElementById('cert_summ').addEventListener('keydown', function (event) {
-            //
-            //     if(event.key == 'Enter'){
-            //         event.preventDefault();
-            //         return false;
-            //     }
-            // });
 
             document.querySelector('.btn_ico.btn_ok').addEventListener('click', function(event) {
+
+                if( document.getElementById('cert_summ').value < 30){
+                    document.getElementById('cert_summ').value = 30;
+                    alert('Стоимость сертификата не может быть менее 30 рублей');
+                }
 
                 let newPrice = document.getElementById('cert_summ').value;
                 newPrice = newPrice && +newPrice > 30 ? newPrice : 30;
@@ -128,6 +113,8 @@
                 objPrice.PRINT_DISCOUNT_VALUE_VAT = objPrice.PRINT_DISCOUNT_VALUE_VAT.replace(/[\d\s]+/, newPrice + ' ');
                 objPrice.PRINT_VALUE_NOVAT = objPrice.PRINT_VALUE_NOVAT.replace(/[\d\s]+/, newPrice + ' ');
                 objPrice.PRINT_VALUE_VAT = objPrice.PRINT_VALUE_VAT.replace(/[\d\s]+/, newPrice + ' ');
+
+                jQuery.fancybox.close();
             });
         })
     }

@@ -5,6 +5,7 @@ create table IF NOT EXISTS b_ipol_dpd_terminal (
 	
 	CODE varchar(255) null,
 	NAME varchar(255) null,
+	CITY varchar(255) null,
 
 	ADDRESS_FULL  varchar(255) null,
 	ADDRESS_SHORT varchar(255) null,

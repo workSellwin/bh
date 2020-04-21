@@ -20,8 +20,8 @@ class dpd
     public function getArOrders($TIME, $Filter = [])
     {
         global $DB;
-        $this->date_to = date($DB->DateFormatToPHP(\CSite::GetDateFormat("SHORT")), $TIME).' 10:10:00';
-        $this->date_from = date('d.m.Y').' 10:10:00';
+        $this->date_to = date($DB->DateFormatToPHP(\CSite::GetDateFormat("SHORT")), $TIME).' 10:00:00';
+        $this->date_from = date('d.m.Y').' 10:00:00';
         $this->getListOrders($Filter);
         return $this->arOrder;
     }
@@ -74,7 +74,7 @@ class dpd
         while ($arPropOrder = $db_props->Fetch()) {
             $arProps[$arPropOrder['CODE']] = $arPropOrder['VALUE'];
         }
-        $arKey = ['FIO', 'PHONE', 'EMAIL', 'CITY', 'LOCATION', 'STREET', 'ROOM', 'HOME', 'RESPONSE_YANDEX'];
+        $arKey = ['FIO', 'PHONE', 'EMAIL', 'CITY', 'LOCATION', 'STREET', 'ROOM', 'HOME', 'RESPONSE_YANDEX', 'DATE', 'TERMINAL_CITY', 'TERMINAL_ADDRES'];
         foreach ($arKey as $key) {
             $this->arOrder[$ORDER_ID][$key] = $arProps[$key];
         }

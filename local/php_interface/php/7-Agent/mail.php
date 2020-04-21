@@ -33,3 +33,5 @@ function AgentBXClearCache()
     $staticHtmlCache->deleteAll();
     return 'AgentBXClearCache();';
 }
+
+

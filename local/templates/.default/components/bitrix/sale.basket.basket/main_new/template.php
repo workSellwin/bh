@@ -10,8 +10,9 @@
 /** @var string $templateFolder */
 /** @var string $componentPath */
 /** @var CBitrixBasketComponent $component */
-
-$frame = $this->createFrame()->begin();
+if($_REQUEST['ajax_basket'] != 'Y') {
+    $frame = $this->createFrame()->begin();
+}
 $templateData = array(
     'TEMPLATE_THEME' => $this->GetFolder() . '/themes/' . $arParams['TEMPLATE_THEME'] . '/style.css',
     'TEMPLATE_CLASS' => 'bx_' . $arParams['TEMPLATE_THEME'],
@@ -93,52 +94,6 @@ if (CSite::InGroup(array(10, 11, 1))):
     <?
 endif;
 
-
-/*if($arParams['USE_GIFTS'] === 'Y' && $arParams['GIFTS_PLACE'] === 'TOP')
-{
-	$APPLICATION->IncludeComponent(
-		"bitrix:sale.gift.basket",
-		".default",
-		array(
-			"SHOW_PRICE_COUNT" => 1,
-			"PRODUCT_SUBSCRIPTION" => 'N',
-			'PRODUCT_ID_VARIABLE' => 'id',
-			"PARTIAL_PRODUCT_PROPERTIES" => 'N',
-			"USE_PRODUCT_QUANTITY" => 'N',
-			"ACTION_VARIABLE" => "actionGift",
-			"ADD_PROPERTIES_TO_BASKET" => "Y",
-
-			"BASKET_URL" => $APPLICATION->GetCurPage(),
-			"APPLIED_DISCOUNT_LIST" => $arResult["APPLIED_DISCOUNT_LIST"],
-			"FULL_DISCOUNT_LIST" => $arResult["FULL_DISCOUNT_LIST"],
-
-			"TEMPLATE_THEME" => $arParams["TEMPLATE_THEME"],
-			"PRICE_VAT_INCLUDE" => $arParams["PRICE_VAT_SHOW_VALUE"],
-			"CACHE_GROUPS" => $arParams["CACHE_GROUPS"],
-
-			'BLOCK_TITLE' => $arParams['GIFTS_BLOCK_TITLE'],
-			'HIDE_BLOCK_TITLE' => $arParams['GIFTS_HIDE_BLOCK_TITLE'],
-			'TEXT_LABEL_GIFT' => $arParams['GIFTS_TEXT_LABEL_GIFT'],
-			'PRODUCT_QUANTITY_VARIABLE' => $arParams['GIFTS_PRODUCT_QUANTITY_VARIABLE'],
-			'PRODUCT_PROPS_VARIABLE' => $arParams['GIFTS_PRODUCT_PROPS_VARIABLE'],
-			'SHOW_OLD_PRICE' => $arParams['GIFTS_SHOW_OLD_PRICE'],
-			'SHOW_DISCOUNT_PERCENT' => $arParams['GIFTS_SHOW_DISCOUNT_PERCENT'],
-			'SHOW_NAME' => $arParams['GIFTS_SHOW_NAME'],
-			'SHOW_IMAGE' => $arParams['GIFTS_SHOW_IMAGE'],
-			'MESS_BTN_BUY' => $arParams['GIFTS_MESS_BTN_BUY'],
-			'MESS_BTN_DETAIL' => $arParams['GIFTS_MESS_BTN_DETAIL'],
-			'PAGE_ELEMENT_COUNT' => $arParams['GIFTS_PAGE_ELEMENT_COUNT'],
-			'CONVERT_CURRENCY' => $arParams['GIFTS_CONVERT_CURRENCY'],
-			'HIDE_NOT_AVAILABLE' => $arParams['GIFTS_HIDE_NOT_AVAILABLE'],
-
-			"LINE_ELEMENT_COUNT" => $arParams['GIFTS_PAGE_ELEMENT_COUNT'],
-		),
-		false
-	);
-}
-*/
-// if (strlen($arResult["ERROR_MESSAGE"]) <= 0)
-// {
 ?>
     <div id="warning_message">
         <?
@@ -177,6 +132,17 @@ unset($id);
         <? include($_SERVER["DOCUMENT_ROOT"] . $templateFolder . "/basket_items.php"); ?>
         <input type="hidden" name="BasketOrder" value="BasketOrder"/>
     </form>
+
+<?if( count($arResult['ITEMS']['AnDelCanBuy']) ):?>
+<? require_once 'add_to_free_delivery.php'; ?>
+<div class="one-click-wrap">
+    <a class="btn one-click-btn" href="#bx-soa-main-notifications">Перейти к оформлению</a>
+    <br>
+    <a class="btn one-click-btn" data-fancybox="one-click" href="#one-click">Купить в 1 клик</a>
+</div>
+    <? require_once '1click.php'; ?>
+<?endif;?>
+
 <? if (count($arResult['ITEMS']['AnDelCanBuy']) > 0 && CSite::InGroup(array(10, 11, 1))): ?>
     <div class="form-clear-cart-wrp">
         <form action="" method="get" data-ajax="/ajax/clearBascket.php" style="text-align: right;">
@@ -188,9 +154,6 @@ unset($id);
     <br>
 <? endif; ?>
 <?
-
-//if ($USER->IsAdmin()){
-
     if ($arParams['USE_GIFTS'] === 'Y' && $arParams['GIFTS_PLACE'] === 'BOTTOM') {
         ?>
         <div id="BASKET_GIFT_BOX" data-url="<?=$APPLICATION->GetCurPage()?>">
@@ -205,11 +168,8 @@ unset($id);
                 </style>
                 <?
             }
-
-
             ?>
             <style>
-
                 @media only screen and (max-width: 1199px){
                     .bx_item_list_you_looked_horizontal {
                         height: 600px;
@@ -232,23 +192,13 @@ unset($id);
                         height: 400px;
                     }
                 }
-
             </style>
 
-            <?if(!CSite::InGroup( array(14, 11, 20, 21, 15, 10, 16, 13, 17))):?>
-            <?/*
-                <div class="box-gift-img2">
-                    <img src="/local/templates/.default/images/gift2.jpg">
-                </div>
-
-                <div class="box-gift-img1"style="display: none" >
-                    <img src="/local/templates/.default/images/gift1.jpg">
-                </div>*/?>
-            <?endif;?>
-
-
             <div style="margin-top: 35px;">
-
+<?
+//PR(array_keys($arResult['APPLIED_DISCOUNT_LIST']) );
+//PR(array_keys($arResult['FULL_DISCOUNT_LIST']) );
+?>
 
                 <? $APPLICATION->IncludeComponent(
                     "bitrix:sale.gift.basket",
@@ -336,9 +286,6 @@ unset($id);
         <?
     }
 
-//}
-
-
 $APPLICATION->IncludeComponent(
     "bh.by:sale.order.ajax",
     "main_new",
@@ -424,23 +371,15 @@ $APPLICATION->IncludeComponent(
         "COMPOSITE_FRAME_TYPE" => "AUTO",
         "EMPTY_BASKET_HINT_PATH" => "/",
         "ADDITIONAL_PICT_PROP_26" => "-",
-        "HIDE_ORDER_DESCRIPTION" => "N"
+        "HIDE_ORDER_DESCRIPTION" => "N",
+        "TOTAL_RENDER_DATA" => $arResult['TOTAL_RENDER_DATA'],
     ),
     false
 );
-// }
-// else
-// {
-// 	ShowError($arResult["ERROR_MESSAGE"]);
-// }
-
-
-
-
-$frame->beginStub(); ?>
-<? $frame->end(); ?>
-
-
-<script type="text/javascript">
+if($_REQUEST['ajax_basket'] != 'Y') {
+    $frame->beginStub();
+    $frame->end();
+}?>
+<script>
     carrotquest.track('$order_started');
 </script>

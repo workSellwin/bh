@@ -53,8 +53,6 @@ $arElements = $APPLICATION->IncludeComponent(
 	array('HIDE_ICONS' => 'N')
 );
 
-
-
 if (!empty($arElements) && is_array($arElements))
 {
 		global $searchFilter111;
@@ -488,7 +486,6 @@ if (!empty($arElements) && is_array($arElements))
 
 
                 <?
-
 
                 $APPLICATION->IncludeComponent(
                     "bitrix:catalog.section",

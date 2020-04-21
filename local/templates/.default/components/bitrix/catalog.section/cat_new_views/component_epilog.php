@@ -6,7 +6,6 @@
  * @var string $templateFolder
  * @var CatalogSectionComponent $component
  */
-
 global $APPLICATION;?>
 <?
 $arFilter = Array('IBLOCK_ID'=>2,'ID'=>$arResult['ID'], 'GLOBAL_ACTIVE'=>'Y');
@@ -17,10 +16,10 @@ $db_list = CIBlockSection::GetList(Array("timestamp_x"=>"DESC"), $arFilter, fals
    if($h1)
 	   $GLOBALS['h1'] = $h1;
    ?>
-<?//$GLOBALS['h1'] = 'test';?>
 <?
 if(strpos($_SERVER['REQUEST_URI'],'filter') !== false){
 	$currPage = urldecode($_SERVER['REQUEST_URI']);
+
 	if(strpos($currPage,'?') !== false)
 		$currPage = stristr($currPage,'?',true);
 	$arSelect = Array("ID", "IBLOCK_ID", "NAME", "PROPERTY_TITLE", "PROPERTY_LINK", "PROPERTY_DESCRIPTION", "PROPERTY_KEYWORDS");

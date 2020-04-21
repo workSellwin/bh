@@ -2334,7 +2334,7 @@
             //TODO price NDS 77777
             if (price.PRICE_TYPE_ID == 2) {
                 //console.log(price);
-                function addNds(price, nds) {
+                var addNds = function(price, nds) {
                     if (nds) {
                         var returnPrice;
                         returnPrice = price / 100;

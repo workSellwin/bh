@@ -6,10 +6,8 @@
 
 $frame = $this->createFrame()->begin();
 
-
 //PR(count($arResult['ITEMS']));
 //PR($arResult['ITEMS']);
-//PR(SITE_ID);
 
 if (!empty($arResult['ITEMS'])) {
     $arSkuTemplate = array();
@@ -36,7 +34,6 @@ if (!empty($arResult['ITEMS'])) {
                     }
                 }
             }
-
         }
         foreach ($arResult['SKU_PROPS'] as $iblockId => $skuProps) {
             $arSkuTemplate[$iblockId] = array();
@@ -82,7 +79,6 @@ if (!empty($arResult['ITEMS'])) {
             }
         }
     }
-
     ?>
     <script>
         BX.message({
@@ -121,7 +117,7 @@ if (!empty($arResult['ITEMS'])) {
                 $elementDelete = CIBlock::GetArrayByID($arParams['IBLOCK_ID'], 'ELEMENT_DELETE');
                 $elementDeleteParams = array('CONFIRM' => GetMessage('CVP_TPL_ELEMENT_DELETE_CONFIRM'));
                 foreach ($arResult['ITEMS'] as $k => $arItems) {
-                    $arResult['arDiscounts'][$k]
+                    //$arResult['arDiscounts'][$k]
 
                     ?>
                     <div id="gifts_box_<?= $arResult['arDiscounts'][$k]['GIFT_VAL'] ?>" class="gifts_box" data-gift="<?= $arResult['arDiscounts'][$k]['GIFT_VAL'] ?>"
@@ -243,15 +239,13 @@ if (!empty($arResult['ITEMS'])) {
                                             </div>
 
                                             <div date-btn_gift="<?= $arResult['arDiscounts'][$k]['GIFT_VAL'] ?>" style="<?=$arResult['arDiscounts'][$k]['ACTIV_GIFT'] == 'N' ? 'display: none;'  : ''?>">
-
                                                 <div class="prod__hiden">
-
                                                 <?
                                                 if (!isset($arItem['OFFERS']) || empty($arItem['OFFERS'])) // Simple Product
                                                 {
                                                     ?>
                                                     <div class="bx_catalog_item_controls"><?
-                                                        if ($arItem['CAN_BUY']) {
+                                                        if ($arItem['CAN_BUY'] || in_array($arItem['ID'], [43461, 43462, 43463]) ) {
                                                             if ('Y' == $arParams['USE_PRODUCT_QUANTITY']) {
                                                                 ?>
                                                                 <div class="bx_catalog_item_controls_blockone">
@@ -579,6 +573,7 @@ if (!empty($arResult['ITEMS'])) {
                                                 );
                                                 ?>
                                                     <script>
+                                                        console.log(<?= $strObName; ?>);
                                                         var <? echo $strObName; ?> =
                                                         new JCSaleGiftBasket(<? echo CUtil::PhpToJSObject($arJSParams, false, true); ?>);
                                                     </script>
@@ -591,12 +586,8 @@ if (!empty($arResult['ITEMS'])) {
                                             </div>
                                         </div>
                                     </div></div><?
-
                                 }?>
-
                         </div>
-
-
                     </div>
                 <?}
                 unset($elementDeleteParams, $elementDelete, $elementEdit);
@@ -605,22 +596,12 @@ if (!empty($arResult['ITEMS'])) {
             </div>
         </div>
     </div>
-
-
-    <?
+<?
 }
-
 ?>
 <? $frame->beginStub(); ?>
 <? $frame->end(); ?>
-
-
 <script>
-    /*$('.prod-other__slider_new').slick({
-        slidesToShow: 4,
-        slidesToScroll: 4,
-    });*/
-
     $('.prod-other__slider_new').slick({
         autoplay: !1,
         autoplaySpeed: 4e3,
@@ -633,12 +614,11 @@ if (!empty($arResult['ITEMS'])) {
             breakpoint: 991,
             settings: {slidesToShow: 3, slidesToScroll: 3}
         }, {breakpoint: 640, settings: {slidesToShow: 2, slidesToScroll: 2}}]
-    })
+    });
 
     $('a.btn-lod-js').click(function () {
         setTimeout(function() {
             location="<?=$APPLICATION->GetCurPage()?>";
         }, 1000);
     })
-
 </script>

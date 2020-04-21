@@ -40,7 +40,9 @@ if($ar_res = $res->GetNext())
 	<?if ($arParams['SHOW_DISCOUNT_PERCENT'] === 'Y'):?>
 		<span id="<?=$itemIds['DSC_PERC']?>" class="prod-status__item prod-status__item-describe" style="display: <?=($price['PERCENT'] > 0 ? '' : 'none')?>;"><?=-$price['PERCENT']?>%</span>
 	<?endif;?>
-</span>*/?>
+</span>*/
+//PR($itemIds);
+?>
 
 <span class="prod-status">
 	<?if ($item['LABEL']):?>
@@ -68,7 +70,6 @@ if($ar_res = $res->GetNext())
 				}
 			}
 			?>
-
 		</div>
 	<?endif;?>
 	<?if ($arParams['SHOW_DISCOUNT_PERCENT'] === 'Y'):?>
@@ -77,7 +78,6 @@ if($ar_res = $res->GetNext())
 	<? ShowLabelFavourably('catalog.item:cat_new_views', $item['PROPERTIES']) ?>
 	<? //ShowLabelFavourably('catalog.item:cat_new_views_img', $item['PROPERTIES']) ?>
 </span>
-
 
 <a id="favorites_<?=$item["ID"]?>" class="favorites-lnk js-favorites-lnk" data-ajax="/ajax/add_favorites.php" data-id="<?=$item["ID"]?>" data-status="Y" href="#"></a>
 
@@ -90,8 +90,6 @@ if($ar_res = $res->GetNext())
 </a>
 
 <a class="prod-name" href="<?=$item['DETAIL_PAGE_URL']?>" title="<?=$productTitle?>"><?=$productTitle?></a>
-
-
 <?
 if (!empty($arParams['PRODUCT_BLOCKS_ORDER']))
 {
@@ -116,7 +114,6 @@ if (!empty($arParams['PRODUCT_BLOCKS_ORDER']))
 							}else{
 								echo $price['PRINT_RATIO_BASE_PRICE'];
 							}
-
 							?>
 						</span>&nbsp;
 						<?
@@ -225,10 +222,9 @@ if (!empty($arParams['PRODUCT_BLOCKS_ORDER']))
 						}
 					}
 				}
-
 				break;
 
-			/*case 'quantity':
+			case 'quantity':
 				if (!$haveOffers)
 				{
 					if ($actualItem['CAN_BUY'] && $arParams['USE_PRODUCT_QUANTITY'])
@@ -289,7 +285,11 @@ if (!empty($arParams['PRODUCT_BLOCKS_ORDER']))
 				break;
 
 			case 'buttons':
+//			    if(!$USER->IsAdmin()){
+//			        break;
+//				}
 				?>
+
 				<div class="product-item-info-container product-item-hidden" data-entity="buttons-block">
 					<?
 					if (!$haveOffers)
@@ -298,7 +298,7 @@ if (!empty($arParams['PRODUCT_BLOCKS_ORDER']))
 						{
 							?>
 							<div class="product-item-button-container" id="<?=$itemIds['BASKET_ACTIONS']?>">
-								<a class="btn btn-default <?=$buttonSizeClass?>" id="<?=$itemIds['BUY_LINK']?>"
+								<a class="btn btn_ico js-btn-basket<?//btn btn-default ?><?//=$buttonSizeClass?>" id="<?=$itemIds['BUY_LINK']?>"
 									href="javascript:void(0)" rel="nofollow">
 									<?=($arParams['ADD_TO_BASKET_ACTION'] === 'BUY' ? $arParams['MESS_BTN_BUY'] : $arParams['MESS_BTN_ADD_TO_BASKET'])?>
 								</a>
@@ -639,9 +639,7 @@ if (!empty($arParams['PRODUCT_BLOCKS_ORDER']))
 						unset($jsOffer, $strProps);
 					}
 				}
-
 				break;
-			*/
 		}
 	}
 }

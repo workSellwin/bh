@@ -142,7 +142,8 @@ class OrdersData
         $YANDEX_ADRESS = '';
         $YANDEX_LON = '';
         $YANDEX_LAT = '';
-        if ($arOrder['PROPS']['REQUEST_YANDEX']) {
+        if ( !empty($arOrder['PROPS']['REQUEST_YANDEX']) && !empty($arOrder['PROPS']['LONGITUDE'])
+                && !empty($arOrder['PROPS']['LONGITUDE'])) {
             $arData['YANDEX_Q'] = $arOrder['PROPS']['REQUEST_YANDEX'];
             $YANDEX_ADRESS = $arOrder['PROPS']['RESPONSE_YANDEX'];
             $YANDEX_LON = $arOrder['PROPS']['LATITUDE'];
@@ -151,7 +152,9 @@ class OrdersData
             $ob = new \Lui\Delivery\YandexApi();
             $q = $ob->GetQuery($arOrder['PROPS']);
             $arData['YANDEX_Q'] = $q;
+            //file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/local/yaQ.txt', print_r($q, true));
             $arYandex = $ob->GetDataYandex($q);
+            //file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/local/yaarr.txt', print_r($arYandex, true));
             if ($arYandex['Point']) {
                 $YANDEX_ADRESS = $arYandex['Address']['formatted'];
                 $YANDEX_ADRESS = str_replace('Беларусь,', '', $YANDEX_ADRESS);
@@ -244,10 +247,16 @@ class OrdersData
                 $val = $arYandex['YANDEX_Q'];
                 break;
             case 'TIME_IDLE':
-                if (in_array($arOrder['DELIVERY_ID'], [4, 9, 19, 26, 27, 28, 29, 30, 31, 32])) {
+                if (self::isRB($arOrder['DELIVERY_ID'])) {
                     $val = 60;
                 } else {
                     $val = 300;
+                }
+                break;
+            case 'PAY_NAME':
+                if($arOrder['PAY_SYSTEM_ID']){
+                    $arPay=\CSalePaySystem::GetByID($arOrder['PAY_SYSTEM_ID']);
+                    $val=$arPay['NAME'];
                 }
                 break;
             default:
@@ -341,7 +350,7 @@ class OrdersData
                 $order['YANDEX']['YANDEX_LON'] = '53.919968';
                 if (in_array($order['ORDER']['STATUS_ID'], ['PP', 'DD']) !== false) {
                     $row['USER_DESCRIPTION'] .= ' | ПОВТОРНАЯ ДОСТАВКА';
-                    $row['ID'] .= '-'.date('d.m.Y-H.i');
+                    $row['ID'] .= '-' . date('d.m.Y-H.i');
 
                 }
                 $row['FIO'] = '';
@@ -350,7 +359,7 @@ class OrdersData
             } else {
                 if (in_array($order['ORDER']['STATUS_ID'], ['PP', 'DD']) !== false) {
                     $order['ROW']['USER_DESCRIPTION'] .= ' | ПОВТОРНАЯ ДОСТАВКА';
-                    $order['ROW']['ID'] .= '-'.date('d.m.Y-H.i');
+                    $order['ROW']['ID'] .= '-' . date('d.m.Y-H.i');
                 }
             }
         }
@@ -361,7 +370,7 @@ class OrdersData
     public
     static function isRB($DELIVERY_ID)
     {
-        return in_array($DELIVERY_ID, [4, 9, 19, 26, 27, 28, 29, 30, 31, 32]);
+        return in_array($DELIVERY_ID, [4, 9, 19, 26, 27, 28, 29, 30, 31, 32, 44]);
     }
 
     public

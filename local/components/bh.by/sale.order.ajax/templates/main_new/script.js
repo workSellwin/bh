@@ -291,7 +291,6 @@ BX.saleOrderAjax = { // bad solution, actually, a singleton at the page
                     }
                 }
             }
-
         }
 
         return false;
@@ -430,10 +429,10 @@ BX.saleOrderAjax = { // bad solution, actually, a singleton at the page
             }
         });
     }
-
 };
 
 function changeCalendar(flag) {
+
     var flag = flag || false;
     var el = $('[id ^= "calendar_popup_"]');
     var links = el.find(".bx-calendar-cell");
@@ -447,6 +446,18 @@ function changeCalendar(flag) {
         date = new Date(),
         currentDate = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), utc, 0, 0, 0);
 
+    //new 2,04,2020
+    let disabledDate = [
+        new Date(2020, 3, 27, utc).getTime(),
+        new Date(2020, 3, 28, utc).getTime(),
+        new Date(2020, 4, 1, utc).getTime(),
+    ];
+
+    let workedWeekend = [
+        new Date(2020, 3, 4, utc).getTime(),
+    ];
+
+    //end new
     if (flag) {
         var hour = new Date().getUTCHours() + utc;
 
@@ -457,12 +468,12 @@ function changeCalendar(flag) {
         }
     }
     /** todo и пожалуйста, исправьте, чтобы 04.05.2019 после 15.00 нельзя было на сегодня оформить заказ **/
-    var hour = new Date().getUTCHours() + utc,
-        currentDateStr = date.getUTCDate() + '.' + (date.getUTCMonth() + 1) + '.' + date.getUTCFullYear();
-
-    if (hour > 14 && currentDateStr == '04.05.2019') {
-        startDateIndent = 1;
-    }
+    // var hour = new Date().getUTCHours() + utc,
+    //     currentDateStr = date.getUTCDate() + '.' + (date.getUTCMonth() + 1) + '.' + date.getUTCFullYear();
+    //
+    // if (hour > 14 && currentDateStr == '04.05.2019') {
+    //     startDateIndent = 1;
+    // }
     /** endtodo**/
 
     var endDay = new Date();
@@ -477,6 +488,21 @@ function changeCalendar(flag) {
 
         if (atrDate < currentTime || atrDate > endDay) {
             $('[data-date="' + atrDate + '"]').addClass("bx-calendar-date-hidden disabled");
+        }
+
+        if(disabledDate.includes(atrDate)){
+            $('[data-date="' + atrDate + '"]').addClass("bx-calendar-date-hidden disabled");
+        }
+
+        if( (new Date(atrDate)).getDay() === 6 && !workedWeekend.includes(atrDate)){//all Saturday
+
+            //$('[data-date="' + atrDate + '"]').addClass("bx-calendar-date-hidden disabled");
+            // let containerData = $('div[data-property-id-row="13"]');
+            //
+            // if (!containerData.children().hasClass('gmi_tooltip')) {
+            //     containerData.prepend('<div id="tooltip-soa-property-13" class="bx-soa-tooltip bx-soa-tooltip-static bx-soa-tooltip-danger tooltip top gmi_tooltip" data-state="opened" style="opacity: 1; display: block;"><div class="tooltip-arrow"></div><div class="tooltip-inner">В субботу нет доставки</div></div>');
+            // }
+            // document.getElementById('soa-property-13').value = "";
         }
     }
 }
@@ -501,7 +527,6 @@ function changeYear() {
 }
 
 function changeTime() {
-
     //temp
     var enum3 = document.querySelector('option[value=enum-3]');
     if(enum3){
@@ -514,7 +539,7 @@ function changeTime() {
         idData = $("#soa-property-13"),
         curDate = new Date();
         WeekDay = getWeekDay(curDate);
-    var arrSubota = ["04.05.2019", "11.05.2019", "16.11.2019"];
+    var arrSubota = ["04.05.2019", "11.05.2019", "16.11.2019", "04.04.2020"];
     var WDay = addDays(curDate, 1);
     var dostavka_id = false;
 
@@ -545,93 +570,18 @@ function changeTime() {
             selectTime.val('');
             $(selectTimeOption[0]).attr('disabled', true);
             $(selectTimeOption[1]).attr('disabled', true);
-            //$(selectTimeOption[2]).attr('disabled',true);
-            //$(selectTimeOption[3]).attr('disabled',true);
-        }
-        else if (selectDate.getDay() === 6 && idData.val() !== "04.01.2020"){//доставка в субботу
 
-            if (!containerData.children().hasClass('gmi_tooltip')) {
-                containerData.prepend('<div id="tooltip-soa-property-13" class="bx-soa-tooltip bx-soa-tooltip-static bx-soa-tooltip-danger tooltip top gmi_tooltip" data-state="opened" style="opacity: 1; display: block;"><div class="tooltip-arrow"></div><div class="tooltip-inner">В субботу нет доставки</div></div>');
-            }
-            idData.val('');
-            selectTime.val('');
-            $(selectTimeOption[0]).attr('disabled', true);
-            $(selectTimeOption[1]).attr('disabled', true);
-        }
-        else if( idData.val() === "31.12.2019" ){
-
-            $(selectTimeOption[1]).attr('disabled', true);
-
-            if( (curDate.getHours() > 10 && curDate.getMonth() === 11 && curDate.getDate() === 31) || window.test === true){//31.12 после 10:00
-
-                $(selectTimeOption[0]).attr('disabled', true);
-                idData.val('');
-                selectTime.val('');
-                if (!containerData.children().hasClass('gmi_tooltip')) {
-                    containerData.prepend('<div id="tooltip-soa-property-13" class="bx-soa-tooltip bx-soa-tooltip-static bx-soa-tooltip-danger tooltip top gmi_tooltip" data-state="opened" style="opacity: 1; display: block;"><div class="tooltip-arrow"></div><div class="tooltip-inner">К сожалению сегодня доставки уже не будет</div></div>');
-                }
-            }
-        }
-        else if( idData.val() === "04.01.2020" ){
-
-            $(selectTimeOption[1]).attr('disabled', true);
-            $(selectTimeOption[0]).attr('disabled', true);
-            selectTime.val('');
-
-            if( (curDate <  (new Date(2020, 0, 4, 14) )) && window.test !== true) {
-                var temp = document.querySelector(('select[name="ORDER_PROP_11"]'));
-                if(temp) {
-                    var option = document.createElement('option');
-                    option.value = 'enum-3';
-                    option.textContent = '16:00-20:00';
-                    temp.appendChild(option);
-                }
-            }
-            else{
-                if (!containerData.children().hasClass('gmi_tooltip')) {
-                    containerData.prepend('<div id="tooltip-soa-property-13" class="bx-soa-tooltip bx-soa-tooltip-static bx-soa-tooltip-danger tooltip top gmi_tooltip" data-state="opened" style="opacity: 1; display: block;"><div class="tooltip-arrow"></div><div class="tooltip-inner">К сожалению сегодня доставки уже не будет</div></div>');
-                }
-            }
-        }
-        else if (
-            idData.val() == "07.01.2019" ||
-            idData.val() == '01.05.2019' ||
-            idData.val() == '06.05.2019' ||
-            idData.val() == '07.05.2019' ||
-            idData.val() == '08.05.2019' ||
-            idData.val() == '09.05.2019' ||
-            idData.val() == '03.07.2019' ||
-            idData.val() == '07.11.2019' ||
-            idData.val() == '08.11.2019' ||
-            idData.val() == '09.11.2019' ||
-            idData.val() == '25.12.2019' ||
-			idData.val() == '06.01.2020' ||
-			idData.val() == '07.01.2020' ||
-            idData.val() == "08.03.2019"
-        ) {
-            if (!containerData.children().hasClass('gmi_tooltip')) {
-                containerData.prepend('<div id="tooltip-soa-property-13" class="bx-soa-tooltip bx-soa-tooltip-static bx-soa-tooltip-danger tooltip top gmi_tooltip" data-state="opened" style="opacity: 1; display: block;"><div class="tooltip-arrow"></div><div class="tooltip-inner">В праздничные дни нет доставки</div></div>');
-            }
-            idData.val('');
-            selectTime.val('');
-            $(selectTimeOption[0]).attr('disabled', true);
-            $(selectTimeOption[1]).attr('disabled', true);
-            //$(selectTimeOption[2]).attr('disabled',true);
-            //$(selectTimeOption[3]).attr('disabled',true);
         } else if (selectDate.getDay() == 6 && jQuery.inArray(idData.val(), arrSubota) == -1) {
-            /*if (!containerData.children().hasClass('gmi_tooltip')) {
-                containerData.prepend('<div id="tooltip-soa-property-13" class="bx-soa-tooltip bx-soa-tooltip-static bx-soa-tooltip-danger tooltip top gmi_tooltip" data-state="opened" style="opacity: 1; display: block;"><div class="tooltip-arrow"></div><div class="tooltip-inner">В субботу нет доставки</div></div>');
+            //start "убрать из выбора дня доставки субботы, кроме 04.04"
+            if (!containerData.children().hasClass('gmi_tooltip')) {
+                containerData.prepend('<div id="tooltip-soa-property-13" class="bx-soa-tooltip bx-soa-tooltip-static bx-soa-tooltip-danger tooltip top gmi_tooltip" data-state="opened" style="opacity: 1; display: block;"><div class="tooltip-arrow"></div><div class="tooltip-inner">В выбранную субботу нет доставки</div></div>');
             }
             idData.val('');
             selectTime.val('');
             $(selectTimeOption[0]).attr('disabled', true);
-            $(selectTimeOption[1]).attr('disabled', true);*/
-
-
-            console.log('45445');
-
-
-            $(selectTimeOption[0]).attr('disabled', false);
+            $(selectTimeOption[1]).attr('disabled', true);
+            //end
+            /*$(selectTimeOption[0]).attr('disabled', false);
             $(selectTimeOption[1]).attr('disabled', false);
             $(selectTimeOption[1]).css('display', 'none');
 
@@ -680,20 +630,10 @@ function changeTime() {
                         selectTime.val('');
                     }
                 }
-            });
-
-
-            //$(selectTimeOption[2]).attr('disabled',true);
-            //$(selectTimeOption[3]).attr('disabled',true);
-            // $(selectTimeOption[0]).attr('disabled',true);
-            // $(selectTimeOption[1]).attr('disabled',true);
-            // $(selectTimeOption[2]).attr('disabled',true);
-            // $(selectTimeOption[3]).attr('disabled',false);
-            // selectTime.attr('disabled',false);
-            // selectTime.prop('selectedIndex',3);
-        } else if (curDate.getDay() == selectDate.getDay() && curDate.getMonth() == selectDate.getMonth() && curDate.getFullYear() == selectDate.getFullYear()) {
+            });*/
+        } else if (curDate.getDay() == selectDate.getDay() && curDate.getMonth() == selectDate.getMonth()
+            && curDate.getFullYear() == selectDate.getFullYear()) {
             selectTime.val('');
-            //alert(curDate.getHours());
 
             if (curDate.getHours() >= 16) {
                 if (!containerData.children().hasClass('gmi_tooltip')) {
@@ -702,18 +642,13 @@ function changeTime() {
                 }
                 $(selectTimeOption[0]).attr('disabled', true);
                 $(selectTimeOption[1]).attr('disabled', true);
-                //$(selectTimeOption[3]).attr('disabled',true);
             } else if (curDate.getHours() >= 10) {
                 $(selectTimeOption[0]).attr('disabled', true);
                 $(selectTimeOption[1]).attr('disabled', false);
-                //$(selectTimeOption[3]).attr('disabled',true);
             } else {
                 $(selectTimeOption[0]).attr('disabled', false);
                 $(selectTimeOption[1]).attr('disabled', false);
-                //$(selectTimeOption[3]).attr('disabled',true);
             }
-
-
 
             if(dostavka_id == 43){
 
@@ -751,59 +686,12 @@ function changeTime() {
 
                 }
             }
-
-
-
-
-            /*
-
-                        $(selectTimeOption[0]).attr('disabled',true);
-                        $(selectTimeOption[1]).attr('disabled',true);
-                        $(selectTimeOption[2]).attr('disabled',true);
-                        $(selectTimeOption[3]).attr('disabled',true);
-
-                        //12-16 доступен для оформления до 10.00
-                       // if(curDate.getHours()< 10){
-                     //       $(selectTimeOption[0]).attr('disabled',false);
-                      //  }
-
-
-                        //12-16 доступен для оформления до 9.45 текущей даты
-                        if(curDate.getHours() < 9 || (curDate.getHours() == 9 && curDate.getMinutes() <= 45)){
-                            $(selectTimeOption[0]).attr('disabled',false);
-                        }
-
-                        //12-18 доступен для оформления до 9.30 текущей даты
-                        if(curDate.getHours() < 9 || (curDate.getHours() == 9 && curDate.getMinutes() <= 30)){
-                            $(selectTimeOption[1]).attr('disabled',false);
-                        }
-
-                        //18-21 доступен для оформления с 9.30 до 16.00
-                        //19-22 доступен для оформления до 16.00
-                        if(curDate.getHours() < 16){
-                            $(selectTimeOption[2]).attr('disabled',false);
-                            $(selectTimeOption[3]).attr('disabled',false);
-                        }
-
-                        if(curDate.getHours()>=16){
-                            if(!containerData.children().hasClass('gmi_tooltip')){
-                                containerData.prepend('<div id="tooltip-soa-property-13" class="bx-soa-tooltip bx-soa-tooltip-static bx-soa-tooltip-danger tooltip top gmi_tooltip" data-state="opened" style="opacity: 1; display: block;"><div class="tooltip-arrow"></div><div class="tooltip-inner">Доступна доставка только на завтра</div></div>');
-                            }
-                            $(selectTimeOption[0]).attr('disabled',true);
-                            $(selectTimeOption[1]).attr('disabled',true);
-                            $(selectTimeOption[2]).attr('disabled',true);
-                            $(selectTimeOption[3]).attr('disabled',true);
-                        }
-            */
-
         } else {
+
             $(selectTimeOption[0]).attr('disabled', false);
             $(selectTimeOption[1]).attr('disabled', false);
-            //$(selectTimeOption[2]).attr('disabled',false);
-            //(selectTimeOption[3]).attr('disabled',false);
             selectTime.val('');
             selectTime.prop('selectedIndex', 1);
-
 
             if(dostavka_id == 43){
                 $(selectTimeOption_41[0]).attr('disabled', false);
@@ -817,14 +705,6 @@ function changeTime() {
                 $(selectTimeOption_41[8]).attr('disabled', false);
                 $(selectTimeOption_41[9]).attr('disabled', false);
             }
-
-
-
-            /*$(selectTimeOption[0]).attr('disabled',false);
-            $(selectTimeOption[1]).attr('disabled',false);
-            //$(selectTimeOption[3]).attr('disabled',true);
-            selectTime.val('');
-            selectTime.prop('selectedIndex',2);*/
         }
     } else if (idData.val() === "") {
         if (!containerData.hasClass("has-error")) {
@@ -833,7 +713,6 @@ function changeTime() {
         containerData.addClass("has-error");
     }
 }
-
 
 function getWeekDay(date) {
     date = date || new Date();
@@ -848,7 +727,6 @@ function addDays(date, days) {
     result.setDate(result.getDate() + days);
     return result;
 }
-
 
 function gmiShowErr() {
     var containerData = $('div[data-property-id-row="21"]'),
@@ -866,30 +744,13 @@ function gmiShowErr() {
                 containerData.prepend('<div id="tooltip-soa-property-13" class="bx-soa-tooltip bx-soa-tooltip-static bx-soa-tooltip-danger tooltip top gmi_tooltip" data-state="opened" style="opacity: 1; display: block;"><div class="tooltip-arrow"></div><div class="tooltip-inner">В воскресенье нет доставки</div></div>');
             }
             idData.val('');
-        } else if (
-            idData.val() == "07.01.2019" ||
-            idData.val() == '01.05.2019' ||
-            idData.val() == '06.05.2019' ||
-            idData.val() == '07.05.2019' ||
-            idData.val() == '08.05.2019' ||
-            idData.val() == '09.05.2019' ||
-            idData.val() == '03.07.2019' ||
-            idData.val() == '07.11.2019' ||
-            idData.val() == '08.11.2019' ||
-            idData.val() == '25.12.2019' ||
-            idData.val() == "08.03.2019"
-        ) {
-            if (!containerData.children().hasClass('gmi_tooltip')) {
-                containerData.prepend('<div id="tooltip-soa-property-13" class="bx-soa-tooltip bx-soa-tooltip-static bx-soa-tooltip-danger tooltip top gmi_tooltip" data-state="opened" style="opacity: 1; display: block;"><div class="tooltip-arrow"></div><div class="tooltip-inner">В праздничные дни нет доставки</div></div>');
-            }
-            idData.val('');
         } else if (selectDate.getDay() == 6 && jQuery.inArray(idData.val(), arrSubota) == -1) {
             if (!containerData.children().hasClass('gmi_tooltip')) {
                 containerData.prepend('<div id="tooltip-soa-property-13" class="bx-soa-tooltip bx-soa-tooltip-static bx-soa-tooltip-danger tooltip top gmi_tooltip" data-state="opened" style="opacity: 1; display: block;"><div class="tooltip-arrow"></div><div class="tooltip-inner">В субботу нет доставки</div></div>');
             }
             idData.val('');
         } else if (curDate.getDay() == selectDate.getDay() && curDate.getMonth() == selectDate.getMonth() && curDate.getFullYear() == selectDate.getFullYear()) {
-            //alert(curDate.getHours());
+
             if (curDate.getHours() >= 16) {
                 if (!containerData.children().hasClass('gmi_tooltip')) {
                     containerData.prepend('<div id="tooltip-soa-property-13" class="bx-soa-tooltip bx-soa-tooltip-static bx-soa-tooltip-danger tooltip top gmi_tooltip" data-state="opened" style="opacity: 1; display: block;"><div class="tooltip-arrow"></div><div class="tooltip-inner">Доступна доставка только на завтра</div></div>');
@@ -903,7 +764,6 @@ function gmiShowErr() {
         containerData.addClass("has-error");
     }
 }
-
 
 function searchSteet() {
     var city = $(".bx-sls .bx-ui-sls-input-block .dropdown-field").val();
@@ -930,7 +790,6 @@ window.locationUpdated = function (id) {
     console.log(arguments);
     console.log(this.getNodeByLocationId(id));
 };
-
 
 function getTerminalAddres(action, city){
     $.post(
@@ -980,43 +839,47 @@ function getTerminalCity(){
     }
 }
 
-
-
 $(document).ready(function () {
+
     $(document).on("click", "#soa-property-13", function () {
         BX.calendar({node: this, value: new Date(), field: this, bTime: false});
         changeCalendar();
     });
+
     $(document).on("click", "#soa-property-21", function () {
         BX.calendar({node: this, value: new Date(), field: this, bTime: false});
         changeCalendar(true);
     });
+
     $(document).on("change", "#soa-property-13", function () {
         changeTime();
     });
+
     $(document).on("change", "#soa-property-21", function () {
         gmiShowErr();
     });
+
     $(document).on("change", ".bx-sls .bx-ui-sls-input-block .dropdown-field", function () {
         $("#soa-property-16").val();
     });
+
     $(document).on("keyup", "#soa-property-16", function () {
         if ($(this).val().length >= 3) {
             searchSteet();
             $(".gmi-street-list").css("display", "block");
         }
     });
+
     $(document).on("click", '.gmi-street-list ul li', function () {
         $("#soa-property-16").val($(this).text());
         $(".gmi-street-list").css("display", "none");
     });
+
     $(document).on("focusout", "#soa-property-16", function () {
         setTimeout(function () {
             $(".gmi-street-list").css("display", "none");
         }, 200);
     });
-
-
     //Yauheni_4---------------------------------------------------------------------------------------------------------
 
     var ID_DELIVERY_ID_44 = $('input#ID_DELIVERY_ID_44').parent().parent();
@@ -1029,5 +892,4 @@ $(document).ready(function () {
         getTerminalAddres('getAddres', $(this).val());
     });
     //------------------------------------------------------------------------------------------------------------------
-
 });

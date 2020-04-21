@@ -22,7 +22,7 @@ class FileDoc
             $obsPath = $_SERVER['DOCUMENT_ROOT'] . '/local/modules/lui.delivery/file/' . $fileName;
             $fileStr = $this->RenderHtml();
             file_put_contents($obsPath, $fileStr);
-            //FtpSellwin::UploadFile($obsPath, true);
+            FtpSellwin::UploadFile($obsPath, true);
         }
         return $r;
     }
@@ -226,7 +226,6 @@ class FileDoc
                 $arBasketOrder = array();
                 for ($i = 0, $countBasketIds = count($arBasketIDs); $i < $countBasketIds; $i++) {
                     $arBasketTmp = \CSaleBasket::GetByID($arBasketIDs[$i]);
-                    //GmiPrint($arBasketTmp);
 
                     if (floatval($arBasketTmp["VAT_RATE"]) > 0)
                         $bUseVat = true;
@@ -298,11 +297,16 @@ class FileDoc
                             $taxRate += ($arTaxList[$mi]["VALUE"]);
                         }
                     }
+
+                    $miniSet = false;
+                    if(in_array($arBasket['PRODUCT_ID'], ['43463', '43461', '43462'])){
+                        $miniSet = true;
+                    }
                     ?>
                     <tr>
                         <td><?
                             echo $i + 1; ?></td>
-                        <td>
+                        <td <?if($miniSet){ echo 'style:"font-size:bold;"';}?>>
                             <?
                             echo htmlspecialcharsbx($arBasket["NAME"]); ?>
                             <?
@@ -317,14 +321,24 @@ class FileDoc
                             */
                             ?>
                         </td>
-                        <? $countPos += $arQuantities[$i]; ?>
+                        <? $countPos += $arQuantities[$i];?>
                         <td align="center"><?= getBarCode($arBasket["PRODUCT_ID"]) ?></td>
                         <td align="center"><?
                             echo \Bitrix\Sale\BasketItem::formatQuantity($arQuantities[$i]) ?></td>
                         <td align="right" nowrap><?
-                            echo number_format($arBasket["PRICE"], 2, ',', ' '); ?></td>
+                            if($miniSet){
+                                echo '-';
+                            }
+                            else {
+                                echo number_format($arBasket["PRICE"], 2, ',', ' ');
+                            }
+                            ?></td>
                         <td align="right" nowrap><?//=$arBasket["DISCOUNT_VALUE"]
-                            ?><?= number_format(($arBasket["BASE_PRICE"] - $arBasket["PRICE"]) * $arQuantities[$i], 2, ',', ' '); ?></td>
+                            ?>
+                            <?
+
+                            echo number_format(($arBasket["BASE_PRICE"] - $arBasket["PRICE"]) * $arQuantities[$i], 2, ',', ' ');
+                            ?></td>
                         <td align="right" nowrap><?
                             echo number_format($arBasket["PRICE"] * $arQuantities[$i], 2, ',', ' '); ?></td>
                     </tr>

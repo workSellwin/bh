@@ -72,6 +72,7 @@ class Merchants{
         }
         catch( \Exception $e){
             echo $e->getMessage();
+            file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/local/err.txt', print_r($e->getMessage(), true));
         }
     }
 
@@ -137,7 +138,7 @@ class Merchants{
                 ],
                 [
                     "name" => 'g:image_link',
-                    "text" => $this->site . $basePic,
+                    "text" => $basePic,
                 ],
                 [
                     "name" => 'g:condition',
@@ -225,7 +226,6 @@ class Merchants{
     static function runAgent(){
         $merchants = new Merchants();
         $merchants->create();
-
         return "Bh\\Google\\Merchants::runAgent();";
     }
 }

@@ -4,6 +4,7 @@ namespace Ipol\DPD\DB\Terminal;
 use \Ipol\DPD\API\User\UserInterface;
 use \Ipol\DPD\DB\TableInterface;
 use \Ipol\DPD\Utils;
+use Yauheni\Dpd\dpdBase;
 
 /**
  * Класс реализует методы обновления информации о ПВЗ
@@ -53,6 +54,7 @@ class Agent
 			'limit' => '0,1000',
 			'order' => 'id',
 		]);
+
 
 		foreach ($items as $item) {
 			$item->delete();
@@ -125,6 +127,7 @@ class Agent
 				}
 
 				$this->loadTerminal($item);
+
 			}
 		}
 
@@ -149,6 +152,8 @@ class Agent
 
 			'CODE'                      => isset($item['TERMINAL_CODE']) ? $item['TERMINAL_CODE'] : $item['CODE'],
 			'NAME'                      => $this->normalizeAddress($item['ADDRESS'], true),
+
+            'CITY'                      =>$item['ADDRESS']['CITY_NAME'],
 
 			'ADDRESS_FULL'              => $this->normalizeAddress($item['ADDRESS']),
 			'ADDRESS_SHORT'             => $this->normalizeAddress($item['ADDRESS'], true),
@@ -188,7 +193,8 @@ class Agent
 			$fields['LIMIT_SUM_DIMENSION']       = isset($item['LIMITS']['DIMENSION_SUM'])       ? $item['LIMITS']['DIMENSION_SUM'] : 0;
 			$fields['LIMIT_MAX_VOLUME']          = round($fields['LIMIT_MAX_WIDTH'] * $fields['LIMIT_MAX_HEIGHT'] * $fields['LIMIT_MAX_LENGTH'] / 1000000, 3);
 		}
-		
+
+
 		$exists = $this->getTable()->getByCode($fields['CODE']);
 
 		if ($exists) {

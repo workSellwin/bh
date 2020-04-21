@@ -102,6 +102,7 @@ class Model extends BaseModel implements \JsonSerializable
 			'ID'                             => $this->fields['ID'],
 			'CODE'                           => $this->fields['CODE'],
 			'NAME'                           => $this->fields['NAME'],
+            'CITY'                           => $this->fields['CITY'],
 			'TYPE'                           => $this->fields['PARCEL_SHOP_TYPE'],
 			'LAT'                            => $this->fields['LATITUDE'],
 			'LON'                            => $this->fields['LONGITUDE'],

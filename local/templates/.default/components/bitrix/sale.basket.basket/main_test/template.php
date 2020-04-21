@@ -348,6 +348,7 @@ $APPLICATION->IncludeComponent(
 $frame->beginStub(); ?>
 <? $frame->end(); ?>
 
+
 <script>
     carrotquest.track('$order_started');
 </script>

@@ -421,6 +421,7 @@
 			}
 
 			this.obPict = BX(this.visual.PICT_ID);
+
 			if (!this.obPict)
 			{
 				this.errorCode = -2;
@@ -500,6 +501,7 @@
 			}
 
 			this.obBasketActions = BX(this.visual.BASKET_ACTIONS_ID);
+
 			if (this.obBasketActions)
 			{
 				if (this.visual.BUY_ID)
@@ -593,6 +595,7 @@
 						BX.bind(this.obQuantity, 'change', BX.delegate(this.quantityChange, this));
 					}
 				}
+
 
 				switch (this.productType)
 				{
@@ -2018,7 +2021,7 @@
 			price = this.currentPrices[this.currentPriceSelected];
 			//TODO price NDS 77777
 			if(price.PRICE_TYPE_ID == 2){
-				function addNds(price,nds){
+				var addNds = function (price,nds){
 					if(nds) {
 						var returnPrice;
 						returnPrice = price / 100;

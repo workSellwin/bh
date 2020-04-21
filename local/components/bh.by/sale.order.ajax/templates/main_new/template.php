@@ -593,6 +593,12 @@ else
 	$signer = new Main\Security\Sign\Signer;
 	$signedParams = $signer->sign(base64_encode(serialize($arParams)), 'sale.order.ajax');
 	$messages = Loc::loadLanguageFile(__FILE__);
+
+	if(!empty($arParams['TOTAL_RENDER_DATA'])){
+        //PR($arResult['JS_DATA']['TOTAL']);
+        //PR($arParams['TOTAL_RENDER_DATA']);
+        $arResult['JS_DATA']['TOTAL']['DISCOUNT_PRICE_FORMATED'] = round($arParams['TOTAL_RENDER_DATA']['DISCOUNT_PRICE_FORMATED'], 2) . ' руб.';
+    }
 	?>
 	<script>
 		BX.message(<?=CUtil::PhpToJSObject($messages)?>);

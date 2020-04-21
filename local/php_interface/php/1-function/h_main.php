@@ -278,3 +278,24 @@ function OnAfterIBlockElementAddPropertyStatus(&$arFields){
         //}
     }
 }
+
+//получение смс когда товар в наличии
+class SendMailSubscription
+{
+    function my_OnBeforeEventSend($arFields, $arTemplate)
+    {
+        if($arTemplate['EVENT_NAME'] == 'CATALOG_PRODUCT_SUBSCRIBE_NOTIFY'){
+            if($arFields['EMAIL_TO']){
+                $phone = explode('@', $arFields['EMAIL_TO']);
+                $phone = explode('.', $phone[1]);
+            }
+            if($phone[0]){
+                $mes = '"'.$arFields['NAME'].'" появился в наличии. Приобрести его можно по ссылке - "'.$arFields['PAGE_URL'].'"';
+                CModule::IncludeModule('mlife.smsservices');
+                $obSmsServ = new CMlifeSmsServices();
+                $arSend = $obSmsServ->sendSms($phone[0], $mes, 0, 'BH.BY');
+                AddMessage2Log($arSend);
+            }
+        }
+    }
+}

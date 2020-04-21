@@ -28,3 +28,6 @@ AddEventHandler("main", "OnPageStart", "OnPageStartCheck");
 AddEventHandler("main", "OnBeforeProlog", ['DiscountNeighbour','Action']);
 
 AddEventHandler("main", "OnBuildGlobalMenu", "ModifiAdminMenu");
+
+
+AddEventHandler('main', 'OnBeforeEventSend', Array("SendMailSubscription", "my_OnBeforeEventSend"));

@@ -423,10 +423,6 @@ if (is_array($item['PROPERTIES']['NDS']['VALUE']))
                 unset($jsOffer, $strProps);
             }
         } ?>
-
-
-
-
         <? global $USER;
         $userArGroup = CUser::GetUserGroup($USER->GetID()); ?>
         <div class="product-item-info-container" data-entity="buttons-block">
@@ -447,6 +443,11 @@ if (is_array($item['PROPERTIES']['NDS']['VALUE']))
                         ?>
                         <div class="product-item-button-container product_id_<?= $item["ID"] ?>"
                              id="<?= $itemIds['BASKET_ACTIONS'] ?>">
+                            <?if( $USER->IsAdmin() || true ):?>
+                                <a class="btn section-one-click-btn btn_ico" rel="nofollow" data-fancybox="one-click" href="#one-click">
+                                    Купить в 1 клик
+                                </a>
+                            <?endif;?>
                             <a class="btn btn_ico js-btn-basket" id="<?= $itemIds['BUY_LINK'] ?>"
                                href="javascript:void(0)" rel="nofollow">
                                 <?= ($arParams['ADD_TO_BASKET_ACTION'] === 'BUY' ? $arParams['MESS_BTN_BUY'] : $arParams['MESS_BTN_ADD_TO_BASKET']) ?>

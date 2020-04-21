@@ -46,7 +46,7 @@ function sendOrderAgent()
         print_r($resToJson);
         $jsonDate = json_encode($resToJson);
         print_r($jsonDate);
-
+        file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/local/order.txt', print_r($jsonDate, true), FILE_APPEND);
 
         $httpClient = new \Bitrix\Main\Web\HttpClient();
         $httpClient->waitResponse(true);

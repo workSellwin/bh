@@ -18,6 +18,7 @@ class SmsNotification
     private $messageTemplate = [
         "название товара" => "NAME",
         "р." => "PRICE",
+        "ссылка" => "PRODUCT_URL"
     ];
 
     public function __construct()
@@ -43,9 +44,7 @@ class SmsNotification
         $days = 0;
 
         foreach($restricts as $restrict){
-//if(!$key){
-//    continue;
-//}
+
             $restrict['DAYS'] = intval($restrict['DAYS']);
 
             if( $restrict['DAYS'] == 0 ){
@@ -111,8 +110,8 @@ class SmsNotification
     public function smsSending(){//начать рассылку
 
         $subscribers = $this->getSubscribersQueue();
-//pr($subscribers);
-//die();
+//        pr($subscribers);
+//        die();
         foreach($subscribers as $subscriber){
             $this->send($subscriber);
         }
@@ -140,20 +139,25 @@ class SmsNotification
             $this->arOrders[] = $subscriber->getOrder();
             $this->arBuyers[$subscriber->getBuyer()] = time();
 
-            file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/sending_sms.txt',
+            file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/sending_sms_13.txt',
                 print_r([
                     'телефон' => $subscriber->getPhone(),
                     'сообщение' => $subscriber->getMessage(),
                     'номер заказа' => $subscriber->getOrder()
-                    ], true), FILE_APPEND );
+                ], true),
+                FILE_APPEND
+            );
 
+//            $arSend = $this->obSmsService->sendSms('375296067166', $subscriber->getMessage(), 0, $this->author);
+//        pr(['375296067166', $subscriber->getMessage(), 0, $this->author]);
+//        die();
             $arSend = $this->obSmsService->sendSms($subscriber->getPhone(), $subscriber->getMessage(), 0, $this->author);
 
-//            if ($arSend->error) {
-//                AddMessage2Log('\n\n\n Заказ №' . $ID . ' Ошибка отправки смс: ' . $arSend->error . ', код ошибки: ' . $arSend->error_code);
-//            } else {
-//                AddMessage2Log('\n\n\n Заказ №' . $ID . ' Сообщение успешно отправлено, Стоимость рассылки:' . $arSend->cost . ' руб.');
-//            }
+            if ($arSend->error) {
+                AddMessage2Log('\n\n\n Заказ №' . $subscriber->getOrder() . ' Ошибка отправки смс: ' . $arSend->error . ', код ошибки: ' . $arSend->error_code);
+            } else {
+                AddMessage2Log('\n\n\n Заказ №' . $subscriber->getOrder() . ' Сообщение успешно отправлено, Стоимость рассылки:' . $arSend->cost . ' руб.');
+            }
         }
         else{
             //
@@ -193,11 +197,57 @@ class SmsNotification
             return [];
         }
         $arBasketItems = $this->getBasketItems($arOrders);
+        $arBasketItems = $this->setBasketItemsHref($arBasketItems);
         $arPhones = $this->getUsersPhone();
         $this->productIds = $this->filterProducts($arBasketItems);
         $this->createQueue($arBasketItems['BASKET_ITEMS'], $arPhones);
 
         return $this->queue;
+    }
+
+    private function setBasketItemsHref($arBasketItems){
+
+        $productsId = [];
+
+        foreach($arBasketItems as $fUserArr){
+            foreach($fUserArr as $orderArr){
+                foreach($orderArr as $orderItem){
+                    foreach($orderItem as $basketItemKey => $basketItem){
+                        $productsId[$basketItemKey] = false;
+                    }
+
+                }
+            }
+        }
+        $res = \CIBlockElement::GetList(
+            [],
+            [
+                "IBLOCK_ID" => 2,
+                "ID" => array_keys($productsId),
+                "ACTIVE" => 'Y'
+            ],
+            false,
+            false,
+            ['ID', "DETAIL_PAGE_URL"]
+        );
+
+        while($fields = $res->getNext(true, false)){
+            $productsId[$fields['ID']] = $fields['DETAIL_PAGE_URL'];
+        }
+
+        foreach($arBasketItems as &$fUserArr){
+            foreach($fUserArr as &$orderArr){
+                foreach($orderArr as &$orderItem){
+                    foreach($orderItem as $basketItemKey => &$basketItem){
+                        if($productsId[$basketItemKey]){
+                            $basketItem["PRODUCT_URL"] = $productsId[$basketItemKey];
+                        }
+                    }
+
+                }
+            }
+        }
+        return $arBasketItems;
     }
 
     private function getOrders(){
@@ -337,6 +387,9 @@ class SmsNotification
                 $val = round($basketItem[$val], 2) . ' руб.';
                 $template = str_replace('#'. $key . '#', $val, $template);
             }
+            elseif($val == 'PRODUCT_URL'){
+                $template = str_replace('#'. $key . '#', "https://all.bh.by" . $basketItem[$val], $template);
+            }
             elseif( !empty($basketItem[$val]) ){
                 $template = str_replace('#'. $key . '#', $basketItem[$val], $template);
             }
@@ -440,7 +493,7 @@ class SmsNotification
                 }
             }
         }
-       // pr($exceptionBuyers);die();
+        // pr($exceptionBuyers);die();
         return $exceptionBuyers;//вернуть массив FUSER, которые получали sms менее недели назад
     }
 

@@ -8,12 +8,9 @@ use Bitrix\Main\Loader;
  * @var string $templateFolder
  * @global CMain $APPLICATION
  */
-
 global $APPLICATION;
 
 ?>
-
-
     <script>
         $.ajax({
             url: "/ajax/get_timer.php?ID=<?=$arResult['ID']?>",
@@ -25,8 +22,6 @@ global $APPLICATION;
             }
         });
     </script>
-
-
 <?
 $arSelect = Array('DETAIL_PAGE_URL');
 $arFilter = Array("IBLOCK_ID" => 2, "ID" => $arResult['ID']);
@@ -34,13 +29,15 @@ $res = CIBlockElement::GetList(Array(), $arFilter, false, Array("nPageSize" => 1
 while ($ob = $res->GetNext()) {
     $canonical = $ob['DETAIL_PAGE_URL'];
 }
-if ($APPLICATION->GetCurPage() != $canonical)
+
+if ($APPLICATION->GetCurPage() != $canonical) {
     $APPLICATION->AddHeadString('<link rel="canonical" href="https://bh.by' . $canonical . '"/>', true);
-?>
-<?
+}
+
 $arSelect = Array("ID", "NAME", "DETAIL_PICTURE");
 $arFilter = Array("IBLOCK_ID" => $arResult['IBLOCK_ID'], "ID" => $arResult['ID']);
 $res = CIBlockElement::GetList(Array(), $arFilter, false, Array("nPageSize" => 50), $arSelect);
+
 while ($ob = $res->GetNextElement()) {
     $arFields = $ob->GetFields();
 }
@@ -77,7 +74,6 @@ if (isset($templateData['JS_OBJ'])) {
             }
         }));
     </script>
-
     <?
     // check compared state
     if ($arParams['DISPLAY_COMPARE']) {

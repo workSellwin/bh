@@ -136,8 +136,6 @@ if (count($arSectionID) > 0):
                 <div class="schema-tags">
                     <? $APPLICATION->ShowViewContent('prop_filter'); ?>
                 </div>
-
-
                 <?$APPLICATION->IncludeComponent(
                     "bitrix:catalog.section",
                     "cat",

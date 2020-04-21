@@ -108,10 +108,11 @@ class CsvLib
         $arResultCsv = false;
         $i = 0;
         while (($data = fgetcsv($file, 0, ";")) !== FALSE) {
-            if ($i == 0) {
-                $i++;
-                continue;
-            }
+            //new 20.03.2020 add document head
+//            if ($i == 0) {
+//                $i++;
+//                continue;
+//            }
             foreach ($Fheader as $key => $fhl) {
                 $arResultCsv[$i][$fhl] = $data[$key];
             }

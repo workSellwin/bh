@@ -108,7 +108,7 @@ function PriorityOrderFunction(Main\Event $event)
         $arDate = $ob->setPriorityOrder();
 
         $dayofweek = date('w', strtotime($arDate['dateOrder']));
-        $working = array("04.05.2019", "11.05.2019", "16.11.2019", "04.01.2020");
+        $working = array("04.05.2019", "11.05.2019", "16.11.2019", "04.01.2020", "04.04.2020");
         //если субота день доставки изменяем на пятницу
         if ($dayofweek == 6 && !in_array($arDate['dateOrder'], $working)) {
             $arDate['dateOrder'] = date('d.m.Y', strtotime($arDate['dateOrder'] . ' - 1 days'));
@@ -154,6 +154,11 @@ function PriorityOrderFunction(Main\Event $event)
                         $propertyItem->setField("VALUE", $arDate['dateOrder']);
                     }
                     $isDate = true;
+                    break;
+                case 'GOOGLE_CLIENT_ID':
+                    if (isset($_COOKIE['_ga']) && !empty($_COOKIE['_ga']) && $_COOKIE['_ga']) {
+                        $propertyItem->setField("VALUE", $_COOKIE['_ga']);
+                    }
                     break;
                 case 'DELIVERY_SATURDAY':// Установка флага доставки в субботу!
                     if ($dayofweek == 6 && !in_array($arDate['dateOrder'], $working)) {
@@ -212,7 +217,10 @@ function PriorityOrderFunction(Main\Event $event)
         $newStatus = $order->getField('STATUS_ID');
         $orderOld = Bitrix\Sale\Order::load($order->getId());
         $oldStatus = $orderOld->getField('STATUS_ID');
-        if ($newStatus == 'N' and $oldStatus == 'PK') {
+
+        //file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/local/ya.txt', print_r($newStatus . '_' . $oldStatus . '_' . $order->getId(), true) );
+        if ( ($newStatus == 'N' and $oldStatus == 'PK') || $oldStatus == 'TE'
+            || ($newStatus == 'PP' and $oldStatus == 'PK') ) {
             SetYandexDateOrder($order);
         }
     }
@@ -227,14 +235,21 @@ function SetYandexDateOrder(Bitrix\Sale\Order $order)
         $ob = new \Lui\Delivery\OrdersData();
         $arOrderZ = $ob->GetOrderData($order);
         $arYandex = $ob->GetYandex($arOrderZ);
-        if (!$ya->isValidAddress($arYandex['YANDEX_AR'])) {
+        //file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/local/ya0.txt', print_r($arOrderZ, true));
+        //file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/local/yaa.txt', print_r($arYandex['YANDEX_AR'], true));
+
+        if ( $ya->isValidAddress($arYandex['YANDEX_AR']) ) {
+
+            $propertyCollection = $order->getPropertyCollection();
+            $propertyCollection->getItemByOrderPropertyId(34)->setValue($arYandex['YANDEX_LON']);// Longitude
+            $propertyCollection->getItemByOrderPropertyId(35)->setValue($arYandex['YANDEX_LAT']);// Latitude
+            $propertyCollection->getItemByOrderPropertyId(36)->setValue($arYandex['YANDEX_Q']);// Запрос в яндекс
+            $propertyCollection->getItemByOrderPropertyId(37)->setValue($arYandex['YANDEX_ADRESS']);// Ответ от Яндекса
+        }
+        else{
             $order->setField('STATUS_ID', 'PK');
         }
-        $propertyCollection = $order->getPropertyCollection();
-        $propertyCollection->getItemByOrderPropertyId(34)->setValue($arYandex['YANDEX_LON']);// Longitude
-        $propertyCollection->getItemByOrderPropertyId(35)->setValue($arYandex['YANDEX_LAT']);// Latitude
-        $propertyCollection->getItemByOrderPropertyId(36)->setValue($arYandex['YANDEX_Q']);// Запрос в яндекс
-        $propertyCollection->getItemByOrderPropertyId(37)->setValue($arYandex['YANDEX_ADRESS']);// Ответ от Яндекса
+        //$order->save();
     }
 }
 
@@ -466,17 +481,23 @@ function OnOrderAddHandler($ID, $arFields)
  */
 function HandlerOnSaleComponentOrderOneStepComplete($ID, $arOrder, $arParams)
 {
+
+
     if ($ID) {
         \CModule::IncludeModule("sale");
         $dbBasketItems = \CSaleBasket::GetList(array(), array("ORDER_ID" => $ID), false, false, array());
         $arAddСertificate = [];
+
         while ($arItem = $dbBasketItems->Fetch()) {
-            global $USER;
-            if($USER->IsAdmin()){
-                $arAddСertificate[] = (int)$arItem['PRICE'] * 1.1;
-            }
-            else{
-                $arAddСertificate[] = (int)$arItem['PRICE'];
+
+            if (strpos($arItem['NAME'], 'Подарочный сертификат') !== false) {
+                global $USER;
+                if($USER->IsAdmin()){
+                    $arAddСertificate[] = (int)$arItem['PRICE'] * 1.1;
+                }
+                else{
+                    $arAddСertificate[] = (int)$arItem['PRICE'];
+                }
             }
         }
         $arCode = [];

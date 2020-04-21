@@ -27,9 +27,9 @@ class exportOnlinerNew
         'serviceCenters',               //Сервисный центр
         'warranty',                     //Гарантия (месяцев)
         'deliveryTownTime',             //Доставка по городу (дней)
-        'deliveryTownPrice',            //Доставка по городу (стоимость)
+        //'deliveryTownPrice',            //Доставка по городу (стоимость)
         'deliveryCountryTime',          //Доставка по РБ (дней)
-        'deliveryCountryPrice',         //Доставка по РБ (стоимость)
+        //'deliveryCountryPrice',         //Доставка по РБ (стоимость)
         'productLifeTime',              //Срок службы (месяцев)
         'isCashless',                   //Безналичный
         'isCredit',                     //Кредит
@@ -129,7 +129,8 @@ class exportOnlinerNew
 
     private function formationPriceList($arDataFile, $arDataElemCatalog)
     {
-        if (!empty($arDataFile) && !empty($arDataElemCatalog)) {
+        //new 24.03
+        /*if (!empty($arDataFile) && !empty($arDataElemCatalog)) {
             foreach ($arDataFile as &$value) {
                 if ($arDataElemCatalog[$value['id']]) {
                     $value['price'] = $arDataElemCatalog[$value['id']]['PRICE'];
@@ -138,13 +139,28 @@ class exportOnlinerNew
                 }
             }
             return $arDataFile;
+        }*/
+
+        if (!empty($arDataFile) && !empty($arDataElemCatalog)) {
+            foreach ($arDataFile as $index => &$value) {
+
+                if ($arDataElemCatalog[$value['id']]) {
+                    $value['price'] = $arDataElemCatalog[$value['id']]['PRICE'];
+
+                }
+                elseif($index != 0){
+                    $value['price'] = '0';
+                }
+            }
+            return $arDataFile;
         }
+        //end new 24.03
     }
 
     private function arrayToScv($arData, $file_path, $delimiter = ';')
     {
         $fp = fopen($file_path, 'w');
-        foreach ($arData as $fields) {
+        foreach ($arData as $key => $fields) {
             fputcsv($fp, $fields, $delimiter);
         }
     }

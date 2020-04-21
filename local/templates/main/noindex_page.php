@@ -46,10 +46,35 @@ $arrIndex = array(
     '/catalog/ukhod-dlya-volos/shampuni-dlya-volos/filter/productype-is-сухой%20шампунь/apply/',
     '/catalog/podarochnye-nabory/filter/pol-is-%D0%B4%D0%BB%D1%8F%20%D0%BD%D0%B5%D1%91/apply/',
     '/catalog/ukhod-dlya-volos/shampuni-dlya-volos/filter/productype-is-%D1%81%D1%83%D1%85%D0%BE%D0%B9%20%D1%88%D0%B0%D0%BC%D0%BF%D1%83%D0%BD%D1%8C/apply/',
+    "/catalog/aktivnaya-kosmetika/sredstva-dlya-volos-i-kozhi-golovy/filter/productype-is-%D0%BA%D0%BE%D0%BD%D0%B4%D0%B8%D1%86%D0%B8%D0%BE%D0%BD%D0%B5%D1%80/apply/",
+    "/catalog/aktivnaya-kosmetika/sredstva-dlya-volos-i-kozhi-golovy/filter/productype-is-%D0%BC%D0%B0%D1%81%D0%BA%D0%B0/apply/",
+    "/catalog/aktivnaya-kosmetika/sredstva-dlya-volos-i-kozhi-golovy/filter/productype-is-%D1%88%D0%B0%D0%BC%D0%BF%D1%83%D0%BD%D1%8C/apply/",
+    "/catalog/aktivnaya-kosmetika/sredstva-dlya-volos-i-kozhi-golovy/filter/productype-is-%D1%81%D1%83%D1%85%D0%BE%D0%B9%20%D1%88%D0%B0%D0%BC%D0%BF%D1%83%D0%BD%D1%8C/apply/",
+    "/catalog/aktivnaya-kosmetika/sredstva-dlya-litsa/filter/productype-is-%D0%BA%D1%80%D0%B5%D0%BC/apply/",
+    "/catalog/aktivnaya-kosmetika/sredstva-dlya-litsa/filter/productype-is-%D0%BA%D1%80%D0%B5%D0%BC%20%D0%B2%D0%BE%D0%BA%D1%80%D1%83%D0%B3%20%D0%B3%D0%BB%D0%B0%D0%B7/apply/",
+    "/catalog/aktivnaya-kosmetika/ochishchenie/filter/productype-is-%D0%BC%D0%B8%D1%86%D0%B5%D0%BB%D0%BB%D1%8F%D1%80%D0%BD%D0%B0%D1%8F%20%D0%B2%D0%BE%D0%B4%D0%B0/apply/",
+    "/catalog/aktivnaya-kosmetika/sredstva-dlya-tela/filter/productype-is-%D0%BC%D0%B0%D1%81%D0%BB%D0%BE/apply/",
+    "/catalog/aktivnaya-kosmetika/filter/productype-is-%D1%81%D1%81-%D0%BA%D1%80%D0%B5%D0%BC/apply/",
+    "/catalog/aktivnaya-kosmetika/sredstva-dlya-tela/filter/productype-is-%D0%BF%D0%B8%D1%82%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5%20%D0%BC%D0%B0%D1%81%D0%BB%D0%BE/apply/",
+    "/catalog/aktivnaya-kosmetika/sredstva-dlya-volos-i-kozhi-golovy/filter/productype-is-%D0%BA%D0%BE%D0%BD%D0%B4%D0%B8%D1%86%D0%B8%D0%BE%D0%BD%D0%B5%D1%80%D1%8B/apply/"
 );
+//PR($_SERVER['REQUEST_URI']);
+$allowUri = [
+    "/catalog/uhod-za-litsom/", "/catalog/uhod-dlya-volos/" , "/catalog/uhod-dlya-volos/kraski-dlya-volos/", "/catalog/uhod-dlya-volos/maski-dlya-volos/",
+    "/catalog/uhod-dlya-volos/shampuni-dlya-volos/", "/catalog/uhod-za-litsom/krem-dlya-litsa/", "/catalog/uhod-za-litsom/krem-i-syvorotka-dlya-vek/",
+    "/catalog/uhod-za-litsom/mitselyarnaya-voda/", "/catalog/uhod-za-telom/",
+    "/catalog/uhod-dlya-volos/filter/productype-is-%D0%BA%D0%BE%D0%BD%D0%B4%D0%B8%D1%86%D0%B8%D0%BE%D0%BD%D0%B5%D1%80%D1%8B/apply/",
+    "/catalog/uhod-dlya-volos/shampuni-dlya-volos/filter/hairtype-is-%D1%81%D1%83%D1%85%D0%B8%D0%B5%20%D0%B2%D0%BE%D0%BB%D0%BE%D1%81%D1%8B/apply/",
+    "/catalog/uhod-za-litsom/krem-i-syvorotka-dlya-vek/filter/productype-is-%D1%83%D1%85%D0%BE%D0%B4%20%D0%B7%D0%B0%20%D0%BE%D0%B1%D0%BB%D0%B0%D1%81%D1%82%D1%8C%D1%8E%20%D0%B2%D0%BE%D0%BA%D1%80%D1%83%D0%B3%20%D0%B3%D0%BB%D0%B0%D0%B7/apply/",
+    "/catalog/uhod-za-telom/filter/productype-is-%D0%BF%D0%B8%D1%82%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5%20%D0%BC%D0%B0%D1%81%D0%BB%D0%BE/apply/",
+    "/catalog/uhod-dlya-volos/shampuni-dlya-volos/",
+    "/catalog/podarki/",
+];
 
-if (strpos($_SERVER['REQUEST_URI'], 'filter') !== false && !in_array($_SERVER['REQUEST_URI'], $arrIndex))
+if ( (strpos($_SERVER['REQUEST_URI'], 'filter') !== false && !in_array($_SERVER['REQUEST_URI'], $arrIndex) )
+    || in_array($_SERVER['REQUEST_URI'], $allowUri) ) {
     echo '<meta name="robots" content="noindex,follow"/>';
+}
 
 
 if($_REQUEST['PAGEN_1'] > 1 ){
@@ -64,22 +89,6 @@ if($_REQUEST['PAGEN_3'] > 1 ){
 if($_REQUEST['PAGEN_4'] > 1 ){
     echo '<meta name="robots" content="noindex,follow"/>';
 }
-
-/*
-$arNoindex=[
-    '/pokupatelyam/oformlenie-zakaza/',
-    '/pokupatelyam/oplata/',
-    '/pokupatelyam/oplata/oplata-kartoy-khalva.php',
-    '/pokupatelyam/oformlenie-zakaza/',
-    '/pokupatelyam/oformlenie-zakaza/',
-];
-
-
-if(in_array($_SERVER['REQUEST_URI'], $arNoindex)){
-    echo '<meta name="robots" content="noindex,follow"/>';
-}
-*/
-
 
 $arLink = [
     'https://all.bh.by/catalog/ukhod-za-telom/sredstva-dlya-zagara/solntsezashchitnye-sredstva/librederm-bronzeada-krem-solntsezashchitnyy-spf50-s-omega-3-6-9-i-termalnoy-vodoy-150-ml/' => 'https://all.bh.by/catalog/ukhod-za-telom/sredstva-dlya-zagara/solntsezashchitnye-sredstva/librederm-bronzeada-krem-solntsezashchitnyy-spf50-s-omega-3-6-9-i-termalnoy-vodoy-150-ml-rb/',

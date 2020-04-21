@@ -55,10 +55,9 @@ if ($arParams["SET_TITLE"] == "Y") {
 <? if (!empty($arResult["ORDER"])): ?>
 
 
+    <? //=$APPLICATION->ShowViewContent('payment_id_7');?>
 
-    <?//=$APPLICATION->ShowViewContent('payment_id_7');?>
-
-    <div class="block-payment-7"></div>
+    <div class="block-payment"></div>
 
     <table class="sale_order_full_table">
 
@@ -82,7 +81,6 @@ if ($arParams["SET_TITLE"] == "Y") {
                 График работы:<br>
                 пн. - пт. – с 10:30 до 18:00<br>
                 сб, вс. – выходной
-
             </td>
         </tr>
     </table>
@@ -100,6 +98,7 @@ if ($arParams["SET_TITLE"] == "Y") {
     }
 
     if ($arResult["ORDER"]["IS_ALLOW_PAY"] === 'Y') {
+
         if (!empty($arResult["PAYMENT"])) {
             foreach ($arResult["PAYMENT"] as $payment) {
                 if ($payment["PAID"] != 'Y') {
@@ -133,32 +132,32 @@ if ($arParams["SET_TITLE"] == "Y") {
                                             <script>
                                                 window.open('<?=$arParams["PATH_TO_PAYMENT"]?>?ORDER_ID=<?=$orderAccountNumber?>&PAYMENT_ID=<?=$paymentAccountNumber?>');
                                             </script>
-                                        <?= Loc::getMessage("SOA_PAY_LINK", array("#LINK#" => $arParams["PATH_TO_PAYMENT"] . "?ORDER_ID=" . $orderAccountNumber . "&PAYMENT_ID=" . $paymentAccountNumber)) ?>
-                                        <? if (CSalePdf::isPdfAvailable() && $arPaySystem['IS_AFFORD_PDF']): ?>
-                                        <br/>
-                                            <?= Loc::getMessage("SOA_PAY_PDF", array("#LINK#" => $arParams["PATH_TO_PAYMENT"] . "?ORDER_ID=" . $orderAccountNumber . "&pdf=1&DOWNLOAD=Y")) ?>
-                                        <? endif ?>
+                                            <?= Loc::getMessage("SOA_PAY_LINK", array("#LINK#" => $arParams["PATH_TO_PAYMENT"] . "?ORDER_ID=" . $orderAccountNumber . "&PAYMENT_ID=" . $paymentAccountNumber)) ?>
+                                            <? if (CSalePdf::isPdfAvailable() && $arPaySystem['IS_AFFORD_PDF']): ?>
+                                                <br/>
+                                                <?= Loc::getMessage("SOA_PAY_PDF", array("#LINK#" => $arParams["PATH_TO_PAYMENT"] . "?ORDER_ID=" . $orderAccountNumber . "&pdf=1&DOWNLOAD=Y")) ?>
+                                            <? endif ?>
                                         <? else: ?>
+
                                             <?= $arPaySystem["BUFFERED_OUTPUT"] ?>
 
-                                            <?//if ($USER->IsAdmin()){
-                                                if($arPaySystem['ID'] == 7):?>
-                                                    <script type="text/javascript">
-                                                        $(document).ready(function () {
-                                                            $('.block-payment-7').css('text-align', 'center');
-                                                            $('.block-payment-7').css('margin-bottom', '25px');
-                                                            $('td.payment-text input.btn-red').css('font-size', '20px');
-                                                            $('td.payment-text input.btn-red').css('margin-bottom', '20px');
-                                                            $('td.payment-text input.btn-red').css('width', '290px');
-                                                            $("td.payment-text form").prepend("<br>");
-                                                            $('td.payment-text input.btn-red').prependTo($("td.payment-text form"));
-                                                            var form_paument = $('td.payment-text').html();
-                                                            $('.block-payment-7').html(form_paument);
-                                                            $('td.payment-text').remove();
-                                                        });
-                                                    </script>
-                                                <?endif;
-                                            //}?>
+                                            <?if (in_array($arPaySystem['ID'], [7,23,24,25]) ): ?>
+                                                <script>
+                                                    $(document).ready(function () {
+                                                        let paymentId = <?=$arPaySystem['ID']?>;
+                                                        $('.block-payment').css('text-align', 'center');
+                                                        $('.block-payment').css('margin-bottom', '25px');
+                                                        $('td.payment-text input.btn-red').css('font-size', '20px');
+                                                        $('td.payment-text input.btn-red').css('margin-bottom', '20px');
+                                                        $('td.payment-text input.btn-red').css('width', '290px');
+                                                        $("td.payment-text form").prepend("<br>");
+                                                        $('td.payment-text input.btn-red').prependTo($("td.payment-text form"));
+                                                        var form_paument = $('td.payment-text').html();
+                                                        $('.block-payment').html(form_paument);
+                                                        $('td.payment-text').remove();
+                                                    });
+                                                </script>
+                                            <?endif;?>
 
                                         <? endif ?>
                                     </td>

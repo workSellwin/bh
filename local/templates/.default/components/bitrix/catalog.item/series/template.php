@@ -293,6 +293,7 @@ if (isset($arResult['ITEM']))
 		?>
 		<script>
 		  var <?=$obName?> = new JCCatalogItem(<?=CUtil::PhpToJSObject($jsParams, false, true)?>);
+          //console.log(<?=$obName?>);
 		</script>
 	</div>
 	<?

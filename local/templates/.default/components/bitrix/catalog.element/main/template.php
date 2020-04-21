@@ -1,30 +1,36 @@
 <? if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) die();
-$nonCert = false;
+
 use \Bitrix\Main\Localization\Loc;
+$nonCert = false;
 
 if (!\Kosmos\Multisite::showCatalogSection(Array("VARIABLES" => Array("SECTION_ID" => $arResult["IBLOCK_SECTION_ID"])))) {
     @define(ERROR_404, "Y");
     global $APPLICATION;
     $url = $APPLICATION->GetCurPage();
     $host = SITE_ID == 's1' ? 'all.bh.by' : 'bh.by';
-    LocalRedirect('http://' . $host . $url);
+    LocalRedirect('http://' . $host . $url, false, '301 Moved Permanently');
 }
 
 if (!\Kosmos\Multisite::showCatalogSection(Array("VARIABLES" => Array("SECTION_ID" => $arResult["IBLOCK_SECTION_ID"])))) @define(ERROR_404, "Y");
 
 $this->setFrameMode(true);
 
-if (is_array($arResult['PROPERTIES']['NDS']['VALUE']))
+if (is_array($arResult['PROPERTIES']['NDS']['VALUE'])) {
     $arResult['PROPERTIES']['NDS']['VALUE'] = current($arResult['PROPERTIES']['NDS']['VALUE']);
+}
+
 $templateLibrary = array('popup', 'fx');
 $currencyList = '';
+
 if (!empty($arResult['CURRENCIES'])) {
     $templateLibrary[] = 'currency';
     $currencyList = CUtil::PhpToJSObject($arResult['CURRENCIES'], false, true, true);
 }
+
 if ($arResult['PROPERTIES']['NDS']['VALUE'] == 0) {
     $arResult['PROPERTIES']['NDS']['VALUE'] = 20;
 }
+
 $templateData = array(
     'TEMPLATE_THEME' => $arParams['TEMPLATE_THEME'],
     'TEMPLATE_LIBRARY' => $templateLibrary,
@@ -36,8 +42,10 @@ $templateData = array(
         'JS_OFFERS' => $arResult['JS_OFFERS']
     )
 );
+
 unset($currencyList, $templateLibrary);
 $mainId = $this->GetEditAreaId($arResult['ID']);
+
 $itemIds = array(
     'ID' => $mainId,
     'DISCOUNT_PERCENT_ID' => $mainId . '_dsc_pict',
@@ -71,18 +79,23 @@ $itemIds = array(
     'SMALL_CARD_PANEL_ID' => $mainId . '_small_card_panel',
     'TABS_PANEL_ID' => $mainId . '_tabs_panel'
 );
+
 $obName = $templateData['JS_OBJ'] = 'ob' . preg_replace('/[^a-zA-Z0-9_]/', 'x', $mainId);
+
 $name = !empty($arResult['IPROPERTY_VALUES']['ELEMENT_PAGE_TITLE'])
     ? $arResult['IPROPERTY_VALUES']['ELEMENT_PAGE_TITLE']
     : $arResult['NAME'];
+
 $title = !empty($arResult['IPROPERTY_VALUES']['ELEMENT_DETAIL_PICTURE_FILE_TITLE'])
     ? $arResult['IPROPERTY_VALUES']['ELEMENT_DETAIL_PICTURE_FILE_TITLE']
     : $arResult['NAME'];
+
 $alt = !empty($arResult['IPROPERTY_VALUES']['ELEMENT_DETAIL_PICTURE_FILE_ALT'])
     ? $arResult['IPROPERTY_VALUES']['ELEMENT_DETAIL_PICTURE_FILE_ALT']
     : $arResult['NAME'];
 
 $haveOffers = !empty($arResult['OFFERS']);
+
 if ($haveOffers) {
     $actualItem = isset($arResult['OFFERS'][$arResult['OFFERS_SELECTED']])
         ? $arResult['OFFERS'][$arResult['OFFERS_SELECTED']]
@@ -145,8 +158,8 @@ foreach ($arResult['OFFERS'] as $offer) {
     $arOffersEl[$id] = $offer;
 }
 
-
 $labelPositionClass = 'product-item-label-big';
+
 if (!empty($arParams['LABEL_PROP_POSITION'])) {
     foreach (explode('-', $arParams['LABEL_PROP_POSITION']) as $pos) {
         $labelPositionClass .= isset($positionClassMap[$pos]) ? ' ' . $positionClassMap[$pos] : '';
@@ -182,9 +195,8 @@ if (!empty($arParams['LABEL_PROP_POSITION'])) {
 
 global $section_id;
 $section_id = $arResult["IBLOCK_SECTION_ID"];
+
 ?>
-
-
     <div class="container">
         <div class="prod cl" id="<?= $itemIds['ID'] ?>" itemscope itemtype="http://schema.org/Product">
             <meta itemprop="name" content="<?= $name ?>"/>
@@ -193,8 +205,6 @@ $section_id = $arResult["IBLOCK_SECTION_ID"];
             <meta itemprop="description" content="<?= HTMLToTxt($arResult['DETAIL_TEXT']) ?>"/>
             <meta itemprop="sku" content="<?= $arResult['PROPERTIES']['ARTNUMBER']['VALUE'] ?>"/>
             <meta itemprop="GTIN8" content="<?= $arResult['PROPERTIES']['ARTNUMBER']['VALUE'] ?>"/>
-
-
             <?
             if ($haveOffers) {
                 foreach ($arResult['JS_OFFERS'] as $offer) {
@@ -473,7 +483,6 @@ $section_id = $arResult["IBLOCK_SECTION_ID"];
                                                     $src = $arOffersEl[$value['ID']]['PREVIEW_PICTURE']['SRC'];
                                                     $value['NAME'] = htmlspecialcharsbx($value['NAME']);
                                                     if (!empty($value["ID"])):
-                                                        //if ($skuProperty['SHOW_MODE'] === 'PICT'){
                                                         ?>
                                                         <li class="product-item-scu-item-color-container"
                                                             title="<?= $value['NAME'] ?>"
@@ -488,7 +497,6 @@ $section_id = $arResult["IBLOCK_SECTION_ID"];
                                                             </div>
                                                             <?
                                                             if(!$nonCert) {
-
                                                                 $nonCert = $value['ID'] == CATALOG_CUSTOM_CERT_ENUM ?
                                                                     true : false;
 
@@ -557,7 +565,7 @@ $section_id = $arResult["IBLOCK_SECTION_ID"];
 
                         ?>
                     </div>
-<?if( $USER->IsAdmin() || true ):?>
+<?if( true ):?>
     <style>
         .found-cheaper{
             color: rgb(255, 0, 0);
@@ -875,7 +883,7 @@ $section_id = $arResult["IBLOCK_SECTION_ID"];
                            data-ajax="/ajax/add_favorites.php" data-id="<?= $arResult["ID"] ?>" href="#"></a>
                         <br>
 
-                        <?if($USER->IsAdmin() || true):?>
+                        <?if( true):?>
                         <a class="btn btn-default btn_border one-click-btn" data-fancybox="one-click" href="#one-click">Купить в 1 клик</a>
 
                         <div style="" id="one-click">
@@ -897,6 +905,16 @@ $section_id = $arResult["IBLOCK_SECTION_ID"];
                                         <input class="field chk" type="tel" placeholder="Телефон" name="PROP[PHONE]"
                                                autocomplete="off" data-validation-type="phone">
                                     </div>
+
+                                    <?if($USER->IsAdmin() || true):?>
+                                        <div class="field-wrp">
+                                            <label>Количество едениц товара*</label>
+                                            <div class="field-wrp">
+                                                <input class="field chk" type="number" placeholder="Количество" name="PROP[QUANTITY]"
+                                                       autocomplete="off" data-validation-type="number" value="1" max="10">
+                                            </div>
+                                        </div>
+                                    <?endif;?>
 
                                     <div class="field-wrp">
                                         <label style="color: rgb(0, 0, 0); font-weight: 400;">Ваш город Минск?
@@ -965,7 +983,7 @@ $section_id = $arResult["IBLOCK_SECTION_ID"];
                            style="display: none; <?/*= ($flagSalon) ? "display: none" : "" */?>">В один клик</a>-->
                     </div>
                     <? if (!$arResult['CATALOG_QUANTITY'] and !$arResult['OFFERS'] and $arResult['IS_BUY_USER']) { ?>
-                        <? $APPLICATION->IncludeComponent("bitrix:catalog.product.subscribe", "bh", Array(
+                        <? $APPLICATION->IncludeComponent("bh.by:catalog.product.subscribe", "bh", Array(
                             "BUTTON_CLASS" => "btn btn-default product-item-detail-buy-button",
                             "BUTTON_ID" => "product-item-detail-subscribe",
                             "CACHE_TIME" => "3600",
@@ -993,48 +1011,6 @@ $section_id = $arResult["IBLOCK_SECTION_ID"];
 
                 </div>
 
-                <!--<div style="display: none" id="one-click">
-                    <form class="one-click-form" data-ajax="/ajax/one_click.php">
-                        <div class="popup__ttl">Купить в один клик</div>
-                        <input type="hidden" name="PROP[PRODUCT_ID]" value="<?/*= $arResult["ID"] */?>">
-                        <input type="hidden" name="PROP[PRODUCT_NAME]" value="<?/*= $arResult["NAME"] */?>">
-                        <input type="hidden" name="PROP[PRODUCT_LINK]"
-                               value="<?/*= $_SERVER['SERVER_NAME'] . $arResult["DETAIL_PAGE_URL"] */?>">
-                        <?/* global $USER; */?>
-                        <div class="one-click-form__inner">
-                            <label>Представьтесь*</label>
-                            <div class="field-wrp">
-                                <input class="field chk" type="text" placeholder="Ваше имя" name="NAME"
-                                       value="<?/*= $USER->GetFullName() */?>" autocomplete="off">
-                            </div>
-                            <label>Ваш номер телефона с кодом оператора*</label>
-                            <div class="field-wrp">
-                                <input class="field chk" type="tel" placeholder="Телефон" name="PROP[PHONE]"
-                                       autocomplete="off">
-                            </div>
-                            <?/*
-                            switch ($arParams['SITE_ID']) {
-                                case 's1':
-                                    $minOrderPrice = 50;
-                                    break;
-                                default:
-                                    $minOrderPrice = 30;
-                                    break;
-                            }
-                            */?>
-                            <div class="one-click_text-form">Минимальная сумма заказа - <?/*= $minOrderPrice */?> руб.</div>
-                            <input class="btn btn_black" type="submit" value="Купить ">
-                        </div>
-                        <div class="one-click-form__result hide">
-                            Ваша заявка принята<br>
-                            Менеджер свяжется с Вами для подтверждения заказа.<br><br><br><br>
-                            Наше рабочее время<br>
-                            ПН - ПТ 10:30 - 17:30
-                        </div>
-                    </form>
-                    </form>
-                </div>-->
-
                 <div class="payments"><img src="/local/templates/.default/images/payments.png" alt=""></div>
 
                 <div class="parent_link">Вернуться в категорию "<a
@@ -1052,8 +1028,6 @@ $section_id = $arResult["IBLOCK_SECTION_ID"];
                 <? endif; ?>
             </div>
         </div>
-
-
         <?// //Yauheni_4 -----------------------------------------------------------------?>
             <?
             global $USER;
@@ -1244,8 +1218,6 @@ $section_id = $arResult["IBLOCK_SECTION_ID"];
                                     ),
                                     false
                                 ); ?>
-
-<?//PR($arResult)?>
                             </div>
                         </div>
                     </div>
@@ -1253,12 +1225,7 @@ $section_id = $arResult["IBLOCK_SECTION_ID"];
                 <?die()?>
             <? endif; ?>
 
-
-        <?//if ($USER->IsAdmin() ):?>
             <div id="BOX_PRODUCT_BUY_JS" data-not-dic-id="<?=$arResult["ID"]?>" data-url="<?=$APPLICATION->GetCurPage()?>"></div>
-        <?//endif;?>
-
-
         <? //RECOMMEND
         if (!empty($arResult["PROPERTIES"]["RECOMMEND"]["VALUE"])):
             global $arrFilter2;
@@ -1430,10 +1397,7 @@ $section_id = $arResult["IBLOCK_SECTION_ID"];
         ); ?>
         <? endif ?>
     </div>
-
-
     <div id="description2"></div>
-
     <div class="prod-info__description">
         <div class="container">
             <div class="js-tabs">
@@ -1767,7 +1731,6 @@ $section_id = $arResult["IBLOCK_SECTION_ID"];
             </div>
         <? endif ?>
 
-
         <div class="row">
             <div class="col-xs-12">
                 <?
@@ -1800,11 +1763,7 @@ $section_id = $arResult["IBLOCK_SECTION_ID"];
                 ?>
             </div>
         </div>
-
-
         <? /***/ ?>
-
-
     </div>
 <?
 if ($haveOffers) {
@@ -1882,10 +1841,8 @@ if ($haveOffers) {
                     }
                 }
             }
-
             unset($range, $itemPrice);
         }
-
         $jsOffer['DISPLAY_PROPERTIES'] = $strAllProps;
         $jsOffer['DISPLAY_PROPERTIES_MAIN_BLOCK'] = $strMainProps;
         $jsOffer['PRICE_RANGES_RATIO_HTML'] = $strPriceRangesRatio;
@@ -2117,7 +2074,6 @@ $jsParams['NDS'] = $arResult['PROPERTIES']['NDS']['VALUE'];
         var <?=$obName?> =
         new JCCatalogElement(<?=CUtil::PhpToJSObject($jsParams, false, true)?>);
     </script>
-
     <script>
         $(function () {
             $('a[href="#description2"]').click(function () {
@@ -2128,8 +2084,7 @@ $jsParams['NDS'] = $arResult['PROPERTIES']['NDS']['VALUE'];
             });
         });
     </script>
-
-    <script type="text/javascript">
+    <script>
         var price = $('.prod__price-current').text();
         price = price.trim();
         price = price.split(' ');
@@ -2178,7 +2133,7 @@ $jsParams['NDS'] = $arResult['PROPERTIES']['NDS']['VALUE'];
 <?
 unset($actualItem, $itemIds, $jsParams);
 
-if($USER->IsAdmin() && $nonCert){?>
+if($nonCert){?>
     <script>window.withoutFaceValue = <?=$obName?>;</script>
 <?
     include $_SERVER['DOCUMENT_ROOT'] . '/local/include/non_cert_element.php';

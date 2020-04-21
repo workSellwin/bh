@@ -18,7 +18,8 @@ class ParserPudraBy
         'NAME' => ".//div[@class='card-product-content-head']/h1",
         'BRANDS' => ".//div[@class='card-product-content-head']/ul[@class='card-product-list']/li/div[@class='card-product-brands']",
         //'VOLUME' => ".//tr[@class='card-product-data-volume']/td/strong[@class='value']",
-        'DESCRIPTION' => ".//div[@class='card-product-more']",
+        //DESCRIPTION' => ".//div[@class='card-product-more']",
+        'DESCRIPTION' => ".//div[@id='tabDescription']/div",
         'IMG' => ".//img[@class='card-product-img']",
         'MANUFACTURER' => ".//div[@class='card-product-manufacturer']",
     ];

@@ -1,11 +1,17 @@
 <?php
 
+use Bitrix\Main\Context;
+use Bitrix\Sale;
+
 class OrderOneClick
 {
     protected $name;
     protected $phone;
     protected $city;
     protected $freeDeliveryLimit = 30;
+    protected $errors = [];
+    protected $order = false;
+    protected $basket = false;
 
     /**
      * OrderOneClick constructor.
@@ -25,17 +31,17 @@ class OrderOneClick
      * @throws \Bitrix\Main\ArgumentNullException
      * @throws \Bitrix\Main\SystemException
      */
-    public function Order($id, $name, $phone, $city = 'Minsk')
+    public function Order($id, $name, $phone, $city = 'Minsk', $quantity = 1)
     {
         $this->name = $name;
         $this->phone = $phone;
         $this->city = mb_strtolower($city);
 
         $this->isUser();
-        $basket = $this->CreateBasket([$this->GetItem($id)]);
+        $basket = $this->CreateBasket([$this->GetItem($id, $quantity)]);
         $deliveryId = $this->getDeliveryId($basket);
         $order = $this->AddOrder($basket);
-
+        $this->order = $order;
         $shipmentCollection = $order->getShipmentCollection();
         $shipment = $shipmentCollection->createItem(
             \Bitrix\Sale\Delivery\Services\Manager::getObjectById($deliveryId)
@@ -55,7 +61,80 @@ class OrderOneClick
         $payment->setField("SUM", $order->getPrice());
         $payment->setField("CURRENCY", $order->getCurrency());
         $result = $order->save();
-        return $result;
+        //return $result;
+        return $order->getId();
+    }
+
+    public function fastOrder(array $param)
+    {
+        if( empty($param['name']) || empty($param['phone']) ){
+            return false;
+        }
+        $this->name = $param['name'];
+        $this->phone = $param['phone'];
+        
+        if( empty($param['city']) ){
+            $this->city = 'Minsk';
+        }
+        else{
+            $this->city = mb_strtolower($param['city']);
+        }
+
+        try{
+            $this->isUser();
+            $basket = $this->getBasket();
+            $deliveryId = $this->getDeliveryId($basket);
+            $order = $this->AddOrder($basket);
+            $this->order = $order;
+            $shipmentCollection = $order->getShipmentCollection();
+            $shipment = $shipmentCollection->createItem(
+                \Bitrix\Sale\Delivery\Services\Manager::getObjectById($deliveryId)
+            );
+
+            $shipmentItemCollection = $shipment->getShipmentItemCollection();
+            /** @var \Bitrix\Sale\BasketItem $basketItem */
+            foreach ($basket as $basketItem) {
+                $item = $shipmentItemCollection->createItem($basketItem);
+                $item->setQuantity($basketItem->getQuantity());
+            }
+
+            // Создание оплаты
+            $paymentCollection = $order->getPaymentCollection();
+            $payment = $paymentCollection->createItem(
+                \Bitrix\Sale\PaySystem\Manager::getObjectById(1)
+            );
+            $payment->setField("SUM", $order->getPrice());
+            $payment->setField("CURRENCY", $order->getCurrency());
+            $result = $order->save();
+            return $order->getId();
+
+        } catch (Exception $e){
+            $this->errors[] = $e;
+            return false;
+        }
+    }
+
+    public function getBasketSum(){
+
+        try {
+
+            $basket = $this->getBasket();
+            return $basket->getPrice();
+
+        } catch (Exception $e) {
+
+            $this->errors[] = $e;
+            return false;
+        }
+    }
+
+    public function getOrderSum(){
+        if(!empty($this->order)){
+            return $this->order->getPrice();
+        }
+        else{
+            return 0;
+        }
     }
 
     /**
@@ -69,7 +148,7 @@ class OrderOneClick
      * @throws \Bitrix\Main\ObjectException
      * @throws \Bitrix\Main\ObjectNotFoundException
      */
-    public function AddOrder($basket)
+    protected function AddOrder($basket)
     {
         global $USER;
 
@@ -82,7 +161,6 @@ class OrderOneClick
         $propertyCollection = $order->getPropertyCollection();
         $phonePropValue = $propertyCollection->getPhone();
         $phonePropValue->setValue($this->phone);
-        //$order->save();
         $order->setBasket($basket);
         return $order;
     }
@@ -90,7 +168,7 @@ class OrderOneClick
     /**
      *
      */
-    public function isUser()
+    protected function isUser()
     {
         global $USER;
         if (!is_object($USER) or !$USER->GetID()) {
@@ -101,12 +179,13 @@ class OrderOneClick
 
     /**
      * @param $id
+     * @param int $quantity
      * @return array
      */
-    public function GetItem($id)
+    protected function GetItem($id, $quantity = 1)
     {
         global $USER;
-        $arPrice = CCatalogProduct::GetOptimalPrice($id, 1, $USER->GetUserGroupArray());
+        $arPrice = CCatalogProduct::GetOptimalPrice($id, $quantity, $USER->GetUserGroupArray());
         $res = \CIBlockElement::GetByID($id);
         $ar_res = $res->GetNext();
         $arItem = [
@@ -114,9 +193,36 @@ class OrderOneClick
             'NAME' => $ar_res['NAME'],
             'PRICE' => $arPrice['RESULT_PRICE']['DISCOUNT_PRICE'],
             'CURRENCY' => 'BYN',
-            'QUANTITY' => 1
+            'QUANTITY' => $quantity
         ];
         return $arItem;
+    }
+
+    protected function GetItems(){
+
+        return [];
+
+
+    }
+
+    protected function getBasket(){
+
+        if(!empty($this->basket)){
+            return $this->basket;
+        }
+
+        $siteId = Bitrix\Main\Context::getCurrent()->getSite();
+
+        if(!in_array($siteId, ['s1', 's2'])){//для админки
+            $siteId = 's1';
+        }
+        $basket = Sale\Basket::loadItemsForFUser(Sale\Fuser::getId(), $siteId);
+
+        if(empty($basket)){
+            throw new Exception('basket empty');
+        }
+
+        return $basket;
     }
 
     /**
@@ -124,23 +230,30 @@ class OrderOneClick
      * @param $phone
      * @return mixed
      */
-    public function AddUser($name, $phone)
+    protected function AddUser($name, $phone)
     {
-        $new_password = randString(7);
-        $email = randString(6);
-        $user = new \CUser;
-        $email = $email . '@gmail.com';
-        $arFields = Array(
-            "NAME" => $name,
-            "EMAIL" => $email,
-            "LOGIN" => $email,
-            "PHONE" => $phone,
-            "ACTIVE" => "Y",
-            "GROUP_ID" => array(3, 5, 4),
-            "PASSWORD" => $new_password,
-            "CONFIRM_PASSWORD" => $new_password,
-        );
-        $ID = $user->Add($arFields);
+//        $tempId = Sale\Fuser::getId();//if the f_user is already substantial
+//
+//        if(intval($tempId) > 0){
+//            $ID = $tempId;
+//        }
+//        else {
+            $new_password = randString(7);
+            $email = randString(6);
+            $user = new \CUser;
+            $email = $email . '@gmail.com';
+            $arFields = Array(
+                "NAME" => $name,
+                "EMAIL" => $email,
+                "LOGIN" => $email,
+                "PHONE" => $phone,
+                "ACTIVE" => "Y",
+                "GROUP_ID" => array(3, 5, 4),
+                "PASSWORD" => $new_password,
+                "CONFIRM_PASSWORD" => $new_password,
+            );
+            $ID = $user->Add($arFields);
+        //}
         return $ID;
     }
 
@@ -160,10 +273,16 @@ class OrderOneClick
             $basketItem = $basket->createItem("catalog", $arItem['PRODUCT_ID']);
             $basketItem->setFields($arItem);
         }
+        /*global $USER;
+        if ($USER->IsAdmin()) {
+            PR($basket);
+            die();
+        }*/
         return $basket;
     }
 
-    protected function getDeliveryId(\Bitrix\Sale\Basket $basket){
+    protected function getDeliveryId(\Bitrix\Sale\BasketBase $basket){
+
         $sum = $basket->getPrice();
 
         if($this->city == 'minsk' || $this->city == 'минск'){

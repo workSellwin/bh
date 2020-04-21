@@ -99,11 +99,11 @@ class Table extends AbstractTable
 	public function getAddress($arYandex){
 
         $country = $arYandex['Components']['country'];
-        $region = $arYandex['Components']['area'];
+        $region = $arYandex['Components']['province'];
         $city = $arYandex['Components']['locality'];
         $city = $city = $this->getNormalizer()->normilize($country, $region, $city);
 
-        $addres = $this->findFirst([
+        return $this->findFirst([
             'select' => '*',
             'where'  => 'COUNTRY_NAME = :country AND REGION_NAME = :region AND CITY_NAME = :city',
             'bind'   => [
@@ -112,15 +112,6 @@ class Table extends AbstractTable
                 'city'    => $city['CITY_NAME'],
             ]
         ]);
-
-        if($addres)return $addres;
-            return $this->findFirst([
-                'select' => '*',
-                'where'  => 'CITY_NAME = :city',
-                'bind'   => [
-                    ':city' => $city['CITY_NAME'],
-                ]
-            ]);
     }
 
 }

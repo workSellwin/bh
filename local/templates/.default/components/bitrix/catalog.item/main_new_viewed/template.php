@@ -158,7 +158,7 @@ if (isset($arResult['ITEM']))
 				),
 				'VISUAL' => array(
 					'ID' => $itemIds['ID'],
-					'PICT_ID' => $item['SECOND_PICT'] ? $itemIds['SECOND_PICT'] : $itemIds['PICT'],
+					'PICT_ID' => $itemIds['PICT'], //$item['SECOND_PICT'] ? $itemIds['SECOND_PICT'] : $itemIds['PICT'],
 					'PICT_SLIDER_ID' => $itemIds['PICT_SLIDER'],
 					'QUANTITY_ID' => $itemIds['QUANTITY'],
 					'QUANTITY_UP_ID' => $itemIds['QUANTITY_UP'],
@@ -286,7 +286,7 @@ if (isset($arResult['ITEM']))
 		);
 		?>
 		<script>
-		 // var <?=$obName?> = new JCCatalogItem(<?=CUtil::PhpToJSObject($jsParams, false, true)?>);
+		  var <?=$obName?> = new JCCatalogItem(<?=CUtil::PhpToJSObject($jsParams, false, true)?>);
 		</script>
 	</div>
 	<?

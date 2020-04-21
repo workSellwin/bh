@@ -17,7 +17,7 @@ class dpdNppN extends dpdBase
             $this->setShipmentReceiver($arAddres['ID']);
         }
         //Отправка от (false - от двери , true  - от терминала)
-        $this->setShipmentSelfPickup(true);
+        $this->setShipmentSelfPickup(false);
         //Отправка до (false - от двери , true  - от терминала)
         $this->setShipmentSelfDelivery(false);
         //устонавливаем данные items для DPD
@@ -46,18 +46,22 @@ class dpdNppN extends dpdBase
         //init данных отправителя в ob_order
         $this->setSenderOrder();
         //---------------------- Получатель -----------------------------------------------------------
-        $ROOM = $arOrderParams['ROOM'] ? ', кв. ' . $arOrderParams['ROOM'] : '';
+        $HOUSE =  $arOrderParams['HOME']  ? $arOrderParams['HOME'] : $this->YANDEX['Components']['house']; //номер дома,
+        $house = $this->NormalizNumHouse($HOUSE);
         $this->RECEIVER = [
             'NAME' => $arOrderParams['FIO'],
             'FIO' => $arOrderParams['FIO'],
             'PHONE' => $arOrderParams['PHONE'],
-            'STREET' => $this->YANDEX['Components']['street'], //улица
-            'HOUSE' => $this->YANDEX['Components']['house'] . $ROOM, //номер дома,
+            'STREET' => $arOrderParams['STREET'] ? $arOrderParams['STREET'] : $this->YANDEX['Components']['street'], //улица
+            'HOUSE' => $house['HOUSE'], //номер дома,
+            'KORPUS' => $house['KORPUS'],
+            'STR' => $house['STR'],
+            'FLAT' => $arOrderParams['ROOM'],
         ];
         //init данных получатель в ob_order
         $this->setReceiverOrder();
         //---------------------------------------------------------------------------------------------
-        $OPTIONS = [
+        $this->ORDER_OPTIONS = [
             'PICKUP_DATE' => $this->PICKUP_DATE ? $this->PICKUP_DATE : date('Y-m-d'),
             'PICKUP_TIME_PERIOD' => '9-18',
             'SERVICE_CODE' => 'CSM',
@@ -66,11 +70,6 @@ class dpdNppN extends dpdBase
             'ORDER_ID' => $arOrderParams['ID'],
             'CARGO_CATEGORY' => 'косметические товары',
         ];
-        if(!empty($this->ORDER_OPTIONS)){
-            $this->ORDER_OPTIONS = array_merge($this->ORDER_OPTIONS, $OPTIONS);
-        }else{
-            $this->ORDER_OPTIONS = $OPTIONS;
-        }
         //устонавливаем дополнительные пораметры для ob_order
         $this->setOptionsOrder();
         //create order в dpd

@@ -88,7 +88,7 @@ class FtpSellwin
         if ($ob->connect() and $ob->Login() and $ob->SetFile($file)) {
             if ($r = $ob->Upload()) {
                 if ($un) {
-                    unlink($file);
+                    unlink ($file);
                 }
             }
         }

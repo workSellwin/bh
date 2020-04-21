@@ -6,7 +6,7 @@ foreach ($arResult as $arItems) {
         $arSectionId[] = $arItems['PARAMS']['SECTION_ID'];
     }
 }
-
+CModule::IncludeModule('iblock');
 
 $arFilter = Array('IBLOCK_ID'=>2, 'GLOBAL_ACTIVE'=>'Y', 'ACTIVE'=>'Y', 'DEPTH_LEVEL'=>[1,2]);
 $Select = Array('IBLOCK_ID', 'ID', 'NAME', 'CODE', 'DEPTH_LEVEL', 'IBLOCK_SECTION_ID', 'SECTION_PAGE_URL', 'UF_BRANDS', 'UF_SERII', 'UF_IMG_1', 'UF_IMG_2', 'UF_PRODUCTS');

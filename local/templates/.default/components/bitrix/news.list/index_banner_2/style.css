@@ -205,3 +205,12 @@ div.prod-item:hover a.btn-more {
 	}
 
 }
+a:hover .btn-more-2{
+	display:block;
+}
+.rad-img-3 a>.prod-item:last-child{
+	margin-right: 20px;
+}
+.rad-img-3 a:last-child>.prod-item:last-child{
+	margin-right: 0;
+}

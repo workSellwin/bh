@@ -145,10 +145,10 @@ if (!empty($arBrendElem)):?>
 
 
                 <?
-                if (!isset($_REQUEST['not_serii']) && $_REQUEST['not_serii'] != 'Y'):?>
+                //if (!isset($_REQUEST['not_serii']) && $_REQUEST['not_serii'] != 'Y'):?>
 
 
-                    <div class="main__ttl">Новинки</div>
+                   <?/* <div class="main__ttl">Новинки</div>
 
                     <? global $brend_novinki_slider;
                     $brend_novinki_slider["PROPERTY"] = array("LINK_BRANDS" => $arBrendElem['BREND']['ID']);
@@ -517,7 +517,9 @@ if (!empty($arBrendElem)):?>
 
 
                     <div class="btn btn_border" data-use="show-more-4" onclick="location='<?=$arBrendElem['BREND']['DETAIL_PAGE_URL']?>?not_serii=Y'">Показать всё</div>
-                <?else:?>
+                    */?>
+
+                <?//else:?>
 
                     <? $APPLICATION->IncludeComponent(
                         "bitrix:catalog.section",
@@ -696,7 +698,7 @@ if (!empty($arBrendElem)):?>
                     ); ?>
 
 
-                <? endif; ?>
+                <?// endif; ?>
 
 
 

@@ -85,6 +85,9 @@ class YandexApi
                     case 'Сонечный':
                         $q .= 'посёлок ' . $propsData['CITY'] . ', ';
                         break;
+                    case 'Сеница':
+                        $q .= 'агрогородок ' . $propsData['CITY'] . ', ';
+                        break;
                     default:
                         $q .= 'г.' . $propsData['CITY'] . ', ';
                         break;

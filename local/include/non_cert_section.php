@@ -41,6 +41,7 @@
 </div>
 <script>
     let customCert = document.querySelector('[data-onevalue="<?=CATALOG_CUSTOM_CERT_ENUM?>"]');
+
     if (customCert) {
         customCert.addEventListener('click', function (event) {
 
@@ -79,6 +80,11 @@
 
         document.querySelector('.btn_ico.btn_ok').addEventListener('click', function(event) {
 
+            if( document.getElementById('cert_summ').value < 30){
+                document.getElementById('cert_summ').value = 30;
+                alert('Стоимость сертификата не может быть менее 30 рублей');
+            }
+
             let newPrice = document.getElementById('cert_summ').value;
             newPrice = newPrice && +newPrice > 30 ? newPrice : 30;
             let priceBlock = document.querySelector('[data-onevalue="<?= CATALOG_CUSTOM_CERT_ENUM ?>"]')
@@ -100,7 +106,6 @@
                 objPrice.PRINT_RATIO_BASE_PRICE = objPrice.PRINT_RATIO_BASE_PRICE.replace(/\d+/, newPrice);
                 objPrice.PRINT_RATIO_PRICE = objPrice.PRINT_RATIO_PRICE.replace(/\d+/, newPrice);
             }
-            //console.log(objPrice);
         });
     }
 </script>

@@ -14,7 +14,7 @@ class CloudStorageClient
     private $urlTemplate = 'https://{{bucket}}.io.activecloud.com/{{path}}';
     private $region = "";
     private $s3Client = null;
-    private $cacheTime = 3600;
+    private $cacheTime = 3600000;
 
     public function __construct()
     {

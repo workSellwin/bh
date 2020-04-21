@@ -40,6 +40,7 @@ if($this->StartResultCache(false, 'v9'.($arParams["CACHE_GROUPS"]? $USER->GetGro
 			$arResult["FACET_FILTER"] = array(
 				"ACTIVE_DATE" => "Y",
 				"CHECK_PERMISSIONS" => "Y",
+                "PROPERTY_BRANDS" => $arParams['BRANDS_ELEM_FILTER'],
 			);
 			if ($this->arParams['HIDE_NOT_AVAILABLE'] == 'Y')
 				$arResult["FACET_FILTER"]['CATALOG_AVAILABLE'] = 'Y';

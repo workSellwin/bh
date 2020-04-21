@@ -31,6 +31,7 @@ $MESS["SOA_MORE"] = "не более";
 $MESS["SOA_SYMBOLS"] = "символов";
 $MESS["SOA_INVALID_PATTERN"] = "не соответствует шаблону";
 $MESS["SOA_INVALID_PATTERN_2"] = "Только руссие буквы, пробел и символ '-'";
+$MESS["SOA_INVALID_PATTERN_22"] = "Обязательно указывать имя и фамилию, т.к. перевозчик не принимает заказы без фамилии к перевозке";
 $MESS["SOA_PROP_NEW_PROFILE"] = "Новый профиль";
 $MESS["SOA_PAY_SYSTEM"] = "Платежная система";
 $MESS["SOA_PAY_ACCOUNT3"] = "Средств достаточно для полной оплаты заказа.";

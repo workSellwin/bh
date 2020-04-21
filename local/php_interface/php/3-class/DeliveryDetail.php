@@ -13,7 +13,7 @@ class DeliveryDetail
     protected function GetTextRB()
     {
         $result = '5 руб';
-        if ($this->price >= 50) {
+        if ($this->price >= 30) {//change 50->30 6,04,2020
             $result = 'бесплатно';
         }
         return $result;

@@ -51,8 +51,8 @@ class OrderInPriceFields
                   }
               }
       */
-            file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/local/tax3.txt', date("d:m:Y H:i:s") . "\n", FILE_APPEND);
-            file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/local/tax3.txt', print_r($fields, true) . "\n", FILE_APPEND);
+            //file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/local/tax3.txt', date("d:m:Y H:i:s") . "\n", FILE_APPEND);
+            //file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/local/tax3.txt', print_r($fields, true) . "\n", FILE_APPEND);
         }
 
         return $fields;

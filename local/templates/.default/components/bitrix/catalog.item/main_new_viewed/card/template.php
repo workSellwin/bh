@@ -216,7 +216,7 @@ if (!empty($arParams['PRODUCT_BLOCKS_ORDER']))
 
 				break;
 
-			/*case 'quantity':
+			case 'quantity':
 				if (!$haveOffers)
 				{
 					if ($actualItem['CAN_BUY'] && $arParams['USE_PRODUCT_QUANTITY'])
@@ -286,7 +286,7 @@ if (!empty($arParams['PRODUCT_BLOCKS_ORDER']))
 						{
 							?>
 							<div class="product-item-button-container" id="<?=$itemIds['BASKET_ACTIONS']?>">
-								<a class="btn btn-default <?=$buttonSizeClass?>" id="<?=$itemIds['BUY_LINK']?>"
+								<a class="btn btn_ico js-btn-basket<?//btn btn-default ?><?//=$buttonSizeClass?>" id="<?=$itemIds['BUY_LINK']?>"
 									href="javascript:void(0)" rel="nofollow">
 									<?=($arParams['ADD_TO_BASKET_ACTION'] === 'BUY' ? $arParams['MESS_BTN_BUY'] : $arParams['MESS_BTN_ADD_TO_BASKET'])?>
 								</a>
@@ -627,9 +627,7 @@ if (!empty($arParams['PRODUCT_BLOCKS_ORDER']))
 						unset($jsOffer, $strProps);
 					}
 				}
-
 				break;
-			*/
 		}
 	}
 }

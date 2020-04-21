@@ -281,7 +281,7 @@ if(file_exists($popup))
     <script  defer="defer"  src="/jivosite/jivosite.js" ></script>
 
 */?>
-
+<? require_once $_SERVER['DOCUMENT_ROOT'] . '/local/include/1click.php'; ?>
 
 	</body>
 </html>

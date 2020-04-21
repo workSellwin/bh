@@ -49,13 +49,17 @@ class dpdNppY extends dpdBase
         //init данных отправителя в ob_order
         $this->setSenderOrder();
         //---------------------- Получатель -----------------------------------------------------------
-        $ROOM = $arOrderParams['ROOM'] ? ', кв. ' . $arOrderParams['ROOM'] : '';
+        $HOUSE =  $arOrderParams['HOME']  ? $arOrderParams['HOME'] : $this->YANDEX['Components']['house']; //номер дома,
+        $house = $this->NormalizNumHouse($HOUSE);
         $this->RECEIVER = [
             'NAME' => $arOrderParams['FIO'],
             'FIO' => $arOrderParams['FIO'],
             'PHONE' => $arOrderParams['PHONE'],
-            'STREET' => $this->YANDEX['Components']['street'], //улица
-            'HOUSE' => $this->YANDEX['Components']['house'] . $ROOM, //номер дома,
+            'STREET' => $arOrderParams['STREET'] ? $arOrderParams['STREET'] : $this->YANDEX['Components']['street'], //улица
+            'HOUSE' =>  $house['HOUSE'], //номер дома,
+            'KORPUS' => $house['KORPUS'],
+            'STR' => $house['STR'],
+            'FLAT' => $arOrderParams['ROOM'],
         ];
         //init данных получатель в ob_order
         $this->setReceiverOrder();
